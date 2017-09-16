@@ -178,6 +178,14 @@ local invItems = {
 	['ranged']		= 'RangedSlot'
 }
 
+local function compile_item(ref, temp_spell)
+	ref.id = tonumber(temp_spell) or NeP.Core:GetItemID(temp_spell)
+	local itemName, itemLink, _,_,_,_,_,_,_, texture = _G.GetItemInfo(ref.id)
+	ref.spell = itemName or ref.spell
+	ref.icon = texture
+	ref.link = itemLink
+end
+
 NeP.Compiler:RegisterToken("#", function(eval, ref)
 	local temp_spell = ref.spell
 	ref.token = 'item'
@@ -188,11 +196,7 @@ NeP.Compiler:RegisterToken("#", function(eval, ref)
 		ref.invitem = true
 		ref.invslot = invItem
 	end
-	ref.id = tonumber(temp_spell) or NeP.Core:GetItemID(temp_spell)
-	local itemName, itemLink, _,_,_,_,_,_,_, texture = _G.GetItemInfo(ref.id)
-	ref.spell = itemName or ref.spell
-	ref.icon = texture
-	ref.link = itemLink
+	compile_item(ref, temp_spell)
 	eval.exe = funcs["UseItem"]
 end)
 
