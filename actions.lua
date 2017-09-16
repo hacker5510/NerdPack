@@ -196,6 +196,9 @@ NeP.Compiler:RegisterToken("#", function(eval, ref)
 		ref.invitem = true
 		ref.invslot = invItem
 	end
+	NeP.Listener:Add("NeP_Compiler_Item", "BAG_NEW_ITEMS_UPDATED", function()
+		compile_item(ref, temp_spell)
+	end)
 	compile_item(ref, temp_spell)
 	eval.exe = funcs["UseItem"]
 end)
