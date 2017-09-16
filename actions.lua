@@ -196,6 +196,8 @@ NeP.Compiler:RegisterToken("#", function(eval, ref)
 		ref.invitem = true
 		ref.invslot = invItem
 	end
+	-- Recompie items once we get new ones
+	-- some apis require you to actualy have the item before you can get data.
 	NeP.Listener:Add("NeP_Compiler_Item", "BAG_NEW_ITEMS_UPDATED", function()
 		compile_item(ref, temp_spell)
 	end)
