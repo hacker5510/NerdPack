@@ -12,5 +12,6 @@
 	<Script file="actionlog.lua" />
 	<Script file="alert.lua" />
 	<Script file="splash.lua" />
+	<Script file="first_usage.lua" />
 
 </Ui>
