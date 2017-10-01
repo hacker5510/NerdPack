@@ -148,16 +148,31 @@ local function Cond_Legacy_PE(cond, name)
 	return cond_types['string'](str..'}', name)
 end
 
+local function find_keybinds(str, eval)
+	local tmp, kb = "", eval.master.keybinds
+	for key in str:gmatch("keybind%((.+)%)") do
+		if #tmp > 0 then key = " + "..key end
+		tmp = tmp..key
+	end
+	kb[eval[1].spell] = kb[eval[1].spell] or {}
+	table.insert(eval.master.keybinds, tmp)
+end
+
+local function cond_string(str, name, eval)
+	find_keybinds(str, eval)
+	return CondSpellLocale(CondSpaces(str), name)
+end
+
 cond_types['nil'] = function() return 'true' end
 cond_types['function'] = CondFunc
 cond_types['boolean'] = tostring
-cond_types['string'] = function(eval, name) return CondSpellLocale(CondSpaces(eval), name) end
+cond_types['string'] = cond_string
 cond_types['table'] = Cond_Legacy_PE
 
 function NeP.Compiler.Conditions(eval)
 	local cond = cond_types[type(eval[2])]
 	if cond then
-		eval[2] = cond(eval[2], eval.master.name)
+		eval[2] = cond(eval[2], eval.master.name, eval)
 	else
 		NeP.Core:Print('Found a issue compiling: ', eval.master.name, '\n-> Condition cant be a', type(eval[2]))
 		eval[2] = cond_types['nil']()
