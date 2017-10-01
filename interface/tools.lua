@@ -219,9 +219,7 @@ function NeP.Interface.BuildGUI(_, table)
 		self:BuildGUI_New(table, parent)
 	end
 	--Header
-	if table.header then
-		parent.settings.header = true
-	end
+	parent.settings.header = table.header or false
 	-- Build elements
 	local window = DiesalGUI:Create('ScrollFrame')
 	parent:AddChild(window)
