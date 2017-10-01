@@ -167,10 +167,7 @@ end
 -- This opens a existing GUI instead of creating another
 function NeP.Interface:TestCreated(table)
 	local test = type(table) == 'string' and table or table.key
-	if self.usedGUIs[test] then
-		self.usedGUIs[test].parent:Show()
-		return self.usedGUIs[test]
-	end
+	return self.usedGUIs[test]
 end
 
 local function UI_WhenInGame(table, parent)
@@ -192,11 +189,13 @@ end
 
 function NeP.Interface.BuildGUI(_, table)
 	local self = NeP.Interface
-	--Tests
+	--Tests (if created, show it)
 	local gui_test = self:TestCreated(table)
-	if gui_test then return gui_test end
+	if gui_test then
+		self.usedGUIs[table].parent:Show()
+		return gui_test
+	end
 	if not table.key then return end
-
 	-- Create a new parent
 	local parent = DiesalGUI:Create('Window')
 	self.usedGUIs[table.key] = {}
@@ -206,15 +205,12 @@ function NeP.Interface.BuildGUI(_, table)
 	parent:SetHeight(table.height or 300)
 	parent.frame:SetClampedToScreen(true)
 	--parent:SetStylesheet(self.WindowStyleSheet)
-
 	--Save Location after dragging
 	parent:SetEventListener('OnDragStop', function(_,_, l, t)
 		NeP.Config:Write(table.key, 'Location', {l, t}, 'settings')
 	end)
-
 	-- Only build the body after we'r done loading configs
 	NeP.Core:WhenInGame(function() UI_WhenInGame(table, parent) end, 9)
-
 	-- Build Profiles
 	if table.profiles then
 		parent.settings.footer = true
@@ -222,12 +218,10 @@ function NeP.Interface.BuildGUI(_, table)
 		self:BuildGUI_Del(table, parent)
 		self:BuildGUI_New(table, parent)
 	end
-
 	--Header
 	if table.header then
 		parent.settings.header = true
 	end
-
 	-- Build elements
 	local window = DiesalGUI:Create('ScrollFrame')
 	parent:AddChild(window)
