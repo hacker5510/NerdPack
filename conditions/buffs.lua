@@ -22,11 +22,11 @@ end)
 ------------------------------------------ BUFFS -----------------------------------------
 ------------------------------------------------------------------------------------------
 NeP.DSL:Register("buff", function(target, spell)
-  return UnitBuffL(target, spell, 'PLAYER') ~= nil
+  return not not UnitBuffL(target, spell, 'PLAYER')
 end)
 
 NeP.DSL:Register("buff.any", function(target, spell)
-  return UnitBuffL(target, spell) ~= nil
+  return not not UnitBuffL(target, spell)
 end)
 
 NeP.DSL:Register("buff.count", function(target, spell)
@@ -64,11 +64,11 @@ end)
 ------------------------------------------------------------------------------------------
 
 NeP.DSL:Register("debuff", function(target, spell)
-  return  UnitDebuffL(target, spell, 'PLAYER') ~= nil
+  return not not UnitDebuffL(target, spell, 'PLAYER')
 end)
 
 NeP.DSL:Register("debuff.any", function(target, spell)
-  return UnitDebuffL(target, spell) ~= nil
+  return not not UnitDebuffL(target, spell)
 end)
 
 NeP.DSL:Register("debuff.count", function(target, spell)
