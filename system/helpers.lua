@@ -7,7 +7,7 @@ local C_Timer = _G.C_Timer
 local _Failed = {}
 
 --this disables the error messages
-UIErrorsFrame:UnregisterEvent("UI_ERROR_MESSAGE")
+--UIErrorsFrame:UnregisterEvent("UI_ERROR_MESSAGE")
 
 local function addToData(GUID)
 	if not _Failed[GUID] then
@@ -35,14 +35,12 @@ local function blackListBoth(GUID, spell)
 end
 
 local UI_Erros = {
-	[50] = blackListBoth, -- not infront
+	[50] = blackListBoth, -- not infront/moving/invalid target
 	[358] = blackListSpell, -- not in range
 	[55] = blackListSpell, -- Not ready
+	[54] = blackListSpell, -- Not ready
 	[51] = blackListSpell, -- item cooldown
-	--[_G.ERR_NOT_WHILE_MOVING] = blackListSpell,
-	--[_G.ERR_SPELL_FAILED_ANOTHER_IN_PROGRESS] = blackListSpell,
-	--[_G.ERR_SPELL_COOLDOWN] = blackListSpell,
-	--[_G.ERR_CANT_USE_ITEM] = blackListSpell,
+	[219] = blackListSpell, -- no target
 }
 
 function NeP.Helpers.Infront(_, target, GUID)
