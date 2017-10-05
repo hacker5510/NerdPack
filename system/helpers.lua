@@ -61,10 +61,7 @@ function NeP.Helpers:Check(spell, target)
 	return true
 end
 
-NeP.Listener:Add("NeP_Helpers", "UI_ERROR_MESSAGE", function(error, msg)
-	print(error)
-	if not UI_Erros[error] then return end
-	print("hit")
+NeP.Listener:Add("NeP_Helpers", "UI_ERROR_MESSAGE", function(_, msg)
 
 	local unit, spell = NeP.Helpers.LastTarget, NeP.Helpers.LastCast
 	if not unit or not spell then return end
