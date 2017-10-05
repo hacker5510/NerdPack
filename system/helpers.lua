@@ -29,20 +29,6 @@ local function blackListInfront(GUID)
 	end), nil)
 end
 
-local function blackListBoth(GUID, spell)
-	blackListSpell(GUID, spell)
-	blackListInfront(GUID)
-end
-
-local UI_Erros = {
-	[50] = blackListBoth, -- not infront/moving/invalid target
-	[358] = blackListSpell, -- not in range
-	[55] = blackListSpell, -- Not ready
-	[54] = blackListSpell, -- Not ready
-	[51] = blackListSpell, -- item cooldown
-	[219] = blackListSpell, -- no target
-}
-
 function NeP.Helpers.Infront(_, target, GUID)
 	GUID = GUID or _G.UnitGUID(target)
 	if _Failed[GUID] then
@@ -75,7 +61,7 @@ function NeP.Helpers:Check(spell, target)
 	return true
 end
 
-NeP.Listener:Add("NeP_Helpers", "UI_ERROR_MESSAGE", function(error)
+NeP.Listener:Add("NeP_Helpers", "UI_ERROR_MESSAGE", function(error, msg)
 	print(error)
 	if not UI_Erros[error] then return end
 	print("hit")
@@ -87,6 +73,10 @@ NeP.Listener:Add("NeP_Helpers", "UI_ERROR_MESSAGE", function(error)
 	if GUID then
 		addToData(GUID)
 		NeP.ActionLog:Add(">>> BLACKLIST", spell, nil, unit)
-		UI_Erros[error](GUID, spell)
+		-- not infront
+		if msg == _G.ERR_BADATTACKFACING then
+			blackListInfront(GUID)
+		end
+		blackListSpell(GUID, spell)
 	end
 end)
