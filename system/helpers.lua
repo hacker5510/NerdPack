@@ -46,26 +46,21 @@ function NeP.Helpers.Spell(_, spell, target, GUID)
 end
 
 function NeP.Helpers:Check(spell, target)
-
 	-- Both MUST be strings
 	if type(spell) ~= 'string'
 	or type(target) ~= 'string' then
 		return true
 	end
-
 	local GUID = _G.UnitGUID(target)
 	if _Failed[GUID] then
 		return self:Spell(spell, target, GUID) and self:Infront(target, GUID)
 	end
-
 	return true
 end
 
 NeP.Listener:Add("NeP_Helpers", "UI_ERROR_MESSAGE", function(_, msg)
-
 	local unit, spell = NeP.Helpers.LastTarget, NeP.Helpers.LastCast
 	if not unit or not spell then return end
-
 	local GUID = _G.UnitGUID(unit)
 	if GUID then
 		addToData(GUID)
