@@ -189,6 +189,8 @@ local invItems = {
   ['ranged']    = 'RangedSlot'
 }
 
+local temp_itemx = {}
+
 local function compile_item(ref, item)
   local invitem = invItems[item]
   if invitem then
@@ -215,7 +217,20 @@ NeP.Compiler:RegisterToken("#", function(eval, ref)
 	ref.token = 'item'
 	eval.bypass = true
 	compile_item(ref, item)
+  temp_itemx[#temp_itemx+1] = function() compile_item(ref, item) end
 	eval.exe = funcs["UseItem"]
+end)
+
+NeP.Listener:Add("NeP_Compiler_Item", "BAG_UPDATE", function()
+  for i=1, #temp_itemx do
+    temp_itemx[i]()
+  end
+end)
+NeP.Listener:Add("NeP_Compiler_Item", "UNIT_INVENTORY_CHANGED", function(unit)
+  if not unit == 'player' then return end
+  for i=1, #temp_itemx do
+    temp_itemx[i]()
+  end
 end)
 
 NeP.Actions:Add('item', function(eval)
