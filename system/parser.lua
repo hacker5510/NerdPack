@@ -149,6 +149,8 @@ function NeP.Parser.Reg_P(_, eval, _, bypass)
 		--print(">>> HIT")
 		NeP.ActionLog:Add(eval[1].token, eval.spell or "", eval[1].icon, eval.target)
 		NeP.Interface:UpdateIcon('mastertoggle', eval[1].icon)
+		NeP.Helpers.LastTarget = eval.target
+		NeP.Helpers.LastCast = eval.spell
 		return eval.exe(eval)
 	end
 end

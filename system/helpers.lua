@@ -29,22 +29,21 @@ local function blackListInfront(GUID)
 	end), nil)
 end
 
+local function blackListBoth(GUID, spell)
+	blackListSpell(GUID, spell)
+	blackListInfront(GUID)
+end
+
 local UI_Erros = {
-	[_G.ERR_SPELL_FAILED_S] = function(GUID, spell)
-		blackListSpell(GUID, spell)
-		blackListInfront(GUID)
-	end,
-	[_G.ERR_BADATTACKFACING] = function(GUID, spell)
-		blackListSpell(GUID, spell)
-		blackListInfront(GUID)
-	end,
-	[_G.ERR_SPELL_OUT_OF_RANGE] = function(GUID, spell) blackListSpell(GUID, spell) end,
-	[_G.ERR_NOT_WHILE_MOVING] = function(GUID, spell) blackListSpell(GUID, spell) end,
-	[_G.ERR_SPELL_FAILED_ANOTHER_IN_PROGRESS] = function(GUID, spell) blackListSpell(GUID, spell) end,
-	[_G.ERR_SPELL_COOLDOWN] = function(GUID, spell) blackListSpell(GUID, spell) end,
-	[_G.ERR_ABILITY_COOLDOWN] = function(GUID, spell) blackListSpell(GUID, spell) end,
-	[_G.ERR_CANT_USE_ITEM] = function(GUID, spell) blackListSpell(GUID, spell) end,
-	[_G.ERR_ITEM_COOLDOWN] = function(GUID, spell) blackListSpell(GUID, spell) end,
+	[_G.ERR_SPELL_FAILED_S] = blackListBoth,
+	[_G.ERR_BADATTACKFACING] = blackListBoth,
+	[_G.ERR_SPELL_OUT_OF_RANGE] = blackListSpell,
+	[_G.ERR_NOT_WHILE_MOVING] = blackListSpell,
+	[_G.ERR_SPELL_FAILED_ANOTHER_IN_PROGRESS] = blackListSpell,
+	[_G.ERR_SPELL_COOLDOWN] = blackListSpell,
+	[_G.ERR_ABILITY_COOLDOWN] = blackListSpell,
+	[_G.ERR_CANT_USE_ITEM] = blackListSpell,
+	[_G.ERR_ITEM_COOLDOWN] = blackListSpell,
 }
 
 function NeP.Helpers.Infront(_, target, GUID)
@@ -82,7 +81,7 @@ end
 NeP.Listener:Add("NeP_Helpers", "UI_ERROR_MESSAGE", function(error)
 	if not UI_Erros[error] then return end
 
-	local unit, spell = NeP.Parser.LastTarget, NeP.Parser.LastCast
+	local unit, spell = NeP.Helpers.LastTarget, NeP.Helpers.LastCast
 	if not unit or not spell then return end
 
 	local GUID = _G.UnitGUID(unit)
