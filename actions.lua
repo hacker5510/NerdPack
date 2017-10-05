@@ -1,6 +1,13 @@
 local _, NeP = ...
 local _G = _G
 local LibDisp = _G.LibStub('LibDispellable-1.0')
+local GetItemSpell = _G.GetItemSpell
+local IsUsableItem = _G.IsUsableItem
+local IsEquippedItem = _G.IsEquippedItem
+local GetInventoryItemCooldown = _G.GetInventoryItemCooldown
+local GetItemCooldown = _G.GetItemCooldown
+local GetItemCount = _G.GetItemCount
+local GetSpellInfo = _G.GetSpellInfo
 
 local funcs = {
   noop = function() end,
@@ -174,22 +181,41 @@ local invItems = {
   ['ranged']    = 'RangedSlot'
 }
 
+local temp_itemx = {}
+
+local function compile_item(ref, item)
+  if invItems[item] then
+		local invItem = _G.GetInventorySlotInfo(invItems[item])
+		item = _G.GetInventoryItemID("player", invItem) or ref.spell
+		ref.invitem = true
+		ref.invslot = invItem
+	end
+	ref.id = tonumber(item) or NeP.Core:GetItemID(item)
+	local itemName, itemLink, _,_,_,_,_,_,_, texture = _G.GetItemInfo(ref.id)
+	ref.spell = itemName or ref.spell
+	ref.icon = texture
+	ref.link = itemLink
+end
+
 NeP.Compiler:RegisterToken("#", function(eval, ref)
-  local temp_spell = ref.spell
-  ref.token = 'item'
-  eval.bypass = true
-  if invItems[temp_spell] then
-    local invItem = _G.GetInventorySlotInfo(invItems[temp_spell])
-    temp_spell = _G.GetInventoryItemID("player", invItem) or ref.spell
-    ref.invitem = true
-    ref.invslot = invItem
+	local item = ref.spell
+	ref.token = 'item'
+	eval.bypass = true
+	compile_item(ref, item)
+  temp_itemx[#temp_itemx+1] = function() compile_item(ref, item) end
+	eval.exe = funcs["UseItem"]
+end)
+
+NeP.Listener:Add("NeP_Compiler_Item", "BAG_UPDATE", function()
+  for i=1, #temp_itemx do
+    temp_itemx[i]()
   end
-  ref.id = tonumber(temp_spell) or NeP.Core:GetItemID(temp_spell)
-  local itemName, itemLink, _,_,_,_,_,_,_, texture = _G.GetItemInfo(ref.id)
-  ref.spell = itemName or ref.spell
-  ref.icon = texture
-  ref.link = itemLink
-  eval.exe = funcs["UseItem"]
+end)
+NeP.Listener:Add("NeP_Compiler_Item", "UNIT_INVENTORY_CHANGED", function(unit)
+  if not unit == 'player' then return end
+  for i=1, #temp_itemx do
+    temp_itemx[i]()
+  end
 end)
 
 NeP.Actions:Add('item', function(eval)
@@ -197,14 +223,16 @@ NeP.Actions:Add('item', function(eval)
   if item.id then
     --Iventory invItems
     if item.invitem then
-      return select(2,_G.GetInventoryItemCooldown('player', item.invslot)) == 0
-      and _G.IsUsableItem(item.link)
+      return GetItemSpell(item.spell)
+      and IsUsableItem(item.link)
+      and IsEquippedItem(item.spell)
+      and select(2,GetInventoryItemCooldown('player', item.invslot)) == 0
     --regular
     else
-      return _G.GetItemSpell(item.spell)
-      and _G.IsUsableItem(item.spell)
-      and select(2,_G.GetItemCooldown(item.id)) == 0
-      and _G.GetItemCount(item.spell) > 0
+      return GetItemSpell(item.spell)
+      and IsUsableItem(item.spell)
+      and select(2,GetItemCooldown(item.id)) == 0
+      and GetItemCount(item.spell) > 0
     end
   end
 end)
@@ -212,7 +240,7 @@ end)
 -- regular spell
 NeP.Compiler:RegisterToken("spell_cast", function(eval, ref)
   ref.spell = NeP.Spells:Convert(ref.spell, eval.master.name)
-  ref.icon = select(3,_G.GetSpellInfo(ref.spell))
+  ref.icon = select(3,GetSpellInfo(ref.spell))
   ref.id = NeP.Core:GetSpellID(ref.spell)
   eval.exe = funcs["Cast"]
   ref.token = 'spell_cast'
