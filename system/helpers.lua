@@ -69,7 +69,7 @@ NeP.Listener:Add("NeP_Helpers", "UI_ERROR_MESSAGE", function(_, msg)
 	local GUID = _G.UnitGUID(unit)
 	if GUID then
 		addToData(GUID)
-		NeP.ActionLog:Add(">>> BLACKLIST", spell, nil, unit)
+		NeP.ActionLog:Add(">>> BLACKLIST - "..(msg or ""), spell, nil, unit)
 		-- not infront
 		if msg == _G.ERR_BADATTACKFACING then
 			blackListInfront(GUID)
