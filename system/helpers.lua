@@ -35,15 +35,14 @@ local function blackListBoth(GUID, spell)
 end
 
 local UI_Erros = {
-	[_G.ERR_SPELL_FAILED_S] = blackListBoth,
-	[_G.ERR_BADATTACKFACING] = blackListBoth,
-	[_G.ERR_SPELL_OUT_OF_RANGE] = blackListSpell,
-	[_G.ERR_NOT_WHILE_MOVING] = blackListSpell,
-	[_G.ERR_SPELL_FAILED_ANOTHER_IN_PROGRESS] = blackListSpell,
-	[_G.ERR_SPELL_COOLDOWN] = blackListSpell,
-	[_G.ERR_ABILITY_COOLDOWN] = blackListSpell,
-	[_G.ERR_CANT_USE_ITEM] = blackListSpell,
-	[_G.ERR_ITEM_COOLDOWN] = blackListSpell,
+	[50] = blackListBoth, -- not infront
+	[358] = blackListSpell, -- not in range
+	[55] = blackListSpell, -- Not ready
+	[51] = blackListSpell, -- item cooldown
+	--[_G.ERR_NOT_WHILE_MOVING] = blackListSpell,
+	--[_G.ERR_SPELL_FAILED_ANOTHER_IN_PROGRESS] = blackListSpell,
+	--[_G.ERR_SPELL_COOLDOWN] = blackListSpell,
+	--[_G.ERR_CANT_USE_ITEM] = blackListSpell,
 }
 
 function NeP.Helpers.Infront(_, target, GUID)
@@ -79,7 +78,9 @@ function NeP.Helpers:Check(spell, target)
 end
 
 NeP.Listener:Add("NeP_Helpers", "UI_ERROR_MESSAGE", function(error)
+	print(error)
 	if not UI_Erros[error] then return end
+	print("hit")
 
 	local unit, spell = NeP.Helpers.LastTarget, NeP.Helpers.LastCast
 	if not unit or not spell then return end
@@ -87,6 +88,7 @@ NeP.Listener:Add("NeP_Helpers", "UI_ERROR_MESSAGE", function(error)
 	local GUID = _G.UnitGUID(unit)
 	if GUID then
 		addToData(GUID)
+		NeP.ActionLog:Add(">>> BLACKLIST", spell, nil, unit)
 		UI_Erros[error](GUID, spell)
 	end
 end)
