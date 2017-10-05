@@ -1,7 +1,7 @@
 local _, NeP = ...
 local _G = _G
 NeP.Helpers = {}
-local UIErrorsFrame = _G.UIErrorsFrame
+--local UIErrorsFrame = _G.UIErrorsFrame
 local C_Timer = _G.C_Timer
 
 local _Failed = {}
