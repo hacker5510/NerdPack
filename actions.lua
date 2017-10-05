@@ -1,6 +1,7 @@
 local _, NeP = ...
 local _G = _G
 local LibDisp = _G.LibStub('LibDispellable-1.0')
+
 local GetItemSpell = _G.GetItemSpell
 local IsUsableItem = _G.IsUsableItem
 local IsEquippedItem = _G.IsEquippedItem
@@ -8,6 +9,13 @@ local GetInventoryItemCooldown = _G.GetInventoryItemCooldown
 local GetItemCooldown = _G.GetItemCooldown
 local GetItemCount = _G.GetItemCount
 local GetSpellInfo = _G.GetSpellInfo
+local GetInventorySlotInfo = _G.GetInventorySlotInfo
+local GetInventoryItemID = _G.GetInventoryItemID
+local GetItemInfo = _G.GetItemInfo
+
+local GetSpellBookItemInfo = _G.GetSpellBookItemInfo
+local GetSpellCooldown = _G.GetSpellCooldown
+local IsUsableSpell = _G.IsUsableSpell
 
 local funcs = {
   noop = function() end,
@@ -25,9 +33,9 @@ local funcs = {
 }
 
 local function IsSpellReady(spell)
-  if _G.GetSpellBookItemInfo(spell) ~= 'FUTURESPELL'
-  and (_G.GetSpellCooldown(spell) or 0) <= NeP.DSL:Get('gcd')() then
-    return _G.IsUsableSpell(spell)
+  if GetSpellBookItemInfo(spell) ~= 'FUTURESPELL'
+  and (GetSpellCooldown(spell) or 0) <= NeP.DSL:Get('gcd')() then
+    return IsUsableSpell(spell)
   end
 end
 
@@ -51,7 +59,7 @@ end)
 local function FindDispell(eval, unit)
   if not _G.UnitExists(unit) then return end
   for _, spellID, _,_,_,_,_, duration, expires in LibDisp:IterateDispellableAuras(unit) do
-    local spell = _G.GetSpellInfo(spellID)
+    local spell = GetSpellInfo(spellID)
     if IsSpellReady(spell) and (expires - eval.master.time) < (duration - math.random(1, 3)) then
       eval.spell = spell
       eval[3].target = unit
@@ -185,13 +193,13 @@ local temp_itemx = {}
 
 local function compile_item(ref, item)
   if invItems[item] then
-		local invItem = _G.GetInventorySlotInfo(invItems[item])
-		item = _G.GetInventoryItemID("player", invItem) or ref.spell
+		local invItem = GetInventorySlotInfo(invItems[item])
+		item = GetInventoryItemID("player", invItem) or ref.spell
 		ref.invitem = true
 		ref.invslot = invItem
 	end
 	ref.id = tonumber(item) or NeP.Core:GetItemID(item)
-	local itemName, itemLink, _,_,_,_,_,_,_, texture = _G.GetItemInfo(ref.id)
+	local itemName, itemLink, _,_,_,_,_,_,_, texture = GetItemInfo(ref.id)
 	ref.spell = itemName or ref.spell
 	ref.icon = texture
 	ref.link = itemLink
