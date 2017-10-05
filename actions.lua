@@ -189,20 +189,25 @@ local invItems = {
   ['ranged']    = 'RangedSlot'
 }
 
-local temp_itemx = {}
-
 local function compile_item(ref, item)
-  if invItems[item] then
-		local invItem = GetInventorySlotInfo(invItems[item])
-		item = GetInventoryItemID("player", invItem) or ref.spell
+  local invitem = invItems[item]
+  if invitem then
+		local slotid = GetInventorySlotInfo(invitem)
+		item = GetInventoryItemID("player", slotid) or ref.spell
 		ref.invitem = true
-		ref.invslot = invItem
+		ref.invslot = slotid
 	end
 	ref.id = tonumber(item) or NeP.Core:GetItemID(item)
 	local itemName, itemLink, _,_,_,_,_,_,_, texture = GetItemInfo(ref.id)
 	ref.spell = itemName or ref.spell
 	ref.icon = texture
 	ref.link = itemLink
+  ref.usable = GetItemSpell(ref.spell) and IsUsableItem(ref.spell)
+  if not invitem then
+    ref.usable = ref.usable and GetItemCount(item.spell) > 0
+  else
+    ref.usable = ref.usable and IsEquippedItem(ref.spell)
+  end
 end
 
 NeP.Compiler:RegisterToken("#", function(eval, ref)
@@ -210,38 +215,20 @@ NeP.Compiler:RegisterToken("#", function(eval, ref)
 	ref.token = 'item'
 	eval.bypass = true
 	compile_item(ref, item)
-  temp_itemx[#temp_itemx+1] = function() compile_item(ref, item) end
 	eval.exe = funcs["UseItem"]
-end)
-
-NeP.Listener:Add("NeP_Compiler_Item", "BAG_UPDATE", function()
-  for i=1, #temp_itemx do
-    temp_itemx[i]()
-  end
-end)
-NeP.Listener:Add("NeP_Compiler_Item", "UNIT_INVENTORY_CHANGED", function(unit)
-  if not unit == 'player' then return end
-  for i=1, #temp_itemx do
-    temp_itemx[i]()
-  end
 end)
 
 NeP.Actions:Add('item', function(eval)
   local item = eval[1]
-  if item.id then
-    --Iventory invItems
-    if item.invitem then
-      return GetItemSpell(item.spell)
-      and IsUsableItem(item.link)
-      and IsEquippedItem(item.spell)
-      and select(2,GetInventoryItemCooldown('player', item.invslot)) == 0
-    --regular
-    else
-      return GetItemSpell(item.spell)
-      and IsUsableItem(item.spell)
-      and select(2,GetItemCooldown(item.id)) == 0
-      and GetItemCount(item.spell) > 0
-    end
+  if not item.id then return end
+  --Iventory invItems
+  if item.invitem then
+    return item.usable
+    and select(2,GetInventoryItemCooldown('player', item.invslot)) == 0
+  --regular
+  else
+    return item.usable
+    and select(2,GetItemCooldown(item.id)) == 0
   end
 end)
 
