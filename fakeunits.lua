@@ -7,7 +7,7 @@ NeP.FakeUnits:Add('lowest', function(num, role)
 	local tempTable = {}
 	for _, Obj in pairs(NeP.OM:Get('Roster')) do
 		if _G.UnitExists(Obj.key)
-		and not role or (role and Obj.role == role:upper()) then
+		and (not role or (role and Obj.role == role:upper())) then
 			tempTable[#tempTable+1] = {
 				key = Obj.key,
 				health = Obj.health
@@ -22,7 +22,7 @@ NeP.FakeUnits:Add({'lowestpredicted', 'lowestp'}, function(num, role)
 	local tempTable = {}
 	for _, Obj in pairs(NeP.OM:Get('Roster')) do
 		if _G.UnitExists(Obj.key)
-		and not role or (role and Obj.role == role:upper()) then
+		and (not role or (role and Obj.role == role:upper())) then
 			tempTable[#tempTable+1] = {
 				key = Obj.key,
 				health = Obj.predicted
