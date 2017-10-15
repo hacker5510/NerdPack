@@ -87,12 +87,11 @@ function NeP.OM.Insert(_, ref, Obj)
 	local GUID = _G.UnitGUID(Obj) or '0'
 	local distance = NeP.Protected.Distance('player', Obj) or 999
 	if distance <= NeP.OM.max_distance then
-		local ObjID = select(6, _G.strsplit('-', GUID))
 		OM_c[ref][GUID] = {
 			key = Obj,
 			name = _G.UnitName(Obj),
 			distance = distance,
-			id = tonumber(ObjID or 0),
+			id = tonumber(select(6, _G.strsplit('-', GUID)) or 0),
 			guid = GUID,
 			isdummy = NeP.DSL:Get('isdummy')(Obj)
 		}
