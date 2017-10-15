@@ -32,7 +32,6 @@ local function Add(Obj)
 end
 
 local function Iterate()
-	_G.wipe(Roster)
 	for _, Obj in pairs(NeP.OM:Get('Friendly')) do
 		if Obj.distance < maxDistance
 		and _G.UnitExists(Obj.key)

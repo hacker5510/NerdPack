@@ -50,10 +50,10 @@ function clean.Objects()
 	end
 end
 
-function clean.Others(ref)
+function clean.Others(ref, max_dis)
 	for GUID, Obj in pairs(OM_c[ref]) do
 		-- remove invalid units
-		if Obj.distance > NeP.OM.max_distance
+		if Obj.distance > (max_dis or NeP.OM.max_distance)
 		or not _G.UnitExists(Obj.key)
 		or not _G.UnitInPhase(Obj.key)
 		or GUID ~= _G.UnitGUID(Obj.key)
@@ -65,11 +65,21 @@ function clean.Others(ref)
 end
 
 function NeP.OM.Get(_, ref, want_plates)
+	--clean
+	if ref=="Objects" then
+		clean.Objects()
+	elseif ref=="Roster" then
+		clean.Others(ref, 40)
+	else
+		clean.Others(ref)
+	end
+	--Nameplates hack
 	if want_plates
 	and NeP.Protected.nPlates
 	and NeP.Protected.nPlates[ref] then
 		return MergeTable(ref)
 	end
+	--normal
 	return OM_c[ref]
 end
 
@@ -107,12 +117,9 @@ function NeP.OM.Add(_, Obj, isObject)
 	end
 end
 
-local function CleanStart()
+local function MakerStart()
 	if NeP.DSL:Get("toggle")(nil, "mastertoggle") then
-		clean.Objects()
-		clean.Others("Dead")
-		clean.Others("Friendly")
-		clean.Others("Enemy")
+		NeP.Protected:OM_Maker()
 	else
 		for _, v in pairs(OM_c) do
 			_G.wipe(v)
@@ -120,14 +127,8 @@ local function CleanStart()
 	end
 end
 
-local function MakerStart()
-	if NeP.DSL:Get("toggle")(nil, "mastertoggle") then
-		NeP.Protected:OM_Maker()
-	end
-end
-
-NeP.Debug:Add("OM_Clean", CleanStart, true)
+--NeP.Debug:Add("OM_Clean", CleanStart, true)
 NeP.Debug:Add("OM_Maker", MakerStart, true)
 
-_G.C_Timer.NewTicker(0.5, CleanStart)
+--_G.C_Timer.NewTicker(0.5, CleanStart)
 _G.C_Timer.NewTicker(1, MakerStart)
