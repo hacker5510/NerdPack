@@ -15,11 +15,7 @@ NeP.Author = 'MrTheSoulz'
 NeP.Globals = {}
 _G.NeP = NeP.Globals
 
-NeP.Cache = {
-	Conditions = {},
-	Spells = {},
-	Targets = {}
-}
+NeP.Cache = {}
 
 function NeP.Wipe_Cache()
 	for _, v in pairs(NeP.Cache) do

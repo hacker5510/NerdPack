@@ -84,6 +84,8 @@ local function Nest(strg, spell, target)
 	return DSL.Parse(strg, spell, target)
 end
 
+--cache
+NeP.Cache.Conditions = {}
 local C = NeP.Cache.Conditions
 
 local function ProcessCondition(strg, spell, target)

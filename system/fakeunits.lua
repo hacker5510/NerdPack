@@ -66,6 +66,8 @@ function NeP.FakeUnits.Process(_,unit, tbl)
 	return tbl
 end
 
+--cache
+NeP.Cache.Targets = {}
 local C = NeP.Cache.Targets
 
 function NeP.FakeUnits.Filter(_,unit, tbl)

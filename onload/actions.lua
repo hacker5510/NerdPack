@@ -266,6 +266,8 @@ NeP.Compiler:RegisterToken("spell_cast", function(eval, ref)
   ref.token = 'spell_cast'
 end)
 
+--cache
+NeP.Cache.Spells = {}
 local C = NeP.Cache.Spells
 
 -- this forces the parser to stop until this spel is ready

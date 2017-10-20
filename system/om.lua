@@ -64,14 +64,22 @@ function clean.Others(ref, max_dis)
 	end
 end
 
+--cache
+NeP.Cache.OM = {}
+local C = NeP.Cache.OM
+
 function NeP.OM.Get(_, ref, want_plates)
-	--clean
-	if ref=="Objects" then
-		clean.Objects()
-	elseif ref=="Roster" then
-		clean.Others(ref, 40)
-	else
-		clean.Others(ref)
+	--cahe
+	if not C[ref] then
+		--clean
+		if ref=="Objects" then
+			clean.Objects()
+		elseif ref=="Roster" then
+			clean.Others(ref, 40)
+		else
+			clean.Others(ref)
+		end
+		C[ref] = true
 	end
 	--Nameplates hack
 	if want_plates
