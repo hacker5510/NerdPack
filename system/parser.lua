@@ -93,7 +93,7 @@ local function noob_target() return _G.UnitExists('target') and 'target' or 'pla
 -- Part of the parser that handles unit looping, and fakeunits
 -- target is target, nest target or fallback
 function NeP.Parser:Target_P(eval, func, nest_unit)
-	local tmp_target = eval[3].target or nest_unit or noob_target
+	local tmp_target = eval.action_target or eval[3].target or nest_unit or noob_target
 	tmp_target = NeP.FakeUnits:Filter(tmp_target)
 	for i=1, #tmp_target do
 		eval.target = tmp_target[i]
