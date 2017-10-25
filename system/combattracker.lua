@@ -47,7 +47,7 @@ end
 
 --[[ This Logs the damage done for every unit ]]
 local logDamage = function(...)
-	local _,_,_, SourceGUID, _,_,_, DestGUID, _,_,_, spellID, _, school, Amount, a, b, c = ...
+	local _,_,_, SourceGUID, _,_,_, DestGUID, _,_,_, spellID, _, school, Amount = ...
 	-- Chat Output for Debugging
 --	if SourceGUID == _G.UnitGUID('player') then
 --		print(spellID)
