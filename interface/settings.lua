@@ -1,16 +1,17 @@
 local n_name, NeP = ...
 local L = function(val) return NeP.Locale:TA('Settings', val) end
+local K = n_name..'_Settings'
 local NeP_ver = tostring(NeP.Version.major.."."..NeP.Version.minor.."-"..NeP.Version.branch)
 
 function NeP.Interface:Update()
-  NeP.ButtonsSize = NeP.Interface:Fetch(n_name..'_Settings', 'bsize', 40)
-  NeP.ButtonsPadding = NeP.Interface:Fetch(n_name..'_Settings', 'bpad', 2)
-  NeP.OM.max_distance = NeP.Interface:Fetch(n_name..'_Settings', 'OM_Dis', 100)
+  NeP.ButtonsSize = NeP.Interface:Fetch(K, 'bsize', 40)
+  NeP.ButtonsPadding = NeP.Interface:Fetch(K, 'bpad', 2)
+  NeP.OM.max_distance = NeP.Interface:Fetch(K, 'OM_Dis', 100)
   self:RefreshToggles()
 end
 
 local config = {
-key = n_name..'_Settings',
+key = K,
 title = n_name,
   subtitle = L('option'),
   width = 250,

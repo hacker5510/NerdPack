@@ -36,17 +36,20 @@ local funcs = {
 }
 
 local function userLike(spell)
-  if F(K, "userLike", false) then
-    return LastUsed(spell, 'player') > (F(K, "minOffCD", 1) + random(-.5,.5))
+  if F(K, "userLike", true) then
+    print(1)
+    local t = (F(K, "minOffCD", 1) + random(-.5,.5))/1000
+    return LastUsed(spell, 'player') + t < GetTime()
   end
   return true
 end
 
 local function IsSpellReady(spell)
-  return GetSpellBookItemInfo(spell) ~= 'FUTURESPELL'
+  if GetSpellBookItemInfo(spell) ~= 'FUTURESPELL'
   and (GetSpellCooldown(spell) or 0) <= NeP.DSL:Get('gcd')()
-  and IsUsableSpell(spell)
-  and userLike(spell)
+  and userLike(spell) then
+    return IsUsableSpell(spell)
+  end
 end
 
 -- Clip
