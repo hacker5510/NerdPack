@@ -5,6 +5,7 @@ NeP.CombatTracker = {}
 NeP.CombatTracker.Data = {}
 local Data = NeP.CombatTracker.Data
 local GetTime = _G.GetTime
+local wipe = _G.wipe
 
 -- Thse are Mixed Damage types (magic and pysichal)
 local Doubles = {
@@ -74,7 +75,7 @@ local logDamage = function(...)
 	Data[DestGUID].hits_done = Data[DestGUID].hits_done + 1
 	--spell specific
 	Data[SourceGUID][spellID] = Data[SourceGUID][spellID] or {}
-	Data[SourceGUID][spellID].value = ((Data[SourceGUID][spellID] or Amount) + Amount) / 2
+	Data[SourceGUID][spellID].value = ((Data[SourceGUID][spellID].value or Amount) + Amount) / 2
 	Data[SourceGUID][spellID].lastUse = GetTime()
 end
 
@@ -99,7 +100,7 @@ local logHealing = function(...)
 	Data[SourceGUID].heal_hits_done = Data[SourceGUID].heal_hits_done + 1
 	--spell specific
 	Data[SourceGUID][spellID] = Data[SourceGUID][spellID] or {}
-	Data[SourceGUID][spellID].value = ((Data[SourceGUID][spellID] or Amount) + Amount) / 2
+	Data[SourceGUID][spellID].value = ((Data[SourceGUID][spellID].value or Amount) + Amount) / 2
 	Data[SourceGUID][spellID].lastUse = GetTime()
 end
 
@@ -184,7 +185,10 @@ end
 
 function NeP.CombatTracker.SpellDamage(_, unit, spellID)
   local GUID = _G.UnitGUID(unit)
-  return Data[GUID] and Data[GUID][spellID] or 0
+  return Data[GUID]
+	and Data[GUID][spellID]
+	and Data[GUID][spellID].value
+	or 0
 end
 
 NeP.Listener:Add('NeP_CombatTracker', 'COMBAT_LOG_EVENT_UNFILTERED', function(...)
@@ -200,9 +204,9 @@ NeP.Listener:Add('NeP_CombatTracker', 'COMBAT_LOG_EVENT_UNFILTERED', function(..
 end)
 
 NeP.Listener:Add('NeP_CombatTracker', 'PLAYER_REGEN_ENABLED', function()
-	_G.wipe(Data)
+	wipe(Data)
 end)
 
 NeP.Listener:Add('NeP_CombatTracker', 'PLAYER_REGEN_DISABLED', function()
-	_G.wipe(Data)
+	wipe(Data)
 end)
