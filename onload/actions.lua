@@ -43,11 +43,10 @@ local function userLike(spell)
 end
 
 local function IsSpellReady(spell)
-  if GetSpellBookItemInfo(spell) ~= 'FUTURESPELL'
+  return GetSpellBookItemInfo(spell) ~= 'FUTURESPELL'
   and (GetSpellCooldown(spell) or 0) <= NeP.DSL:Get('gcd')()
-  and userLike(spell) then
-    return IsUsableSpell(spell)
-  end
+  and IsUsableSpell(spell)
+  and userLike(spell)
 end
 
 -- Clip
