@@ -1,4 +1,4 @@
-local _, NeP = ...
+local n_name, NeP = ...
 local _G = _G
 local LibDisp = _G.LibStub('LibDispellable-1.0')
 
@@ -12,10 +12,13 @@ local GetSpellInfo = _G.GetSpellInfo
 local GetInventorySlotInfo = _G.GetInventorySlotInfo
 local GetInventoryItemID = _G.GetInventoryItemID
 local GetItemInfo = _G.GetItemInfo
-
+local random = _G.random
 local GetSpellBookItemInfo = _G.GetSpellBookItemInfo
 local GetSpellCooldown = _G.GetSpellCooldown
 local IsUsableSpell = _G.IsUsableSpell
+local F = NeP.Interface.Fetch
+local K = n_name..'_Settings'
+local LastUsed = NeP.CombatTracker.LastUsed
 
 local funcs = {
   noop = function() end,
@@ -32,9 +35,17 @@ local funcs = {
   C_Buff = function(eva) _G.CancelUnitBuff('player', _G.GetSpellInfo(eva[1].args)) end
 }
 
+local function userLike(spell)
+  if F(K, "userLike", false) then
+    return LastUsed(spell, 'player') > (F(K, "minOffCD", 1) + random(-.5,.5))
+  end
+  return true
+end
+
 local function IsSpellReady(spell)
   if GetSpellBookItemInfo(spell) ~= 'FUTURESPELL'
-  and (GetSpellCooldown(spell) or 0) <= NeP.DSL:Get('gcd')() then
+  and (GetSpellCooldown(spell) or 0) <= NeP.DSL:Get('gcd')()
+  and userLike(spell) then
     return IsUsableSpell(spell)
   end
 end

@@ -2,6 +2,8 @@ local _, NeP = ...
 NeP.Parser   = {}
 local _G = _G
 local c = NeP.CR
+local InCombatLockdown = _G.InCombatLockdown
+local LootFrame = _G.LootFrame
 
 --[[
 	<< WARNING! This is not a friendly place >>
@@ -186,9 +188,9 @@ local function ParseStart()
 	if NeP.DSL:Get('toggle')(nil, 'mastertoggle')
 	and not _G.UnitIsDeadOrGhost('player')
 	and IsMountedCheck()
-	and not _G.LootFrame:IsShown() then
+	and not LootFrame:IsShown() then
 		if NeP.Queuer:Execute() then return end
-		local t = c.CR and c.CR[_G.InCombatLockdown()]
+		local t = c.CR and c.CR[InCombatLockdown()]
 		if not t then return end
 		castingTime(t.master)
 		t.master.halt = false
@@ -201,13 +203,15 @@ end
 
 -- Delay until everything is ready
 NeP.Core:WhenInGame(function()
-_G.C_Timer.NewTicker(0.1, ParseStart)
-NeP.Debug:Add("Parser0", ParseStart, false)
-NeP.Debug:Add("Parser1", NeP.Parser.Parse, false)
-NeP.Debug:Add("Parser2", NeP.Parser.Reg_P, false)
-NeP.Debug:Add("Parser3", NeP.Parser.Pool_P, false)
-NeP.Debug:Add("Parser4", NeP.Parser.Nest_P, false)
-NeP.Debug:Add("Parser5", NeP.Parser.Target_P, false)
-NeP.Debug:Add("Parser6", NeP.DSL.Parse, true)
-NeP.Debug:Add("Parser7", NeP.FakeUnits.Filter, true)
+	--start tickers
+	_G.C_Timer.NewTicker(0.1, ParseStart)
+	--debug stuff
+	NeP.Debug:Add("Parser0", ParseStart, false)
+	NeP.Debug:Add("Parser1", NeP.Parser.Parse, false)
+	NeP.Debug:Add("Parser2", NeP.Parser.Reg_P, false)
+	NeP.Debug:Add("Parser3", NeP.Parser.Pool_P, false)
+	NeP.Debug:Add("Parser4", NeP.Parser.Nest_P, false)
+	NeP.Debug:Add("Parser5", NeP.Parser.Target_P, false)
+	NeP.Debug:Add("Parser6", NeP.DSL.Parse, true)
+	NeP.Debug:Add("Parser7", NeP.FakeUnits.Filter, true)
 end, -99)

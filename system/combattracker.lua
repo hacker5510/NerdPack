@@ -4,6 +4,7 @@ local _G = _G
 NeP.CombatTracker = {}
 NeP.CombatTracker.Data = {}
 local Data = NeP.CombatTracker.Data
+local GetTime = _G.GetTime
 
 -- Thse are Mixed Damage types (magic and pysichal)
 local Doubles = {
@@ -38,7 +39,7 @@ local function addToData(GUID)
 			heal_done = 0,
 			heal_hits_done = 0,
 			--shared
-			combat_time = _G.GetTime(),
+			combat_time = GetTime(),
 			spell_value = {}
 		}
 	end
@@ -71,7 +72,10 @@ local logDamage = function(...)
 	Data[DestGUID].hits_taken = Data[DestGUID].hits_taken + 1
 	Data[SourceGUID].dmgDone = Data[SourceGUID].dmgDone + Amount
 	Data[DestGUID].hits_done = Data[DestGUID].hits_done + 1
-	Data[SourceGUID][spellID] = ((Data[SourceGUID][spellID] or Amount) + Amount) / 2
+	--spell specific
+	Data[SourceGUID][spellID] = Data[SourceGUID][spellID] or {}
+	Data[SourceGUID][spellID].value = ((Data[SourceGUID][spellID] or Amount) + Amount) / 2
+	Data[SourceGUID][spellID].lastUse = GetTime()
 end
 
 --[[ This Logs the swings (damage) done for every unit ]]
@@ -93,7 +97,10 @@ local logHealing = function(...)
 	Data[DestGUID].heal_hits_taken = Data[DestGUID].heal_hits_taken + 1
 	Data[SourceGUID].heal_done = Data[SourceGUID].heal_done + Amount
 	Data[SourceGUID].heal_hits_done = Data[SourceGUID].heal_hits_done + 1
-	Data[SourceGUID][spellID] = ((Data[SourceGUID][spellID] or Amount) + Amount) / 2
+	--spell specific
+	Data[SourceGUID][spellID] = Data[SourceGUID][spellID] or {}
+	Data[SourceGUID][spellID].value = ((Data[SourceGUID][spellID] or Amount) + Amount) / 2
+	Data[SourceGUID][spellID].lastUse = GetTime()
 end
 
 --[[ This Logs the last action done for every unit ]]
@@ -125,7 +132,7 @@ local EVENTS = {
 function NeP.CombatTracker.CombatTime(_, UNIT)
 	local GUID = _G.UnitGUID(UNIT)
 	if Data[GUID] and _G.InCombatLockdown() then
-		local combatTime = (_G.GetTime()-Data[GUID].combat_time)
+		local combatTime = (GetTime()-Data[GUID].combat_time)
 		return combatTime
 	end
 	return 0
@@ -135,7 +142,7 @@ function NeP.CombatTracker:getDMG(UNIT)
 	local total, Hits, phys, magic = 0, 0, 0, 0
 	local GUID = _G.UnitGUID(UNIT)
 	if Data[GUID] then
-		local time = _G.GetTime()
+		local time = GetTime()
 		-- Remove a unit if it hasnt recived dmg for more then 5 sec
 		if (time-Data[GUID].lastHit_taken) > 5 then
 			Data[GUID] = nil
@@ -166,6 +173,15 @@ function NeP.CombatTracker.LastCast(_, unit)
   end
 end
 
+function NeP.CombatTracker.LastUsed(_, spell, unit)
+	local GUID = _G.UnitGUID(unit)
+  spell = tonumber(spell) or NeP.Core:GetSpellID(spell)
+	return Data[GUID]
+	and Data[GUID][spell]
+	and Data[GUID][spell].lastUse
+	or 999
+end
+
 function NeP.CombatTracker.SpellDamage(_, unit, spellID)
   local GUID = _G.UnitGUID(unit)
   return Data[GUID] and Data[GUID][spellID] or 0
@@ -177,8 +193,8 @@ NeP.Listener:Add('NeP_CombatTracker', 'COMBAT_LOG_EVENT_UNFILTERED', function(..
 	addToData(SourceGUID)
 	addToData(DestGUID)
 	-- Update last  hit time
-	Data[DestGUID].lastHit_taken = _G.GetTime()
-	Data[SourceGUID].lastHit_done = _G.GetTime()
+	Data[DestGUID].lastHit_taken = GetTime()
+	Data[SourceGUID].lastHit_done = GetTime()
 	-- Add the amount of dmg/heak
 	if EVENTS[EVENT] then EVENTS[EVENT](...) end
 end)

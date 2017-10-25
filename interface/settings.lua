@@ -35,6 +35,11 @@ title = n_name,
     { type = 'checkbox', text = 'Auto accept LFG', key = 'LFG_acp', default = false },
 
     { type = 'spacer' },
+    { type = 'header', text = L('userLike') },
+		{ type = 'checkbox', text = 'Enable/Disable', key = 'userLike', default = false },
+    { type = 'spinner', text = 'Minimum time off CD', key = 'minOffCD', step = .5, min = 0, max = 3, default = 1 },
+
+    { type = 'spacer' },
 		{ type = 'button', text = L('apply_bt'), callback = function() NeP.Interface:Update() end },
 
 	}

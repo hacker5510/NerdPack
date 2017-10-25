@@ -1,8 +1,9 @@
 local n_name, NeP = ...
 local mainframe = NeP.Interface.MainFrame
 local L = NeP.Locale
-local GameTooltip = GameTooltip
-local CreateFrame = CreateFrame
+local GameTooltip = _G.GameTooltip
+local CreateFrame = _G.CreateFrame
+local unpack = _G.unpack
 
 NeP.ButtonsSize = 40
 NeP.ButtonsPadding = 2
