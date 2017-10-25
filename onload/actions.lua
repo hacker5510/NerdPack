@@ -18,7 +18,8 @@ local GetSpellCooldown = _G.GetSpellCooldown
 local IsUsableSpell = _G.IsUsableSpell
 local F = NeP.Interface.Fetch
 local K = n_name..'_Settings'
-local LastUsed = NeP.CombatTracker.LastUsed
+local L = NeP.CombatTracker.LastUsed
+local GetTime = _G.GetTime
 
 local funcs = {
   noop = function() end,
@@ -36,10 +37,8 @@ local funcs = {
 }
 
 local function userLike(spell)
-  if F(K, "userLike", true) then
-    print(1)
-    local t = (F(K, "minOffCD", 1) + random(-.5,.5))/1000
-    return LastUsed(spell, 'player') + t < GetTime()
+  if F(F, K, "userLike", true) then
+    return GetTime() - L(L,spell,'player') > random(-.5,.5) + F(F, K, "minOffCD", 1)
   end
   return true
 end
