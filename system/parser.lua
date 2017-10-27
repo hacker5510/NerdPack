@@ -2,7 +2,6 @@ local _, NeP = ...
 NeP.Parser   = {}
 local _G = _G
 local c = NeP.CR
-local InCombatLockdown = _G.InCombatLockdown
 local LootFrame = _G.LootFrame
 
 --[[
