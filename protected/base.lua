@@ -64,8 +64,7 @@ function NeP.Protected.GetObjectWithIndex(i)
 end
 
 function NeP.Protected.omVal(Obj)
-	return _G.UnitExists(Obj)
-	and _G.UnitInPhase(Obj)
+	return _G.UnitInPhase(Obj)
 	and NeP.Protected.Distance('player', Obj) < 100
 	and NeP.Protected.LineOfSight('player', Obj)
 end
