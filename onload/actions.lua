@@ -45,7 +45,7 @@ end
 
 local function IsSpellReady(spell)
   if GetSpellBookItemInfo(spell) ~= 'FUTURESPELL'
-  and (GetSpellCooldown(spell) or 0) <= NeP.DSL:Get('gcd')()
+  and (GetSpellCooldown(spell) or 0) <= NeP.Condition:Get('gcd')()
   and userLike(spell) then
     return IsUsableSpell(spell)
   end
@@ -122,34 +122,30 @@ end)
 
 -- Automated tauting
 -- USAGE %taunt(SPELL)
+--{"%taunt(SPELL)", CONDITION, TARGET}
 NeP.Actions:Add('taunt', function(eval)
-  if not IsSpellReady(eval[1].args) then return end
-  for _, Obj in pairs(NeP.OM:Get('Enemy')) do
-    if _G.UnitExists(Obj.key)
-    and Obj.distance <= 30
-    and NeP.Taunts:ShouldTaunt(Obj.key) then
-      eval.spell = eval[1].args
-      eval[3].target = Obj.key
-      eval.exe = funcs["Cast"]
-      return true
-    end
+  if IsSpellReady(eval[1].args)
+  and _G.UnitExists(eval[3].target)
+  and NeP.Taunts:ShouldTaunt(eval[3].target) then
+    eval.spell = eval[1].args
+    eval.exe = funcs["Cast"]
+    return true
   end
 end)
 
--- Ress all dead
-NeP.Actions:Add('ressdead', function(eval)
-  if not IsSpellReady(eval[1].args) then return end
-  for _, Obj in pairs(NeP.OM:Get('Friendly')) do
-    if Obj.distance < 40
-    and _G.UnitExists(Obj.key)
-    and _G.UnitIsPlayer(Obj.key)
-    and _G.UnitIsDeadOrGhost(Obj.key)
-    and _G.UnitPlayerOrPetInParty(Obj.key) then
-      eval.spell = eval[1].args
-      eval[3].target = Obj.key
-      eval.exe = funcs["Cast"]
-      return true
-    end
+-- Ress dead
+-- USAGE %ress(SPELL)
+--{"%ress(SPELL)", CONDITION, TARGET}
+NeP.Actions:Add('ress', function(eval)
+  if IsSpellReady(eval[1].args)
+  and NeP.Condition:Get("rangefrom")("player", eval[3].target) < 40
+  and _G.UnitExists(eval[3].target)
+  and _G.UnitIsPlayer(eval[3].target)
+  and _G.UnitIsDeadOrGhost(eval[3].target)
+  and _G.UnitPlayerOrPetInParty(eval[3].target) then
+    eval.spell = eval[1].args
+    eval.exe = funcs["Cast"]
+    return true
   end
 end)
 

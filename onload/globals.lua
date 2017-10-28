@@ -4,7 +4,7 @@ local g = NeP.Globals
 g.Actions = NeP.Actions
 g.RegisterCommand = NeP.Commands.Register
 g.Core = NeP.Core
-g.FakeUnits = NeP.FakeUnits
+g.Units = NeP.Units
 g.Listener = NeP.Listener
 g.Queue = NeP.Queuer.Add
 g.Tooltip = NeP.Tooltip
@@ -30,10 +30,6 @@ g.Library = {
 	Add = NeP.Library.Add,
 	Fetch = NeP.Library.Fetch,
 	Parse = NeP.Library.Parse
-}
-g.OM = {
-	Add = NeP.OM.Add,
-	Get = NeP.OM.Get,
 }
 g.Interface = {
 	BuildGUI = NeP.Interface.BuildGUI,
@@ -73,3 +69,4 @@ g.Taunts = {
   ShouldTaunt = NeP.Taunts.ShouldTaunt,
   Get = NeP.Taunts.Get
 }
+g.Condition = NeP.Condition

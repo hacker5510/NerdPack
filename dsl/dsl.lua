@@ -1,8 +1,8 @@
 local _, NeP = ...
 local _G = _G
+NeP.DSL = {}
 local DSL = NeP.DSL
 local strsplit = _G.strsplit
-DSL.cust_funcs = {}
 
 local function FilterNum(str)
 	local type_X = type(str)
@@ -90,9 +90,9 @@ local C = NeP.Cache.Conditions
 
 local function ProcessCondition(strg, spell, target)
 	-- Unit prefix
-	if not NeP.DSL:Exists(strg:gsub("%((.+)%)", "")) then
+	if not NeP.Condition:Exists(strg:gsub("%((.+)%)", "")) then
 		local unitID, rest = _G.strsplit('.', strg, 2)
-		unitID =  NeP.FakeUnits:Filter(unitID)[1]
+		unitID =  NeP.Units:Filter(unitID)[1]
 		-- condition target
 		if unitID
 		and rest
@@ -112,7 +112,7 @@ local function ProcessCondition(strg, spell, target)
 	C[strg] = C[strg] or {}
 	C[strg][target] = C[strg][target] or {}
 	if C[strg][target][Args] == nil then
-		C[strg][target][Args] = DSL:Get(strg)(target, Args) or false
+		C[strg][target][Args] = NeP.Condition:Get(strg)(target, Args) or false
 	end
 
 	return C[strg][target][Args]
@@ -148,7 +148,7 @@ end
 local function ExeFunc(strg)
 	local Args = strg:match('%((.+)%)')
 	strg = strg:gsub('%((.+)%)', '')
-	return DSL.cust_funcs[strg](Args)
+	return NeP.Condition.cust_funcs[strg](Args)
 end
 
 function NeP.DSL.Parse(strg, spell, target)

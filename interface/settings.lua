@@ -6,7 +6,7 @@ local NeP_ver = tostring(NeP.Version.major.."."..NeP.Version.minor.."-"..NeP.Ver
 function NeP.Interface:Update()
   NeP.ButtonsSize = NeP.Interface:Fetch(K, 'bsize', 40)
   NeP.ButtonsPadding = NeP.Interface:Fetch(K, 'bpad', 2)
-  NeP.OM.max_distance = NeP.Interface:Fetch(K, 'OM_Dis', 100)
+  --NeP.OM.max_distance = NeP.Interface:Fetch(K, 'OM_Dis', 100)
   self:RefreshToggles()
 end
 

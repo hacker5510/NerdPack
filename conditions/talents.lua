@@ -26,6 +26,6 @@ NeP.Listener:Add('NeP_Talents', 'PLAYER_LOGIN', function()
   end)
 end)
 
-NeP.DSL:Register("talent", function(_, args)
+NeP.Condition:Register("talent", function(_, args)
   return select(10, _G.GetTalentInfoByID(talents[args], _G.GetActiveSpecGroup()))
 end)

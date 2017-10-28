@@ -59,9 +59,9 @@ local function tst(_type, unit)
 	for i=1, #tbl do
 		local _count = tbl[i].count
 		if _count then
-			if NeP.DSL:Get(_type..'.count.any')(unit, tbl[i].name) >= _count then return true end
+			if NeP.Condition:Get(_type..'.count.any')(unit, tbl[i].name) >= _count then return true end
 		else
-			if NeP.DSL:Get(_type..'.any')(unit, tbl[i]) then return true end
+			if NeP.Condition:Get(_type..'.any')(unit, tbl[i]) then return true end
 		end
 	end
 end
@@ -74,7 +74,7 @@ function NeP.Parser.Unit_Blacklist(_, unit)
 end
 
 --This works on the current parser target.
---This function takes care of psudo units (fakeunits).
+--This function takes care of psudo units (Units).
 --Returns boolean (true if the target is valid).
 function NeP.Parser:Target(eval)
 	-- This is to alow casting at the cursor location where no unit exists
@@ -89,11 +89,11 @@ end
 
 local function noob_target() return _G.UnitExists('target') and 'target' or 'player' end
 
--- Part of the parser that handles unit looping, and fakeunits
+-- Part of the parser that handles unit looping, and Units
 -- target is target, nest target or fallback
 function NeP.Parser:Target_P(eval, func, nest_unit)
 	local tmp_target = eval.action_target or eval[3].target or nest_unit or noob_target
-	tmp_target = NeP.FakeUnits:Filter(tmp_target)
+	tmp_target = NeP.Units:Filter(tmp_target)
 	for i=1, #tmp_target do
 		eval.target = tmp_target[i]
 		--print("TARGET ===", i)
@@ -184,12 +184,12 @@ local function ParseStart()
 	NeP.Faceroll:Hide()
 	NeP:Wipe_Cache()
 	NeP.DBM.BuildTimers()
-	if NeP.DSL:Get('toggle')(nil, 'mastertoggle')
+	if NeP.Condition:Get('toggle')(nil, 'mastertoggle')
 	and not _G.UnitIsDeadOrGhost('player')
 	and IsMountedCheck()
 	and not LootFrame:IsShown() then
 		if NeP.Queuer:Execute() then return end
-		local t = c.CR and c.CR[InCombatLockdown()]
+		local t = c.CR and c.CR[_G.InCombatLockdown()]
 		if not t then return end
 		castingTime(t.master)
 		t.master.halt = false
@@ -212,5 +212,5 @@ NeP.Core:WhenInGame(function()
 	NeP.Debug:Add("Parser4", NeP.Parser.Nest_P, false)
 	NeP.Debug:Add("Parser5", NeP.Parser.Target_P, false)
 	NeP.Debug:Add("Parser6", NeP.DSL.Parse, true)
-	NeP.Debug:Add("Parser7", NeP.FakeUnits.Filter, true)
+	NeP.Debug:Add("Parser7", NeP.Units.Filter, true)
 end, -999999999)

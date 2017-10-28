@@ -15,6 +15,6 @@ function NeP.DBM.BuildTimers()
   end
 end
 
-NeP.DSL:Register('dbm', function(_, event)
+NeP.Condition:Register('dbm', function(_, event)
   return NeP.Cache.DBM_Timers[event:lower()] or fake_timer
 end)

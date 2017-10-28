@@ -1,5 +1,5 @@
 local _, NeP = ...
-NeP.FakeUnits = {}
+NeP.Units = {}
 local Units = {}
 
 local function _add(name, func)
@@ -8,7 +8,7 @@ local function _add(name, func)
 	end
 end
 
-function NeP.FakeUnits.Add(_, name, func)
+function NeP.Units.Add(_, name, func)
 	if type(name) == 'table' then
 		for i=1, #name do
 			_add(name[i], func)
@@ -20,12 +20,16 @@ function NeP.FakeUnits.Add(_, name, func)
 	end
 end
 
--- /dump NeP.FakeUnits:Filter("lowest")
+-- /dump NeP.Units:Filter("lowest")
 local function process(unit)
 	local arg = unit:match('%((.+)%)')
-	local num = tonumber(unit:match("%d+") or 1)
+	local num = tonumber(unit:match("%d+"))
 	local tunit = unit:gsub('%((.+)%)', ''):gsub("%d+", '')
-	return Units[tunit] and Units[tunit](num, arg) or unit
+	if num then
+		return Units[tunit] and Units[tunit](arg)[num] or unit
+	else
+		return Units[tunit] and Units[tunit](arg) or unit
+	end
 end
 
 local function not_in_tbl(unit, tbl)
@@ -43,24 +47,24 @@ local function add_tbl(unit, tbl)
 	--table
 	if unit_type =='table' then
 		for _, v in pairs(unit) do
-			NeP.FakeUnits:Process(v.key or v, tbl)
+			NeP.Units:Process(v.key or v, tbl)
 		end
 	--function
 	elseif unit_type == 'function' then
-		NeP.FakeUnits:Process(unit(), tbl)
+		NeP.Units:Process(unit(), tbl)
 	--add
 	elseif unit_type == 'string' then
 		unit = process(unit)
 		if not unit then return end
 		if type(unit) ~= 'string' then
-			NeP.FakeUnits:Process(unit, tbl)
+			NeP.Units:Process(unit, tbl)
 		elseif not_in_tbl(unit, tbl) then
 			tbl[#tbl+1] = unit
 		end
 	end
 end
 
-function NeP.FakeUnits.Process(_,unit, tbl)
+function NeP.Units.Process(_,unit, tbl)
 	tbl = tbl or {}
 	add_tbl(unit, tbl)
 	return tbl
@@ -70,10 +74,10 @@ end
 NeP.Cache.Targets = {}
 local C = NeP.Cache.Targets
 
-function NeP.FakeUnits.Filter(_,unit, tbl)
+function NeP.Units.Filter(_,unit, tbl)
 	-- cached
 	if not C[unit] then
-		C[unit] = NeP.FakeUnits:Process(unit, tbl)
+		C[unit] = NeP.Units:Process(unit, tbl)
 	end
 	return C[unit]
 end

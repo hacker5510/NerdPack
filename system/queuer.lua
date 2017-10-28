@@ -17,7 +17,7 @@ function NeP.Queuer.Spell(_, spell)
   local skillType = _G.GetSpellBookItemInfo(spell)
   local isUsable, notEnoughMana = _G.IsUsableSpell(spell)
   if skillType ~= 'FUTURESPELL' and isUsable and not notEnoughMana then
-    local GCD = NeP.DSL:Get('gcd')()
+    local GCD = NeP.Condition:Get('gcd')()
     if _G.GetSpellCooldown(spell) <= GCD then
       return true
     end

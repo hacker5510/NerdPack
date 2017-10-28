@@ -7,8 +7,6 @@
 	<Script file="commands.lua" />
 	<Script file="tooltip.lua" />
 	<Script file="conditions.lua" />
-	<Script file="dsl.lua" />
-	<Script file="compiler.lua" />
 	<Script file="lib.lua" />
 	<Script file="config.lua" />
 	<Script file="CRs.lua" />
@@ -16,9 +14,8 @@
 	<Script file="combattracker.lua" />
 	<Script file="actions.lua" />
 	<Script file="helpers.lua" />
-	<Script file="parser.lua" />
 	<Script file="queuer.lua" />
-	<Script file="fakeunits.lua" />
+	<Script file="units.lua" />
 	<Script file="om.lua" />
 	<Script file="healing.lua" />
 	<Script file="keybinds.lua" />

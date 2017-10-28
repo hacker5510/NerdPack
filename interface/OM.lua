@@ -1,4 +1,4 @@
-local _, NeP = ...
+--[[local _, NeP = ...
 local DiesalGUI = LibStub('DiesalGUI-1.0')
 local L = NeP.Locale
 
@@ -74,4 +74,4 @@ C_Timer.NewTicker(0.1, (function()
 	if OM_GUI.parent:IsShown() then
 		RefreshGUI()
 	end
-end), nil)
+end), nil)]]

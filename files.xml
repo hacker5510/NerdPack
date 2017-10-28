@@ -9,6 +9,8 @@
 	<include file="locale\files.xml" />
 	<include file="tables\files.xml" />
 	<include file="system\files.xml" />
+	<include file="dsl\files.xml" />
+	<include file="apis\files.xml" />
 	<Include file="interface\files.xml" />
 	<Include file="conditions\files.xml" />
 	<Include file="protected\files.xml" />

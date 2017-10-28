@@ -16,12 +16,12 @@ local KEYBINDS = {
   ['ralt']     = function() return _G.IsRightAltKeyDown() end,
 }
 
-NeP.DSL:Register("keybind", function(_, Arg)
+NeP.Condition:Register("keybind", function(_, Arg)
   Arg = Arg:lower()
   return KEYBINDS[Arg] and KEYBINDS[Arg]() and not _G.GetCurrentKeyBoardFocus()
 end)
 
-NeP.DSL:Register("mouse", function(_, Arg)
+NeP.Condition:Register("mouse", function(_, Arg)
   Arg = tonumber(Arg:lower())
   return _G.IsMouseButtonDown(Arg) and not _G.GetCurrentKeyBoardFocus()
 end)

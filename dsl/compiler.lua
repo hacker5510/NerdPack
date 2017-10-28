@@ -122,7 +122,7 @@ end
 
 local function CondFunc(eval)
 	local func = tostring(eval)
-	NeP.DSL.cust_funcs[func] = eval
+	NeP.Condition.cust_funcs[func] = eval
 	return 'func='..func
 end
 

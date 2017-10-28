@@ -20,7 +20,7 @@ function NeP.Artifact.Traits(_, artifactID)
 end
 
 function NeP.Artifact:TraitInfo(spell)
-  local artifactID = NeP.DSL:Get('artifact.active_id')()
+  local artifactID = NeP.Condition:Get('artifact.active_id')()
   if not artifactID then self:Update() end
   local _, traits = self:Traits(artifactID)
   if not traits then return end
@@ -31,30 +31,30 @@ function NeP.Artifact:TraitInfo(spell)
   end
 end
 
-NeP.DSL:Register('artifact.acquired_power', function(artifactID)
+NeP.Condition:Register('artifact.acquired_power', function(artifactID)
   return LAD.GetAcquiredArtifactPower(artifactID)
 end)
 
-NeP.DSL:Register('artifact.active_id', function()
+NeP.Condition:Register('artifact.active_id', function()
   return LAD.GetActiveArtifactID()
 end)
 
-NeP.DSL:Register('artifact.knowledge', function()
+NeP.Condition:Register('artifact.knowledge', function()
   return select(1,LAD.GetArtifactKnowledge())
 end)
 
-NeP.DSL:Register('artifact.power', function(artifactID)
+NeP.Condition:Register('artifact.power', function(artifactID)
   return select(3,LAD.GetArtifactPower(artifactID))
 end)
 
-NeP.DSL:Register('artifact.relics', function(artifactID)
+NeP.Condition:Register('artifact.relics', function(artifactID)
   return LAD.GetArtifactRelics(artifactID)
 end)
 
-NeP.DSL:Register('artifact.num_obtained', function()
+NeP.Condition:Register('artifact.num_obtained', function()
   return LAD.GetNumObtainedArtifacts()
 end)
 
-NeP.DSL:Register('artifact.enabled', function(_, spell)
+NeP.Condition:Register('artifact.enabled', function(_, spell)
     return not not select(10,NeP.Artifact:TraitInfo(spell))
 end)
