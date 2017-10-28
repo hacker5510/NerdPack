@@ -59,17 +59,7 @@ function NeP.Core.GetItemID(_, item)
 end
 
 function NeP.Core.UnitID(_, unit)
-	if unit and _G.UnitExists(unit) then
-		local guid = _G.UnitGUID(unit)
-		if guid then
-			local type, _, server_id,_,_, npc_id = _G.strsplit("-", guid)
-			if type == "Player" then
-				return tonumber(server_id)
-			elseif npc_id then
-				return tonumber(npc_id)
-			end
-		end
-	end
+	return tonumber(unit and select(6, _G.strsplit('-', _G.UnitGUID(unit))) or 0)
 end
 
 function NeP.Core.GetSpellBookIndex(_, spell)
