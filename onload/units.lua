@@ -2,7 +2,7 @@ local _, NeP = ...
 local _G = _G
 
 -- Lowest
-NeP.Units:Add('lowest', function(role)
+NeP.Units:Add('lowest', function(num, role)
 	local tmp = {}
 	for i=1, NeP.Protected.GetObjectCount() do
 		local Obj = NeP.Protected.GetObjectWithIndex(i)
@@ -17,11 +17,11 @@ NeP.Units:Add('lowest', function(role)
 		end
 	end
 	table.sort( tmp, function(a,b) return a.health < b.health end )
-	return tmp
+	return tmp[num] and tmp[num].key
 end)
 
 -- Tank
-NeP.Units:Add('tank', function()
+NeP.Units:Add('tank', function(num)
 	local tmp = {}
 	for i=1, NeP.Protected.GetObjectCount() do
 		local Obj = NeP.Protected.GetObjectWithIndex(i)
@@ -35,11 +35,11 @@ NeP.Units:Add('tank', function()
 		end
 	end
 	table.sort( tmp, function(a,b) return a.prio > b.prio end )
-	return tmp
+	return tmp[num] and tmp[num].key
 end)
 
 -- Healer
-NeP.Units:Add('healer', function()
+NeP.Units:Add('healer', function(num)
 	local tmp = {}
 	for i=1, NeP.Protected.GetObjectCount() do
 		local Obj = NeP.Protected.GetObjectWithIndex(i)
@@ -53,11 +53,11 @@ NeP.Units:Add('healer', function()
 		end
 	end
 	table.sort( tmp, function(a,b) return a.prio > b.prio end )
-	return tmp
+	return tmp[num] and tmp[num].key
 end)
 
 -- DAMAGER
-NeP.Units:Add('damager', function()
+NeP.Units:Add('damager', function(num)
 	local tmp = {}
 	for i=1, NeP.Protected.GetObjectCount() do
 		local Obj = NeP.Protected.GetObjectWithIndex(i)
@@ -71,7 +71,7 @@ NeP.Units:Add('damager', function()
 		end
 	end
 	table.sort( tmp, function(a,b) return a.prio > b.prio end )
-	return tmp
+	return tmp[num] and tmp[num].key
 end)
 
 -- enemy ADD

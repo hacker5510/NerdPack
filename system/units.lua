@@ -23,13 +23,9 @@ end
 -- /dump NeP.Units:Filter("lowest")
 local function process(unit)
 	local arg = unit:match('%((.+)%)')
-	local num = tonumber(unit:match("%d+"))
+	local num = tonumber(unit:match("%d+") or 0)
 	local tunit = unit:gsub('%((.+)%)', ''):gsub("%d+", '')
-	if num then
-		return Units[tunit] and Units[tunit](arg)[num] or unit
-	else
-		return Units[tunit] and Units[tunit](arg) or unit
-	end
+	return Units[tunit] and Units[tunit](num, arg) or unit
 end
 
 local function not_in_tbl(unit, tbl)
