@@ -1,9 +1,11 @@
 local _, NeP = ...
 
-NeP.Condition = {}
-NeP.cust_funcs = {}
+NeP.Condition = {
+	conditions = {},
+	cust_funcs = {}
+}
 
-local conditions = NeP.Condition
+local conditions = NeP.Condition.conditions
 local noop = function() end
 
 function NeP.Condition.Get(_, Strg)
