@@ -21,6 +21,7 @@ local function Build_Units()
     -- build the Object
     NeP.API.Unit[unit_name] = {
       unit = unit_func(),
+      unit_func = unit_func
     }
 
     -- give it all conditions
@@ -30,5 +31,11 @@ local function Build_Units()
       end
     end
 
+  end
+end
+
+local function Refresh_Units()
+  for Obj in pairs(NeP.API.Unit) do
+    Obj.unit = Obj.unit_func();
   end
 end
