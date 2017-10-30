@@ -51,6 +51,16 @@ NeP.Condition:Register('runes', function()
   return count
 end)
 
+NeP.Condition:Register('runes.cd', function(n_runes)
+  local tmp={}
+  for i = 1, 6 do
+    local _, duration, runeReady = _G.GetRuneCooldown(i)
+    tmp[#tmp+1] = runeReady and 0 or duration
+  end
+  table.sort(tmp, function(a,b) return a<b end)
+  return tmp[n_runes]
+end)
+
 NeP.Condition:Register('maelstrom', function(target)
   return _G.UnitPower(target, _G.SPELL_POWER_MAELSTROM)
 end)
