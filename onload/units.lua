@@ -77,7 +77,8 @@ NeP.Units:Add('damager', function(num)
 	return tmp[num] and tmp[num].key
 end)
 
--- enemy ADD
+-- this is a table that contains all add units
+-- Uses IDs from tables/addsids.lua
 NeP.Units:Add('add', function()
 	local tmp = {}
 	for i=1, NeP.Protected.GetObjectCount() do
@@ -91,7 +92,8 @@ NeP.Units:Add('add', function()
 	return tmp
 end)
 
--- enemy Boss
+-- this is a table that contains all boss units
+-- Uses IDs from tables/bossids.lua and libbossids
 NeP.Units:Add('boss', function()
 	local tmp = {}
 	for i=1, NeP.Protected.GetObjectCount() do
@@ -105,6 +107,7 @@ NeP.Units:Add('boss', function()
 	return tmp
 end)
 
+--This is a table with all enemie units
 NeP.Units:Add('enemies', function()
 	local tmp = {}
 	for i=1, NeP.Protected.GetObjectCount() do
@@ -117,6 +120,7 @@ NeP.Units:Add('enemies', function()
 	return tmp
 end)
 
+--This is a table with all friendly units
 NeP.Units:Add('friendly', function()
 	local tmp = {}
 	for i=1, NeP.Protected.GetObjectCount() do
