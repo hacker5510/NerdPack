@@ -14,6 +14,5 @@
 	<Include file="interface\files.xml" />
 	<Include file="protected\files.xml" />
 	<Include file="onload\files.xml" />
-	<Script file="deprecated.lua" />
 
 </Ui>

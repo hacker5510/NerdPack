@@ -7,5 +7,6 @@
 	<Script file="actions.lua" />
 	<Script file="misc.lua" />
 	<Script file="globals.lua" />
+	<Script file="deprecated.lua" />
 
 </Ui>
