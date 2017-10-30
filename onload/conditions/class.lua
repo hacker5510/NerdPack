@@ -51,7 +51,7 @@ NeP.Condition:Register('runes', function()
   return count
 end)
 
-NeP.Condition:Register('runes.cd', function(n_runes)
+NeP.Condition:Register('runes.cd', function(_, n_runes)
   local tmp={}
   for i = 1, 6 do
     local _, duration, runeReady = _G.GetRuneCooldown(i)
