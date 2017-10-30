@@ -12,7 +12,6 @@
 	<include file="dsl\files.xml" />
 	<include file="apis\files.xml" />
 	<Include file="interface\files.xml" />
-	<Include file="conditions\files.xml" />
 	<Include file="protected\files.xml" />
 	<Include file="onload\files.xml" />
 	<Script file="deprecated.lua" />
