@@ -8,17 +8,15 @@ NeP.Units:Add('lowest', function(num, role)
 		local Obj = NeP.Protected.GetObjectWithIndex(i)
 		if NeP.Protected.omVal(Obj)
 		and _G.UnitIsFriend('player', Obj)
-		and (_G.UnitInRaid(Obj) or _G.UnitInParty(Obj)) then
-			local unitRole = _G.UnitGroupRolesAssigned(Obj)
-			if (not role or role and unitRole == role:upper()) then
-				tmp[#tmp+1] = {
-					key = Obj,
-					prio = _G.UnitHealthMax(Obj)
-				}
-			end
+		and (_G.UnitInRaid(Obj) or _G.UnitInParty(Obj))
+		and (not role or role and _G.UnitGroupRolesAssigned(Obj) == role:upper()) then
+			tmp[#tmp+1] = {
+				key = Obj,
+				prio = _G.UnitHealth(Obj)
+			}
 		end
 	end
-	table.sort( tmp, function(a,b) return a.health < b.health end )
+	table.sort( tmp, function(a,b) return a.prio < b.prio end )
 	return tmp[num] and tmp[num].key
 end)
 
