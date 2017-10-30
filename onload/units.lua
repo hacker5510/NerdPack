@@ -8,12 +8,14 @@ NeP.Units:Add('lowest', function(num, role)
 		local Obj = NeP.Protected.GetObjectWithIndex(i)
 		if NeP.Protected.omVal(Obj)
 		and _G.UnitIsFriend('player', Obj)
-		and _G.UnitGroupRolesAssigned(Obj.key) == "TANK"
-		and (not role or role and Obj.role == role:upper()) then
-			tmp[#tmp+1] = {
-				key = Obj,
-				prio = _G.UnitHealthMax(Obj)
-			}
+		and (_G.UnitInRaid(Obj) or _G.UnitInParty(Obj)) then
+			local unitRole = _G.UnitGroupRolesAssigned(Obj)
+			if (not role or role and unitRole == role:upper()) then
+				tmp[#tmp+1] = {
+					key = Obj,
+					prio = _G.UnitHealthMax(Obj)
+				}
+			end
 		end
 	end
 	table.sort( tmp, function(a,b) return a.health < b.health end )
@@ -27,7 +29,8 @@ NeP.Units:Add('tank', function(num)
 		local Obj = NeP.Protected.GetObjectWithIndex(i)
 		if NeP.Protected.omVal(Obj)
 		and _G.UnitIsFriend('player', Obj)
-		and _G.UnitGroupRolesAssigned(Obj.key) == "TANK" then
+		and (_G.UnitInRaid(Obj) or _G.UnitInParty(Obj))
+		and _G.UnitGroupRolesAssigned(Obj) == "TANK" then
 			tmp[#tmp+1] = {
 				key = Obj,
 				prio = _G.UnitHealthMax(Obj)
@@ -45,7 +48,8 @@ NeP.Units:Add('healer', function(num)
 		local Obj = NeP.Protected.GetObjectWithIndex(i)
 		if NeP.Protected.omVal(Obj)
 		and _G.UnitIsFriend('player', Obj)
-		and _G.UnitGroupRolesAssigned(Obj.key) == "HEALER" then
+		and (_G.UnitInRaid(Obj) or _G.UnitInParty(Obj))
+		and _G.UnitGroupRolesAssigned(Obj) == "HEALER" then
 			tmp[#tmp+1] = {
 				key = Obj,
 				prio = _G.UnitHealthMax(Obj)
@@ -63,7 +67,8 @@ NeP.Units:Add('damager', function(num)
 		local Obj = NeP.Protected.GetObjectWithIndex(i)
 		if NeP.Protected.omVal(Obj)
 		and _G.UnitIsFriend('player', Obj)
-		and _G.UnitGroupRolesAssigned(Obj.key) == "DAMAGER" then
+		and (_G.UnitInRaid(Obj) or _G.UnitInParty(Obj))
+		and _G.UnitGroupRolesAssigned(Obj) == "DAMAGER" then
 			tmp[#tmp+1] = {
 				key = Obj,
 				prio = _G.UnitHealthMax(Obj)
