@@ -17,7 +17,7 @@ NeP.Units:Add('lowest', function(num, role)
 		end
 	end
 	table.sort( tmp, function(a,b) return a.prio < b.prio end )
-	return tmp[num] and tmp[num].key
+	return tmp
 end)
 
 -- Tank
@@ -36,7 +36,7 @@ NeP.Units:Add('tank', function(num)
 		end
 	end
 	table.sort( tmp, function(a,b) return a.prio > b.prio end )
-	return tmp[num] and tmp[num].key
+	return tmp
 end)
 
 -- Healer
@@ -55,7 +55,7 @@ NeP.Units:Add('healer', function(num)
 		end
 	end
 	table.sort( tmp, function(a,b) return a.prio > b.prio end )
-	return tmp[num] and tmp[num].key
+	return tmp
 end)
 
 -- DAMAGER
@@ -74,7 +74,7 @@ NeP.Units:Add('damager', function(num)
 		end
 	end
 	table.sort( tmp, function(a,b) return a.prio > b.prio end )
-	return tmp[num] and tmp[num].key
+	return tmp
 end)
 
 -- this is a table that contains all add units
