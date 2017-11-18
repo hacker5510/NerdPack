@@ -1,8 +1,12 @@
 local _, NeP = ...
 NeP.CR = {}
-NeP.CR.CR = {}
+NeP.CR.currentCR = nil
+
 local CRs = {}
 local noop = function() end
+
+local GetSpecialization = _G.GetSpecialization
+local GetSpecializationInfo = _G.GetSpecializationInfo
 
 function NeP.CR.AddGUI(_, ev)
 	local gui_st = ev.gui_st or {}
@@ -68,7 +72,7 @@ local function refs(ev, SpecID)
 end
 
 function NeP.CR.Add(_, SpecID, ...)
-	local classIndex = select(3, UnitClass('player'))
+	local classIndex = select(3, _G.UnitClass('player'))
 	-- This only allows crs we can use to be registered
 	if not NeP.ClassTable:SpecIsFromClass(classIndex, SpecID )
 	and classIndex ~= SpecID then
@@ -114,12 +118,15 @@ function NeP.CR:Set(Spec, Name)
 	--break if cr dosent exist
 	if not (CRs[Spec] and CRs[Spec][Name]) then return end
 	-- execute the previous unload
-	if self.CR and self.CR.unload then self.CR.unload() end
-	self.CR = CRs[Spec][Name]
+	if self.currentCR
+	and self.currentCR.unload then
+		self.currentCR.unload()
+	end
+	self.currentCR = CRs[Spec][Name]
 	NeP.Config:Write('SELECTED', Spec, Name)
 	NeP.Interface:ResetToggles()
 	--Execute onload
-	if self.CR then self.CR.load() end
+	if self.currentCR then self.currentCR.load() end
 end
 
 function NeP.CR.GetList(_, Spec)
