@@ -10,7 +10,7 @@
 	<include file="tables\files.xml" />
 	<include file="system\files.xml" />
 	<include file="luaengine\files.xml" />
-	<include file="dsl\files.xml" />
+	<include file="dslengine\files.xml" />
 	<Include file="interface\files.xml" />
 	<Include file="protected\files.xml" />
 	<Include file="onload\files.xml" />
