@@ -104,8 +104,8 @@ NeP.Condition:Register("area.heal", function(unit, args)
 		local Obj = NeP.Protected.GetObjectWithIndex(i)
 		if NeP.Protected.omVal(Obj)
 		and _G.UnitIsFriend('player', Obj)
-		and NeP.Protected.Distance(unit, Obj) < (tonumber(distance) or 20)
-		and _G.UnitHealth(Obj) < (tonumber(health) or 100) then
+		and _G.UnitHealth(Obj) < (tonumber(health) or 100)
+    and NeP.Protected.Distance(unit, Obj) < (tonumber(distance) or 20) then
 			total = total + 1
 		end
 	end
@@ -121,9 +121,44 @@ NeP.Condition:Register("area.heal.infront", function(unit, args)
 		local Obj = NeP.Protected.GetObjectWithIndex(i)
 		if NeP.Protected.omVal(Obj)
 		and _G.UnitIsFriend('player', Obj)
-		and NeP.Protected.Distance(unit, Obj) < (tonumber(distance) or 20)
 		and _G.UnitHealth(Obj) < (tonumber(health) or 100)
-		and NeP.Protected.Infront(unit, Obj) then
+		and NeP.Protected.Infront(unit, Obj)
+    and NeP.Protected.Distance(unit, Obj) < (tonumber(distance) or 20) then
+			total = total + 1
+		end
+	end
+	return total
+end)
+
+-- USAGE: UNIT.area(DISTANCE, PERCENTAGE).interrupt >= #
+NeP.Condition:Register("area.interruptAt", function(unit, args)
+	local total = 0
+	if not _G.UnitExists(unit) then return total end
+	local distance, interrupt = _G.strsplit(",", args, 2)
+  for i=1, NeP.Protected.GetObjectCount() do
+		local Obj = NeP.Protected.GetObjectWithIndex(i)
+		if NeP.Protected.omVal(Obj)
+		and _G.UnitCanAttack('player', Obj)
+    and NeP.Condition:Get("interruptAt")(Obj, interrupt)
+		and NeP.Protected.Distance(unit, Obj) < (tonumber(distance) or 20) then
+			total = total + 1
+		end
+	end
+	return total
+end)
+
+-- USAGE: UNIT.area(DISTANCE, PERCENTAGE).interrupt.infront >= #
+NeP.Condition:Register("area.interruptAt.infront", function(unit, args)
+	local total = 0
+	if not _G.UnitExists(unit) then return total end
+	local distance, interrupt = _G.strsplit(",", args, 2)
+  for i=1, NeP.Protected.GetObjectCount() do
+		local Obj = NeP.Protected.GetObjectWithIndex(i)
+		if NeP.Protected.omVal(Obj)
+		and _G.UnitCanAttack('player', Obj)
+    and NeP.Condition:Get("interruptAt")(Obj, interrupt)
+    and NeP.Protected.Infront(unit, Obj)
+		and NeP.Protected.Distance(unit, Obj) < (tonumber(distance) or 20) then
 			total = total + 1
 		end
 	end
