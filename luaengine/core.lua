@@ -5,7 +5,7 @@ NeP.LuaEngine = {}
 NeP.LuaEngine.Queue = {}
 
 -- returns target if it exists or player
-function NeP.NoopUnit()
+function NeP.LuaEngine.NoopUnit()
   return _G.UnitExists('target') and 'target' or 'player'
 end
 
