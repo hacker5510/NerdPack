@@ -1,6 +1,8 @@
 local _, NeP = ...
 NeP.Units = {}
-local Units = {}
+NeP.Unit.Units = {}
+
+local Units = NeP.Unit.Units
 
 local function _add(name, func)
 	if not Units[name] then
@@ -8,7 +10,7 @@ local function _add(name, func)
 	end
 end
 
-function NeP.Units.Add(_, name, func)
+function NeP.Unit.Add(_, name, func)
 	if type(name) == 'table' then
 		for i=1, #name do
 			_add(name[i], func)
@@ -60,7 +62,7 @@ local function add_tbl(unit, tbl)
 	end
 end
 
-function NeP.Units.Process(_,unit, tbl)
+function NeP.Unit.Process(unit, tbl)
 	tbl = tbl or {}
 	add_tbl(unit, tbl)
 	return tbl
@@ -70,7 +72,7 @@ end
 NeP.Cache.Targets = {}
 local C = NeP.Cache.Targets
 
-function NeP.Units.Filter(_,unit, tbl)
+function NeP.Unit.Filter(unit, tbl)
 	-- cached
 	if not C[unit] then
 		C[unit] = NeP.Units:Process(unit, tbl)

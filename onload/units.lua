@@ -2,7 +2,7 @@ local _, NeP = ...
 local _G = _G
 
 -- Lowest
-NeP.Units:Add('lowest', function(num, role)
+NeP.Unit:Add('lowest', function(num, role)
 	local tmp = {}
 	for i=1, NeP.Protected.GetObjectCount() do
 		local Obj = NeP.Protected.GetObjectWithIndex(i)
@@ -21,7 +21,7 @@ NeP.Units:Add('lowest', function(num, role)
 end)
 
 -- Tank
-NeP.Units:Add('tank', function(num)
+NeP.Unit:Add('tank', function(num)
 	local tmp = {}
 	for i=1, NeP.Protected.GetObjectCount() do
 		local Obj = NeP.Protected.GetObjectWithIndex(i)
@@ -40,7 +40,7 @@ NeP.Units:Add('tank', function(num)
 end)
 
 -- Healer
-NeP.Units:Add('healer', function(num)
+NeP.Unit:Add('healer', function(num)
 	local tmp = {}
 	for i=1, NeP.Protected.GetObjectCount() do
 		local Obj = NeP.Protected.GetObjectWithIndex(i)
@@ -59,7 +59,7 @@ NeP.Units:Add('healer', function(num)
 end)
 
 -- DAMAGER
-NeP.Units:Add('damager', function(num)
+NeP.Unit:Add('damager', function(num)
 	local tmp = {}
 	for i=1, NeP.Protected.GetObjectCount() do
 		local Obj = NeP.Protected.GetObjectWithIndex(i)
@@ -79,7 +79,7 @@ end)
 
 -- this is a table that contains all add units
 -- Uses IDs from tables/addsids.lua
-NeP.Units:Add('add', function()
+NeP.Unit:Add('add', function()
 	local tmp = {}
 	for i=1, NeP.Protected.GetObjectCount() do
 		local Obj = NeP.Protected.GetObjectWithIndex(i)
@@ -94,7 +94,7 @@ end)
 
 -- this is a table that contains all boss units
 -- Uses IDs from tables/bossids.lua and libbossids
-NeP.Units:Add('boss', function()
+NeP.Unit:Add('boss', function()
 	local tmp = {}
 	for i=1, NeP.Protected.GetObjectCount() do
 		local Obj = NeP.Protected.GetObjectWithIndex(i)
@@ -108,7 +108,7 @@ NeP.Units:Add('boss', function()
 end)
 
 --This is a table with all enemie units
-NeP.Units:Add('enemies', function()
+NeP.Unit:Add('enemies', function()
 	local tmp = {}
 	for i=1, NeP.Protected.GetObjectCount() do
 		local Obj = NeP.Protected.GetObjectWithIndex(i)
@@ -121,7 +121,7 @@ NeP.Units:Add('enemies', function()
 end)
 
 --This is a table with all friendly units
-NeP.Units:Add('friendly', function()
+NeP.Unit:Add('friendly', function()
 	local tmp = {}
 	for i=1, NeP.Protected.GetObjectCount() do
 		local Obj = NeP.Protected.GetObjectWithIndex(i)

@@ -1,36 +1,35 @@
 local _, NeP = ...
 local GetTime = _G.GetTime
-local CR = NeP.CR
-
---[[
-
-  THIS IS A TEST FILE, IGNORE IT..
-
-]]
 
 NeP.LuaEngine = {}
+NeP.LuaEngine.Queue = {}
 
---FIXME: should get a list for all nep units
-local tmp_units = {
-  ["player"] = function() return "player" end,
-  ["tank"] = function() return NeP.Units:filter("tank") end,
-}
+-- returns target if it exists or player
+function NeP.NoopUnit()
+  return _G.UnitExists('target') and 'target' or 'player'
+end
 
-local function Build_Units()
-  for unit_name, unit_func in pairs(tmp_units) do
-
+function NeP.LuaEngine.BuildUnits()
+  for unit_name, unit_func in pairs(NeP.Unit.Units) do
     -- build the Object
     NeP.LuaEngine[unit_name] = {
       unit = unit_func,
       unit_func = unit_func
     }
-
     -- give it all conditions
     for cond_name, cond_func in pairs(NeP.Condition.conditions) do
       NeP.LuaEngine[unit_name][cond_name] = function(arg)
         return cond_func(unit_func(), arg)
       end
     end
-
   end
+end
+
+function NeP.LuaEngine.QueueSpell(spell, unit)
+  spell = NeP.Spells:Convert(spell)
+  if not spell then return end
+  NeP.LuaEngine.Queue[spell] = {
+    time = GetTime(),
+    unit = unit or NeP.NoopUnit()
+  }
 end
