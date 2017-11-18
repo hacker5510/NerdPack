@@ -13,6 +13,7 @@
 	<include file="dslengine\files.xml" />
 	<Include file="interface\files.xml" />
 	<Include file="protected\files.xml" />
+	<include file="probablyengine\files.xml" />
 	<Include file="onload\files.xml" />
 
 </Ui>
