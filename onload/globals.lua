@@ -1,6 +1,10 @@
 local _, NeP = ...
 local g = NeP.Globals
 
+--[[----------------
+	This is where we assign whats Globaly usable
+------------------]]
+
 g.Actions = NeP.Actions
 g.RegisterCommand = NeP.Commands.Register
 g.Core = NeP.Core
@@ -13,6 +17,9 @@ g.Artifact = NeP.Artifact
 g.DBM = NeP.DBM
 g.ClassTable = NeP.ClassTable
 g.Spells = NeP.Spells
+g.Condition = NeP.Condition
+g.API = NeP.API
+g.LuaEngine = NeP.LuaEngine
 
 g.CR = {
 	Add = NeP.CR.Add,
@@ -69,4 +76,3 @@ g.Taunts = {
   ShouldTaunt = NeP.Taunts.ShouldTaunt,
   Get = NeP.Taunts.Get
 }
-g.Condition = NeP.Condition
