@@ -65,8 +65,6 @@ function NeP.API.CastingTime()
 	return name, time, channeling
 end
 
-
--- blacklist
 local function testUnitBlackList(_type, unit)
 	local tbl = CR.currentCR.blacklist[_type]
 	if not tbl then return end
@@ -80,9 +78,30 @@ local function testUnitBlackList(_type, unit)
 	end
 end
 
+-- Returns if a Unit is blacklist by NeP orthe CR
 function NeP.API.UnitBlacklist(unit)
 	return NeP.Debuffs:Eval(unit)
 	or CR.currentCR.blacklist.units[NeP.Core:UnitID(unit)]
 	or testUnitBlackList("buff", unit)
 	or testUnitBlackList("debuff", unit)
+end
+
+-- Interrupt a Cast/Channel and returns the result
+-- Decides if you should interrput or not
+-- FIXME: should take time into account.
+function NeP.API.Interrupt(spell)
+  local name = NeP.API.CastingTime()
+	if name == spell then
+		return false
+	end
+	NeP.Protected.SpellStopCasting()
+	return true
+end
+
+-- Returns if the unit is valid for usage
+function NeP.API:ValidUnit(unit)
+	return _G.UnitExists(unit)
+	and _G.UnitIsVisible(unit)
+	and NeP.Protected.LineOfSight('player', unit)
+	and not self:Unit_Blacklist(unit)
 end
