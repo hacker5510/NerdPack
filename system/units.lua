@@ -11,6 +11,11 @@ local function _add(name, func)
 end
 
 function NeP.Unit.Add(_, name, func)
+	if type(func) == "string" then
+		func = function() return func end
+	elseif not func then
+		func = function() return name end
+	end
 	if type(name) == 'table' then
 		for i=1, #name do
 			_add(name[i], func)

@@ -1,6 +1,28 @@
 local _, NeP = ...
 local _G = _G
 
+-- Valid wow units
+-- Full list can be found here:
+-- http://wowwiki.wikia.com/wiki/UnitId
+
+NeP.Unit:Add('player')
+NeP.Unit:Add('pet')
+NeP.Unit:Add('focus')
+NeP.Unit:Add('mouseover')
+for i=1, 40 do
+	NeP.Unit:Add('raid'..i)
+	NeP.Unit:Add('raidpet'..i)
+end
+for i=1, 5 do
+	NeP.Unit:Add('arena'..i)
+	NeP.Unit:Add('arenapet'..i)
+end
+for i=1, 4 do
+	NeP.Unit:Add('boss'..i)
+	NeP.Unit:Add('party'..i)
+	NeP.Unit:Add('partypet'..i)
+end
+
 -- Lowest
 NeP.Unit:Add('lowest', function(num, role)
 	local tmp = {}
