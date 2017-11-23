@@ -7,7 +7,7 @@ local noop = function() end
 
 -- this is the regual spell path
 -- has to validate the spell, if its ready, etc...
-local function regularSpell(eval
+local function regularSpell(eval)
   eval.spell = NeP.Spells:Convert(eval.spell, eval.master.name)
   eval.icon = select(3,_G.GetSpellInfo(eval.spell))
   eval.id = NeP.Core:GetSpellID(eval.spell)
