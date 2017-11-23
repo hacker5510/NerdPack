@@ -4,7 +4,6 @@ local s_types = {}
 local s_tokens = {}
 
 local noop = function() end
-local noopVal = function() return true end
 
 -- this is the regual spell path
 -- has to validate the spell, if its ready, etc...
@@ -47,14 +46,14 @@ local invItems = {
 -- Item
 -- Checks if its rady
 s_tokens["#"] = function(eval)
-  eval.exeVal = noopVal --TODO
+  eval.exeVal = NeP.API.IsItemReady
   eval.exe = NeP.Protected.UseItem
 end
 
 -- Macro
 -- has no real sanity checks... its up to the dev
 s_tokens["/"] = function(eval)
-  eval.exe = NeP.Protected.Macro
+  eval.exe = function(macro, spell) NeP.Protected.Macro("/"..macro, spell) end
 end
 
 -- Library
@@ -83,7 +82,7 @@ s_types["string"] = function(spell)
     regularSpell(eval)
   end
   return {
-    exeVal = eval.func or noopVal,
+    exeVal = eval.func,
     exeFunc = eval.exe,
     spell = eval.spell,
     spellArgs = eval.args
@@ -93,19 +92,13 @@ end
 -- function type Spell
 -- just return whatever it gives
 s_types["function"] = function(spell)
-  return {
-    exeVal = noopVal,
-    exeFunc = spell
-  }
+  return { exeFunc = spell }
 end
 
 -- nest (recursive)
 -- compile into a function
 s_types["table"] = function(spell)
-  return {
-    exeVal = noopVal,
-    exeFunc = NeP.Compiler.Compile(spell)
-  }
+  return { exeFunc = NeP.Compiler.Compile(spell) }
 end
 
 -- nil

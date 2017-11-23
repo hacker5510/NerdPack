@@ -76,3 +76,9 @@ function NeP.API.IsSpellReady(spell)
     return _G.IsUsableSpell(spell)
   end
 end
+
+-- Returns if the item is ready
+function NeP.API.IsItemReady()
+	-- TODO
+	return false
+end
