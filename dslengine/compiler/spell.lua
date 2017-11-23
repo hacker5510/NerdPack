@@ -46,17 +46,23 @@ local invItems = {
   ['ranged']    = 'RangedSlot'
 }
 
+local function InvItems(item, eval)
+  if not invItems[item] then
+    return item
+  end
+  local invItem = _G.GetInventorySlotInfo(invItems[item])
+  item = _G.GetInventoryItemID("player", invItem) or eval.spell
+  eval.invitem = true
+  eval.invslot = invItem
+  return item
+end
+
 -- Item
 -- Checks if its rady
 s_tokens["#"] = function(eval)
-  local temp_spell = eval.spell
-  if invItems[temp_spell] then
-     local invItem = _G.GetInventorySlotInfo(invItems[temp_spell])
-     temp_spell = _G.GetInventoryItemID("player", invItem) or eval.spell
-     eval.invitem = true
-     eval.invslot = invItem
-  end
-  eval.id = tonumber(temp_spell) or NeP.Core:GetItemID(temp_spell)
+  local item = eval.spell
+  item = InvItems(item, eval)
+  eval.id = tonumber(item) or NeP.Core:GetItemID(item)
   local itemName, itemLink, _,_,_,_,_,_,_, texture = _G.GetItemInfo(eval.id)
   eval.spell = itemName or eval.spell
   eval.icon = texture
