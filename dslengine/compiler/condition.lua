@@ -14,6 +14,10 @@ c_type["nil"] = function()
   return true
 end
 
+c_type["boolean"] = function(cond)
+  return cond
+end
+
 -- public func (main)
 -- return a function ready for usage
 -- TODO: compile the condition instead of doing it in runtime
