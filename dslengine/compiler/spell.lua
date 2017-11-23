@@ -7,8 +7,7 @@ local noop = function() end
 
 -- this is the regual spell path
 -- has to validate the spell, if its ready, etc...
-local function regularSpell(eval)
-  eval.token = 'spell_cast'
+local function regularSpell(eval
   eval.spell = NeP.Spells:Convert(eval.spell, eval.master.name)
   eval.icon = select(3,_G.GetSpellInfo(eval.spell))
   eval.id = NeP.Core:GetSpellID(eval.spell)
@@ -50,7 +49,6 @@ local invItems = {
 -- Item
 -- Checks if its rady
 s_tokens["#"] = function(eval)
-  eval.token = 'item'
   local temp_spell = eval.spell
   if invItems[temp_spell] then
      local invItem = _G.GetInventorySlotInfo(invItems[temp_spell])
@@ -70,7 +68,6 @@ end
 -- Macro
 -- has no real sanity checks... its up to the dev
 s_tokens["/"] = function(eval)
-  eval.token = 'macro'
   eval.exe = function(macro, spell) NeP.Protected.Macro("/"..macro, spell) end
 end
 
@@ -84,7 +81,6 @@ end
 -- Library
 -- has no real sanity checks... its up to the dev
 s_tokens["@"] = function(eval)
-  eval.token = 'lib'
   eval.exe = function(...) return NeP.Library:Parse(...) end
 end
 
