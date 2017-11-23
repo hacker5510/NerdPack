@@ -4,8 +4,6 @@ local CR = NeP.CR
 
 NeP.API = {}
 
-local IsSpellReady = _G.IsSpellReady
-
 --Return if we're mounted or not
 function NeP.API.IsMounted()
 	for i = 1, 40 do
@@ -53,8 +51,8 @@ end
 -- Interrupt a Cast/Channel and returns the result
 -- Decides if you should interrput or not
 -- FIXME: should take time into account.
-function NeP.API.Interrupt(spell)
-  local name = NeP.API.CastingTime()
+function NeP.API:Interrupt(spell)
+  local name = self:CastingTime()
 	if name == spell then
 		return false
 	end
@@ -73,5 +71,8 @@ end
 -- Returns if the spell is ready and if it has mana
 -- Ready, Mana
 function NeP.API.IsSpellReady(spell)
-  return IsSpellReady(spell)
+	if _G.GetSpellBookItemInfo(spell) ~= 'FUTURESPELL'
+  and (_G.GetSpellCooldown(spell) or 0) <= NeP.DSL:Get('gcd')() then
+    return _G.IsUsableSpell(spell)
+  end
 end

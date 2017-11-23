@@ -9,13 +9,52 @@ local noopVal = function() return true end
 -- this is the regual spell path
 -- has to validate the spell, if its ready, etc...
 local function regularSpell(eval)
-  -- TODO
+  eval.exeVal = NeP.API.IsSpellReady
+  eval.exe = NeP.Protected.Cast
+end
+
+local invItems = {
+  ['head']    = 'HeadSlot',
+  ['helm']    = 'HeadSlot',
+  ['neck']    = 'NeckSlot',
+  ['shoulder']  = 'ShoulderSlot',
+  ['shirt']    = 'ShirtSlot',
+  ['chest']    = 'ChestSlot',
+  ['belt']    = 'WaistSlot',
+  ['waist']    = 'WaistSlot',
+  ['legs']    = 'LegsSlot',
+  ['pants']    = 'LegsSlot',
+  ['feet']    = 'FeetSlot',
+  ['boots']    = 'FeetSlot',
+  ['wrist']    = 'WristSlot',
+  ['bracers']    = 'WristSlot',
+  ['gloves']    = 'HandsSlot',
+  ['hands']    = 'HandsSlot',
+  ['finger1']    = 'Finger0Slot',
+  ['finger2']    = 'Finger1Slot',
+  ['trinket1']  = 'Trinket0Slot',
+  ['trinket2']  = 'Trinket1Slot',
+  ['back']    = 'BackSlot',
+  ['cloak']    = 'BackSlot',
+  ['mainhand']  = 'MainHandSlot',
+  ['offhand']    = 'SecondaryHandSlot',
+  ['weapon']    = 'MainHandSlot',
+  ['weapon1']    = 'MainHandSlot',
+  ['weapon2']    = 'SecondaryHandSlot',
+  ['ranged']    = 'RangedSlot'
+}
+
+-- Item
+-- Checks if its rady
+s_tokens["#"] = function(eval)
+  eval.exeVal = noopVal --TODO
+  eval.exe = NeP.Protected.UseItem
 end
 
 -- Macro
 -- has no real sanity checks... its up to the dev
 s_tokens["/"] = function(eval)
-  eval.exe = NeP.Protected["Macro"]
+  eval.exe = NeP.Protected.Macro
 end
 
 -- Library

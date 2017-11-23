@@ -18,7 +18,7 @@ end
 
 local function CompileFunc(original, eval)
   if not original()
-	and eval.exeVal() then
+	and eval.exeVal(eval.spell) then
 		ForEachUnit(eval)
   end
 end
