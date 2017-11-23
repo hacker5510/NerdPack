@@ -9,7 +9,6 @@ local conditions = NeP.Condition.conditions
 local noop = function() end
 
 function NeP.Condition.Get(_, Strg)
-	Strg = Strg:lower()
 	if conditions[Strg] then
 		return conditions[Strg]
 	end
@@ -17,7 +16,7 @@ function NeP.Condition.Get(_, Strg)
 end
 
 function NeP.Condition.Exists(_, Strg)
-	return conditions[Strg:lower()] ~= nil
+	return conditions[Strg] ~= nil
 end
 
 local function _add(name, condition, overwrite)

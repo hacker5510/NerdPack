@@ -8,6 +8,10 @@ local noop = function() end
 -- this is the regual spell path
 -- has to validate the spell, if its ready, etc...
 local function regularSpell(eval)
+  eval.token = 'spell_cast'
+  eval.spell = NeP.Spells:Convert(eval.spell, eval.master.name)
+  eval.icon = select(3,_G.GetSpellInfo(eval.spell))
+  eval.id = NeP.Core:GetSpellID(eval.spell)
   eval.exeVal = NeP.API.IsSpellReady
   eval.exe = NeP.Protected.Cast
 end
@@ -46,6 +50,19 @@ local invItems = {
 -- Item
 -- Checks if its rady
 s_tokens["#"] = function(eval)
+  eval.token = 'item'
+  local temp_spell = eval.spell
+  if invItems[temp_spell] then
+     local invItem = _G.GetInventorySlotInfo(invItems[temp_spell])
+     temp_spell = _G.GetInventoryItemID("player", invItem) or eval.spell
+     eval.invitem = true
+     eval.invslot = invItem
+  end
+  eval.id = tonumber(temp_spell) or NeP.Core:GetItemID(temp_spell)
+  local itemName, itemLink, _,_,_,_,_,_,_, texture = _G.GetItemInfo(eval.id)
+  eval.spell = itemName or eval.spell
+  eval.icon = texture
+  eval.link = itemLink
   eval.exeVal = NeP.API.IsItemReady
   eval.exe = NeP.Protected.UseItem
 end
@@ -53,12 +70,21 @@ end
 -- Macro
 -- has no real sanity checks... its up to the dev
 s_tokens["/"] = function(eval)
+  eval.token = 'macro'
   eval.exe = function(macro, spell) NeP.Protected.Macro("/"..macro, spell) end
+end
+
+-- Interrupt
+-- same as spell but Interrupts the current
+s_tokens["!"] = function(eval)
+  regularSpell(eval)
+  eval.exeExtra = function() NeP.API:Interrupt(eval.spell) end
 end
 
 -- Library
 -- has no real sanity checks... its up to the dev
 s_tokens["@"] = function(eval)
+  eval.token = 'lib'
   eval.exe = function(...) return NeP.Library:Parse(...) end
 end
 

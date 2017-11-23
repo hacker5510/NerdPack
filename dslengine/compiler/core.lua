@@ -12,6 +12,7 @@ local function ForEachUnit(eval)
 		eval.curUnit = NeP.Unit:Filter(curUnit)
 		if NeP.API:ValidUnit(curUnit)
 		and eval.conditions() then
+			eval.exeExtra()
 			eval.exeFunc(eval.spell, curUnit, eval.spellArgs)
 		end
 	end
