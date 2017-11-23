@@ -17,9 +17,8 @@ local function ForEachUnit(eval)
 end
 
 local function CompileFunc(original, eval)
-  if original() then return end
-  eval.exeVal = eval.exeVal or noopVal
-  if eval.exeVal() then
+  if not original()
+	and eval.exeVal() then
 		ForEachUnit(eval)
   end
 end
