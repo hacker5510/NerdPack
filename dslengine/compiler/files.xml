@@ -5,6 +5,5 @@
 	<Script file="spell.lua" />
 	<Script file="condition.lua" />
 	<Script file="target.lua" />
-	<Script file="compiler.lua" />
 
 </Ui>
