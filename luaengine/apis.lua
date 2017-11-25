@@ -85,9 +85,10 @@ end
 
 -- Returns if the spell is ready and if it has mana
 -- Ready, Mana
+local gcd;
 function NeP.API.IsSpellReady(spell)
 	if _G.GetSpellBookItemInfo(spell) ~= 'FUTURESPELL'
-  and (_G.GetSpellCooldown(spell) or 0) <= NeP.DSL:Get('gcd')() then
+  and (_G.GetSpellCooldown(spell) or 0) <= gcd() then
     return _G.IsUsableSpell(spell)
   end
 end
@@ -114,6 +115,7 @@ end
 
 NeP.Core:WhenInGame(function()
 	toggle = NeP.Condition:Get('toggle')
+	gcd = NeP.Condition:Get('gcd')
 	_G.C_Timer.NewTicker(0.1, ParseStart)
 	NeP.Debug:Add("CR_TICKER", ParseStart, true)
 end, -99)

@@ -114,7 +114,7 @@ s_types["string"] = function(spell)
     regularSpell(eval)
   end
   return {
-    exeVal = eval.func,
+    exeVal = eval.exeVal,
     exeFunc = eval.exe,
     spell = eval.spell,
     spellArgs = eval.args
