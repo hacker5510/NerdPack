@@ -43,7 +43,7 @@ end
 
 function NeP.Compiler.Compile(cr)
 	local cond = noop
-  for i = 1, #cr do
+  for i = #cr -1, 1 do
     cond = CompileFunc(cr[i], cond)
   end
   return cond
