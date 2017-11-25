@@ -28,7 +28,7 @@ local function ForEachUnit(eval)
 end
 
 function NeP.Compiler.Compile(cr)
-	local list = {}
+	local cond = noop
   for i = 1, #cr do
     local cur = cr[i]
     local eval = NeP.Compiler.Spell(cur[1])
@@ -37,19 +37,11 @@ function NeP.Compiler.Compile(cr)
 		eval.exeVal = eval.exeVal or noopVal
 		eval.exeFunc = eval.exeFunc or noop
 		eval.exeExtra = eval.exeExtra or noop
-		list[#list+1] = function()
+		cond = function()
 			return eval.exeVal(eval.spell)
 			and ForEachUnit(eval)
+			or cond()
 		end
   end
-  return function()
-		print(">>> ")
-		for i=1, #list do
-			print(i, "------------")
-			if list[i]() then
-				return true
-			end
-		end
-		print("<<< ")
-	end
+  return cond
 end
