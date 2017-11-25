@@ -8,7 +8,7 @@ local noop = function() end
 -- this is the regual spell path
 -- has to validate the spell, if its ready, etc...
 local function regularSpell(eval)
-  eval.spell = NeP.Spells:Convert(eval.spell, eval.master.name)
+  eval.spell = NeP.Spells:Convert(eval.spell)
   eval.icon = select(3,_G.GetSpellInfo(eval.spell))
   eval.id = NeP.Core:GetSpellID(eval.spell)
   eval.exeVal = NeP.API.IsSpellReady
@@ -125,8 +125,11 @@ end
 
 -- nest (recursive)
 -- compile into a function
-s_types["table"] = function(spell)
-  return { exeFunc = NeP.Compiler.Compile(spell) }
+s_types["table"] = function(...)
+  return {
+    spell = "TABLEZ",
+    exeFunc = NeP.Compiler.Compile(...)
+  }
 end
 
 -- nil
@@ -140,6 +143,6 @@ end
 
 -- public func (main)
 -- return a function ready for usage
-function NeP.Compiler.Spell(spell)
-  return s_types[type(spell)]
+function NeP.Compiler.Spell(...)
+  return s_types[type(...)](...)
 end

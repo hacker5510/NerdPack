@@ -27,7 +27,7 @@ function NeP.Unit.Add(_, name, func)
 	end
 end
 
--- /dump NeP.Units:Filter("lowest")
+-- /dump NeP.Unit:Filter("lowest")
 local function process(unit)
 	local arg = unit:match('%((.+)%)')
 	local num = tonumber(unit:match("%d+") or 0)
@@ -48,19 +48,19 @@ end
 local function add_tbl(unit, tbl)
 	local unit_type = type(unit)
 	--table
-	if unit_type =='table' then
+	if unit_type == 'table' then
 		for _, v in pairs(unit) do
-			NeP.Units:Process(v.key or v, tbl)
+			NeP.Unit.Process(v.key or v, tbl)
 		end
 	--function
 	elseif unit_type == 'function' then
-		NeP.Units:Process(unit(), tbl)
+		NeP.Unit.Process(unit(), tbl)
 	--add
 	elseif unit_type == 'string' then
 		unit = process(unit)
 		if not unit then return end
 		if type(unit) ~= 'string' then
-			NeP.Units:Process(unit, tbl)
+			NeP.Unit.Process(unit, tbl)
 		elseif not_in_tbl(unit, tbl) then
 			tbl[#tbl+1] = unit
 		end
@@ -77,10 +77,10 @@ end
 NeP.Cache.Targets = {}
 local C = NeP.Cache.Targets
 
-function NeP.Unit.Filter(unit, tbl)
+function NeP.Unit:Filter(unit, ...)
 	-- cached
 	if not C[unit] then
-		C[unit] = NeP.Units:Process(unit, tbl)
+		C[unit] = self.Process(unit, ...)
 	end
 	return C[unit]
 end

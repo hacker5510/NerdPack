@@ -8,7 +8,7 @@ local g = NeP.Globals
 g.Actions = NeP.Actions
 g.RegisterCommand = NeP.Commands.Register
 g.Core = NeP.Core
-g.Units = NeP.Units
+g.Unit = NeP.Unit
 g.Listener = NeP.Listener
 g.Tooltip = NeP.Tooltip
 g.Protected = NeP.Protected
@@ -16,10 +16,14 @@ g.Artifact = NeP.Artifact
 g.DBM = NeP.DBM
 g.ClassTable = NeP.ClassTable
 g.Spells = NeP.Spells
-g.Condition = NeP.Condition
 g.API = NeP.API
 g.LuaEngine = NeP.LuaEngine
 
+g.Condition = {
+	Get = NeP.Condition.Get,
+	Exists = NeP.Condition.Exists,
+	Register = NeP.Condition.Register,
+}
 g.CR = {
 	Add = NeP.CR.Add,
 	GetList = NeP.CR.GetList
@@ -28,7 +32,6 @@ g.Debug = {
 	Add =  NeP.Debug.Add
 }
 g.DSL = {
-	Get = NeP.DSL.Get,
 	Register = NeP.DSL.Register,
 	Parse = NeP.DSL.Parse
 }

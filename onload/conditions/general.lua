@@ -120,6 +120,6 @@ end)
 
 NeP.Condition:Register('ui', function(_, args)
   local key, UI_key = _G.strsplit(",", args, 2)
-  UI_key = UI_key or NeP.CR.CR.name
+  UI_key = UI_key or NeP.CR.CurrentCR.name
   return NeP.Interface:Fetch(UI_key, key)
 end)

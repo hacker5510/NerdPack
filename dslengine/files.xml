@@ -2,7 +2,7 @@
 ..\FrameXML\UI.xsd">
 
 	<Script file="dsl.lua" />
-	<include file="compiler/files.xml" />
+	<include file="compiler\files.xml" />
 	<Script file="parser.lua" />
 
 </Ui>

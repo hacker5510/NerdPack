@@ -12,8 +12,8 @@ function NeP.API.UseItem(item, target)
 	NeP.Protected.UseItem(item, target)
 end
 
-function NeP.API.Macro(item, target)
-	NeP.Protected.Macro("/"..macro, spell)
+function NeP.API.Macro(macro, target)
+	NeP.Protected.Macro("/"..macro, target)
 end
 
 --Return if we're mounted or not
@@ -40,7 +40,7 @@ function NeP.API.CastingTime()
 end
 
 local function testUnitBlackList(_type, unit)
-	local tbl = CR.currentCR.blacklist[_type]
+	local tbl = CR.CurrentCR.blacklist[_type]
 	if not tbl then return end
 	for i=1, #tbl do
 		local _count = tbl[i].count
@@ -55,7 +55,7 @@ end
 -- Returns if a Unit is blacklist by NeP orthe CR
 function NeP.API.UnitBlacklist(unit)
 	return NeP.Debuffs:Eval(unit)
-	or CR.currentCR.blacklist.units[NeP.Core:UnitID(unit)]
+	or CR.CurrentCR.blacklist.units[NeP.Core:UnitID(unit)]
 	or testUnitBlackList("buff", unit)
 	or testUnitBlackList("debuff", unit)
 end
@@ -77,7 +77,7 @@ function NeP.API:ValidUnit(unit)
 	return _G.UnitExists(unit)
 	and _G.UnitIsVisible(unit)
 	and NeP.Protected.LineOfSight('player', unit)
-	and not self:Unit_Blacklist(unit)
+	and not self.UnitBlacklist(unit)
 end
 
 -- Returns if the spell is ready and if it has mana
@@ -94,3 +94,18 @@ function NeP.API.IsItemReady()
 	-- TODO
 	return false
 end
+
+NeP.Core:WhenInGame(function()
+	local toggle = NeP.Condition:Get('toggle')
+	_G.C_Timer.NewTicker(0.1, function()
+		NeP.Faceroll:Hide()
+		NeP:Wipe_Cache()
+		NeP.DBM.BuildTimers()
+		if toggle(nil, 'mastertoggle')
+		and not _G.UnitIsDeadOrGhost('player')
+		and NeP.API.IsMounted()
+		and not _G.LootFrame:IsShown() then
+			CR.CurrentCR[_G.InCombatLockdown()].func()
+		end
+	end)
+end, -99)

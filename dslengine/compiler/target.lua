@@ -10,14 +10,18 @@ local function Ground(target, eval)
   return target
 end
 
-t_type["string"] = function(target, eval)
+t_type["string"] = function(target, ...)
   target = target:lower()
-  target = Ground(target, eval)
+  target = Ground(target, ...)
   return target
 end
 
+t_type["nil"] = function()
+  return "target"
+end
+
 function NeP.Compiler.Target(target, ...)
-  local hasChanges = t_type[type("target")]
+  local hasChanges = t_type[type(target)]
   if hasChanges then
     return hasChanges(target, ...)
   end

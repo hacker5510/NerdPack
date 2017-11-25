@@ -1,6 +1,6 @@
 local _, NeP = ...
 NeP.CR = {}
-NeP.CR.currentCR = nil
+NeP.CR.CurrentCR = nil
 
 local CRs = {}
 local noop = function() end
@@ -23,38 +23,22 @@ function NeP.CR.AddGUI(_, ev)
 	NeP.Interface:BuildGUI(temp).parent:Hide()
 end
 
-local function legacy_PE(...)
-	local ev, InCombat, OutCombat, ExeOnLoad, GUI = ...
-	if type(...) == 'string' then
-		return {
-			name = ev,
-			ic = InCombat,
-			ooc = OutCombat,
-			load = ExeOnLoad,
-			gui = GUI
-		}
-	else
-		return ...
-	end
-end
-
 local function add(ev)
-	local cr = {}
-	cr.name = ev.name
-	cr.spec = ev.id
-	cr.load = ev.load
-	cr.unload = ev.unload
-	cr[true] = ev.ic
-	cr[false] = ev.ooc
-	cr.wow_ver = ev.wow_ver
-	cr.nep_ver = ev.nep_ver
-	cr.blacklist = ev.blacklist
-	cr.has_gui = ev.gui
-	cr.blacklist.units = ev.blacklist.units or {}
-	cr.blacklist.buff = ev.blacklist.buff or {}
-	cr.blacklist.debuff = ev.blacklist.debuff or {}
+	ev.name = ev.name
+	ev.spec = ev.id
+	ev.load = ev.load
+	ev.unload = ev.unload
+	ev[true] = ev.ic
+	ev[false] = ev.ooc
+	ev.wow_ver = ev.wow_ver
+	ev.nep_ver = ev.nep_ver
+	ev.blacklist = ev.blacklist
+	ev.has_gui = ev.gui
+	ev.blacklist.units = ev.blacklist.units or {}
+	ev.blacklist.buff = ev.blacklist.buff or {}
+	ev.blacklist.debuff = ev.blacklist.debuff or {}
 	CRs[ev.id] = CRs[ev.id] or {}
-	CRs[ev.id][ev.name] = cr
+	CRs[ev.id][ev.name] = ev
 end
 
 local function refs(ev, SpecID)
@@ -71,30 +55,19 @@ local function refs(ev, SpecID)
 	ev.blacklist.debuff = ev.blacklist.debuff or {}
 end
 
-function NeP.CR.Add(_, SpecID, ...)
+function NeP.CR.Add(_, SpecID, ev)
 	local classIndex = select(3, _G.UnitClass('player'))
 	-- This only allows crs we can use to be registered
 	if not NeP.ClassTable:SpecIsFromClass(classIndex, SpecID )
 	and classIndex ~= SpecID then
 		return
 	end
-	-- Legacy stuff
-	local ev = legacy_PE(...)
 	--refs
 	refs(ev, SpecID)
 	-- Import SpellIDs from the cr
 	if ev.ids then NeP.Spells:Add(ev.ids) end
-	-- This compiles the CR
-	local master_cr = {
-		name = ev.name,
-		pooling = ev.pooling,
-		spells = {},
-		keybinds = {}
-	}
-	ev.ic.master = master_cr
-	ev.ooc.master = master_cr
-	NeP.Compiler.Compile(ev.ic)
-	NeP.Compiler.Compile(ev.ooc)
+	ev.ic.func = NeP.Compiler.Compile(ev.ic)
+	ev.ooc.func = NeP.Compiler.Compile(ev.ooc)
 	--Create user GUI
 	if ev.gui then NeP.CR:AddGUI(ev) end
 	-- Class Cr (gets added to all specs whitin that class)
@@ -104,10 +77,10 @@ function NeP.CR.Add(_, SpecID, ...)
 			ev.id = SpecID[i]
 			add(ev)
 		end
-		return
-	end
 	-- normal add
-	add(ev)
+	else
+		add(ev)
+	end
 end
 
 function NeP.CR:Set(Spec, Name)
@@ -118,15 +91,15 @@ function NeP.CR:Set(Spec, Name)
 	--break if cr dosent exist
 	if not (CRs[Spec] and CRs[Spec][Name]) then return end
 	-- execute the previous unload
-	if self.currentCR
-	and self.currentCR.unload then
-		self.currentCR.unload()
+	if self.CurrentCR
+	and self.CurrentCR.unload then
+		self.CurrentCR.unload()
 	end
-	self.currentCR = CRs[Spec][Name]
+	self.CurrentCR = CRs[Spec][Name]
 	NeP.Config:Write('SELECTED', Spec, Name)
 	NeP.Interface:ResetToggles()
 	--Execute onload
-	if self.currentCR then self.currentCR.load() end
+	if self.CurrentCR then self.CurrentCR.load() end
 end
 
 function NeP.CR.GetList(_, Spec)
