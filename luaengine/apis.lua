@@ -4,8 +4,17 @@ local CR = NeP.CR
 
 NeP.API = {}
 
+local queue_var;
+local spellCooldown;
+local spell_queued = false
+local toggle;
+
 function NeP.API.CastSpell(spell, target)
+	spell_queued = true
 	NeP.Protected.Cast(spell, target)
+	_G.C_Timer.After((queue_var+.1), function()
+		spell_queued = false
+	end)
 	return true
 end
 
@@ -85,11 +94,9 @@ end
 
 -- Returns if the spell is ready and if it has mana
 -- Ready, Mana
-local queue_var;
-local spellCooldown;
-
 function NeP.API.IsSpellReady(spell)
-	if _G.GetSpellBookItemInfo(spell) ~= 'FUTURESPELL'
+	if not spell_queued
+	and _G.GetSpellBookItemInfo(spell) ~= 'FUTURESPELL'
   and spellCooldown(nil, spell) <= queue_var then
     return _G.IsUsableSpell(spell)
   end
@@ -100,8 +107,6 @@ function NeP.API.IsItemReady()
 	-- TODO
 	return false
 end
-
-local toggle;
 
 local function ParseStart()
 	NeP.Faceroll:Hide()
