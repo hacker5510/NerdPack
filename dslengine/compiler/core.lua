@@ -14,8 +14,8 @@ local function ForEachUnit(eval)
 	for i=1, #eval.targets do
 		local curUnit = eval.targets[i]
 		eval.curUnit = curUnit
-		print("UNIT:", #eval.targets, curUnit, NeP.API:ValidUnit(curUnit))
-		print("CONDITION:", eval.conditions())
+		print("UNIT:", #eval.targets, curUnit)
+		--print("CONDITION:", eval.conditions())
 		if NeP.API:ValidUnit(curUnit)
 		and eval.conditions() then
 			if not eval.isTable then
