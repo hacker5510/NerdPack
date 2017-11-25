@@ -113,7 +113,6 @@ s_types["string"] = function(spell)
   if not eval.exe then
     regularSpell(eval)
   end
-  print(eval.spell)
   return {
     exeVal = eval.func,
     exeFunc = eval.exe,

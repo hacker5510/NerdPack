@@ -27,21 +27,24 @@ local function ForEachUnit(eval)
 	end
 end
 
+local function CompileFunc(cur, cond)
+	local eval = NeP.Compiler.Spell(cur[1])
+	eval.targets = NeP.Compiler.Target(cur[3], eval)
+	eval.conditions = NeP.Compiler.Condition(cur[2], eval)
+	eval.exeVal = eval.exeVal or noopVal
+	eval.exeFunc = eval.exeFunc or noop
+	eval.exeExtra = eval.exeExtra or noop
+	return function()
+		return eval.exeVal(eval.spell)
+		and ForEachUnit(eval)
+		or cond()
+	end
+end
+
 function NeP.Compiler.Compile(cr)
 	local cond = noop
   for i = 1, #cr do
-    local cur = cr[i]
-    local eval = NeP.Compiler.Spell(cur[1])
-    eval.targets = NeP.Compiler.Target(cur[3], eval)
-		eval.conditions = NeP.Compiler.Condition(cur[2], eval)
-		eval.exeVal = eval.exeVal or noopVal
-		eval.exeFunc = eval.exeFunc or noop
-		eval.exeExtra = eval.exeExtra or noop
-		cond = function()
-			return eval.exeVal(eval.spell)
-			and ForEachUnit(eval)
-			or cond()
-		end
+    cond = CompileFunc(cr[i], cond)
   end
   return cond
 end

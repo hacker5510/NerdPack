@@ -98,17 +98,22 @@ function NeP.API.IsItemReady()
 	return false
 end
 
+local toggle;
+
+local function ParseStart()
+	NeP.Faceroll:Hide()
+	NeP:Wipe_Cache()
+	NeP.DBM.BuildTimers()
+	if toggle(nil, 'mastertoggle')
+	and not _G.UnitIsDeadOrGhost('player')
+	and NeP.API.IsMounted()
+	and not _G.LootFrame:IsShown() then
+		CR.CurrentCR[_G.InCombatLockdown()].func()
+	end
+end
+
 NeP.Core:WhenInGame(function()
-	local toggle = NeP.Condition:Get('toggle')
-	_G.C_Timer.NewTicker(0.1, function()
-		NeP.Faceroll:Hide()
-		NeP:Wipe_Cache()
-		NeP.DBM.BuildTimers()
-		if toggle(nil, 'mastertoggle')
-		and not _G.UnitIsDeadOrGhost('player')
-		and NeP.API.IsMounted()
-		and not _G.LootFrame:IsShown() then
-			CR.CurrentCR[_G.InCombatLockdown()].func()
-		end
-	end)
+	toggle = NeP.Condition:Get('toggle')
+	_G.C_Timer.NewTicker(0.1, ParseStart)
+	NeP.Debug:Add("CR_TICKER", ParseStart, true)
 end, -99)

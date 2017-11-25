@@ -1,7 +1,7 @@
 local n_name, NeP = ...
 
 NeP.Debug = {}
-NeP.Debug.Enable = false
+NeP.Debug.Enable = true
 NeP.Debug.Profiles = {}
 NeP.Debug.Profiles.total_usage = 0
 NeP.Debug.Profiles.total_average = 0
