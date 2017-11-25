@@ -14,15 +14,9 @@ local function ForEachUnit(eval)
 		and eval.conditions() then
 			eval.exeExtra()
 			eval.exeFunc(eval.spell, curUnit, eval.spellArgs)
+			return true
 		end
 	end
-end
-
-local function CompileFunc(original, eval)
-  if not original()
-	and eval.exeVal(eval.spell) then
-		ForEachUnit(eval)
-  end
 end
 
 function NeP.Compiler.Compile(cr)
@@ -35,7 +29,11 @@ function NeP.Compiler.Compile(cr)
 		eval.exeVal = eval.exeVal or noopVal
 		eval.exeFunc = eval.exeFunc or noop
     originalFunc = finalFunc or noop
-    finalFunc = CompileFunc(originalFunc, eval)
+    finalFunc = function()
+			return eval.exeVal(eval.spell)
+			and ForEachUnit(eval)
+			or originalFunc()
+		end
   end
-  cr.exe = finalFunc
+  cr.master.exe = finalFunc
 end

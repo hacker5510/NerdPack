@@ -12,7 +12,7 @@ local function regularSpell(eval)
   eval.icon = select(3,_G.GetSpellInfo(eval.spell))
   eval.id = NeP.Core:GetSpellID(eval.spell)
   eval.exeVal = NeP.API.IsSpellReady
-  eval.exe = NeP.Protected.Cast
+  eval.exe = NeP.API.CastSpell
 end
 
 local invItems = {
@@ -68,13 +68,13 @@ s_tokens["#"] = function(eval)
   eval.icon = texture
   eval.link = itemLink
   eval.exeVal = NeP.API.IsItemReady
-  eval.exe = NeP.Protected.UseItem
+  eval.exe = NeP.API.UseItem
 end
 
 -- Macro
 -- has no real sanity checks... its up to the dev
 s_tokens["/"] = function(eval)
-  eval.exe = function(macro, spell) NeP.Protected.Macro("/"..macro, spell) end
+  eval.exe = NeP.API.Macro
 end
 
 -- Interrupt

@@ -93,8 +93,8 @@ function NeP.CR.Add(_, SpecID, ...)
 	}
 	ev.ic.master = master_cr
 	ev.ooc.master = master_cr
-	NeP.Compiler:Iterate(ev.ic)
-	NeP.Compiler:Iterate(ev.ooc)
+	NeP.Compiler.Compile(ev.ic)
+	NeP.Compiler.Compile(ev.ooc)
 	--Create user GUI
 	if ev.gui then NeP.CR:AddGUI(ev) end
 	-- Class Cr (gets added to all specs whitin that class)

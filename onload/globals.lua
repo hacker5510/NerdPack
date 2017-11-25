@@ -10,7 +10,6 @@ g.RegisterCommand = NeP.Commands.Register
 g.Core = NeP.Core
 g.Units = NeP.Units
 g.Listener = NeP.Listener
-g.Queue = NeP.Queuer.Add
 g.Tooltip = NeP.Tooltip
 g.Protected = NeP.Protected
 g.Artifact = NeP.Artifact

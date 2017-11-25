@@ -4,6 +4,18 @@ local CR = NeP.CR
 
 NeP.API = {}
 
+function NeP.API.CastSpell(spell, target)
+	NeP.Protected.Cast(spell, target)
+end
+
+function NeP.API.UseItem(item, target)
+	NeP.Protected.UseItem(item, target)
+end
+
+function NeP.API.Macro(item, target)
+	NeP.Protected.Macro("/"..macro, spell)
+end
+
 --Return if we're mounted or not
 function NeP.API.IsMounted()
 	for i = 1, 40 do

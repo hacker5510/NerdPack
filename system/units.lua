@@ -1,5 +1,5 @@
 local _, NeP = ...
-NeP.Units = {}
+NeP.Unit = {}
 NeP.Unit.Units = {}
 
 local Units = NeP.Unit.Units
