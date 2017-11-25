@@ -16,8 +16,9 @@ t_type["string"] = function(target, ...)
   return target
 end
 
-t_type["nil"] = function()
-  return "target"
+t_type["nil"] = function(_, eval)
+  return eval.isTable and "player"
+	or "target"
 end
 
 function NeP.Compiler.Target(target, ...)

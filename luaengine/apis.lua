@@ -6,14 +6,17 @@ NeP.API = {}
 
 function NeP.API.CastSpell(spell, target)
 	NeP.Protected.Cast(spell, target)
+	return true
 end
 
 function NeP.API.UseItem(item, target)
 	NeP.Protected.UseItem(item, target)
+	return true
 end
 
 function NeP.API.Macro(macro, target)
 	NeP.Protected.Macro("/"..macro, target)
+	return true
 end
 
 --Return if we're mounted or not

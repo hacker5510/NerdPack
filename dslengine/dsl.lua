@@ -92,7 +92,7 @@ local function ProcessCondition(strg, spell, target)
 	-- Unit prefix
 	if not NeP.Condition:Exists(strg:gsub("%((.+)%)", "")) then
 		local unitID, rest = _G.strsplit('.', strg, 2)
-		unitID =  NeP.Units:Filter(unitID)[1]
+		unitID =  NeP.Unit:Filter(unitID)[1]
 		-- condition target
 		if unitID
 		and rest

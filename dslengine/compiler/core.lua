@@ -7,25 +7,30 @@ local noop = function() end
 local noopVal = function() return true end
 
 local function ForEachUnit(eval)
+	if not eval.isTable then
+		print("SPELL:",eval.spell)
+	end
 	eval.targets = NeP.Unit:Filter(eval.targets)
-	print(eval.spell, eval.targets, #eval.targets)
 	for i=1, #eval.targets do
 		local curUnit = eval.targets[i]
 		eval.curUnit = curUnit
+		print("UNIT:", #eval.targets, curUnit, NeP.API:ValidUnit(curUnit))
+		print("CONDITION:", eval.conditions())
 		if NeP.API:ValidUnit(curUnit)
 		and eval.conditions() then
+			if not eval.isTable then
+				print("BREAK:", eval.spell)
+			end
 			eval.exeExtra()
-			eval.exeFunc(eval.spell, curUnit, eval.spellArgs)
-			return true
+			return eval.exeFunc(eval.spell, curUnit, eval.spellArgs)
 		end
 	end
 end
 
 function NeP.Compiler.Compile(cr)
 	local list = {}
-  for i = #cr, 1, -1 do
+  for i = 1, #cr do
     local cur = cr[i]
-		print(i)
     local eval = NeP.Compiler.Spell(cur[1])
     eval.targets = NeP.Compiler.Target(cur[3], eval)
 		eval.conditions = NeP.Compiler.Condition(cur[2], eval)
@@ -38,11 +43,13 @@ function NeP.Compiler.Compile(cr)
 		end
   end
   return function()
+		print(">>> ")
 		for i=1, #list do
-			print(i)
+			print(i, "------------")
 			if list[i]() then
-				break
+				return true
 			end
 		end
+		print("<<< ")
 	end
 end

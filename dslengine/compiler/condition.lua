@@ -23,7 +23,9 @@ c_type["string"] = function(cond, eval)
   cond = cond:lower()
   cond = CondSpaces(cond)
   cond = CondSpellLocale(cond)
-  return function() NeP.DSL.Parse(cond, eval.spell, eval.curUnit) end
+  return function()
+		return NeP.DSL.Parse(cond, eval.spell, eval.curUnit)
+	end
 end
 
 c_type["function"] = function(cond)

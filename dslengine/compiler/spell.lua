@@ -71,6 +71,10 @@ s_tokens["#"] = function(eval)
   eval.exe = NeP.API.UseItem
 end
 
+s_tokens["%"] = function(eval)
+  eval.exe = function() return true end
+end
+
 -- Macro
 -- has no real sanity checks... its up to the dev
 s_tokens["/"] = function(eval)
@@ -109,6 +113,7 @@ s_types["string"] = function(spell)
   if not eval.exe then
     regularSpell(eval)
   end
+  print(eval.spell)
   return {
     exeVal = eval.func,
     exeFunc = eval.exe,
@@ -128,7 +133,8 @@ end
 s_types["table"] = function(...)
   return {
     spell = "TABLEZ",
-    exeFunc = NeP.Compiler.Compile(...)
+    exeFunc = NeP.Compiler.Compile(...),
+    isTable = true
   }
 end
 
