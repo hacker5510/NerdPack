@@ -1,23 +1,23 @@
-local n_name, NeP = ...
-local mainframe = NeP.Interface.MainFrame
-local L = NeP.Locale
+local n_name, gbl = ...
+local mainframe = gbl.Interface.MainFrame
+local L = gbl.Locale
 local GameTooltip = GameTooltip
 local CreateFrame = CreateFrame
 local unpack = unpack
 
-NeP.ButtonsSize = 40
-NeP.ButtonsPadding = 2
+gbl.ButtonsSize = 40
+gbl.ButtonsPadding = 2
 
-NeP.min_width = 40
-NeP.min_height = 25
+gbl.min_width = 40
+gbl.min_height = 25
 
 local title_size = 20
 
 -- Load Saved sizes
-NeP.Core:WhenInGame(function()
-	NeP.ButtonsSize = NeP.Config:Read(n_name..'_Settings', 'bsize', 40)
-	NeP.ButtonsPadding = NeP.Config:Read(n_name..'_Settings', 'bpad', 2)
-	NeP.Interface:RefreshToggles()
+gbl.Core:WhenInGame(function()
+	gbl.ButtonsSize = gbl.Config:Read(n_name..'_Settings', 'bsize', 40)
+	gbl.ButtonsPadding = gbl.Config:Read(n_name..'_Settings', 'bpad', 2)
+	gbl.Interface:RefreshToggles()
 end)
 
 local Toggles = {}
@@ -28,7 +28,7 @@ local function SetTexture(parent, icon)
 		temp:SetTexture(icon)
 		temp:SetTexCoord(.08, .92, .08, .92)
 	else
-		local r,g,b = unpack(NeP.Core:ClassColor('player', 'rgb'))
+		local r,g,b = unpack(gbl.Core:ClassColor('player', 'rgb'))
 		temp:SetColorTexture(r,g,b,.7)
 	end
 	temp:SetAllPoints(parent)
@@ -38,7 +38,7 @@ end
 local function OnClick(self, func, button)
 	if button == 'LeftButton' then
 		self.actv = not self.actv
-		NeP.Config:Write('TOGGLE_STATES', self.key, self.actv)
+		gbl.Config:Write('TOGGLE_STATES', self.key, self.actv)
 	end
 	if func then
 		func(self, button)
@@ -66,7 +66,7 @@ local function CreateToggle(eval)
 	temp:SetFrameLevel(1)
 	temp:SetNormalFontObject("GameFontNormal")
 	temp.texture = SetTexture(temp, eval.icon)
-	temp.actv = NeP.Config:Read('TOGGLE_STATES', eval.key, false)
+	temp.actv = gbl.Config:Read('TOGGLE_STATES', eval.key, false)
 	temp.nohide = eval.nohide
 	temp.Checked_texture = SetTexture(temp)
 	temp:SetCheckedTexture(temp.Checked_texture)
@@ -82,32 +82,32 @@ local function GetToggle(key)
 	end
 end
 
-function NeP.Interface.UpdateIcon(_, key, icon)
+function gbl.Interface.UpdateIcon(_, key, icon)
 	local test = GetToggle(key)
 	if not icon or not test then return end
 	test.texture:SetTexture(icon)
 end
 
-function NeP.Interface.AddToggle(_, eval)
-	NeP.Core:WhenInGame(function()
+function gbl.Interface.AddToggle(_, eval)
+	gbl.Core:WhenInGame(function()
 		local test = GetToggle(eval.key)
 		if test then
 			test:Show()
 		else
 			CreateToggle(eval)
 		end
-		NeP.Interface:RefreshToggles()
+		gbl.Interface:RefreshToggles()
 	end)
 end
 
-function NeP.Interface.RefreshToggles()
+function gbl.Interface.RefreshToggles()
 	local tcount, row_count, maxed = 0, 0, 0
 
 	for i=1, #Toggles do
 		if Toggles[i]:IsShown() then
 
 			-- This is to handle rows
-			local n1 = NeP.Config:Read(n_name..'_Settings', 'brow', 10)
+			local n1 = gbl.Config:Read(n_name..'_Settings', 'brow', 10)
 			if tcount >= n1 then
 				maxed = tcount
 				tcount = 0
@@ -115,9 +115,9 @@ function NeP.Interface.RefreshToggles()
 			end
 
 			tcount = tcount + 1
-			local pos = (NeP.ButtonsSize*tcount)+(tcount*NeP.ButtonsPadding)-(NeP.ButtonsSize+NeP.ButtonsPadding)
-			Toggles[i]:SetSize(NeP.ButtonsSize, NeP.ButtonsSize)
-			Toggles[i]:SetPoint("TOPLEFT", mainframe.content, pos, -(row_count*NeP.ButtonsSize))
+			local pos = (gbl.ButtonsSize*tcount)+(tcount*gbl.ButtonsPadding)-(gbl.ButtonsSize+gbl.ButtonsPadding)
+			Toggles[i]:SetSize(gbl.ButtonsSize, gbl.ButtonsSize)
+			Toggles[i]:SetPoint("TOPLEFT", mainframe.content, pos, -(row_count*gbl.ButtonsSize))
 			Toggles[i]:SetChecked(Toggles[i].actv)
 		end
 	end
@@ -128,12 +128,12 @@ function NeP.Interface.RefreshToggles()
 	end
 
 	-- Set size to match ButtonsSize
-	mainframe.settings.width = tcount*(NeP.ButtonsSize+NeP.ButtonsPadding)
-	mainframe.settings.height = (NeP.ButtonsSize*(row_count+1))+title_size
+	mainframe.settings.width = tcount*(gbl.ButtonsSize+gbl.ButtonsPadding)
+	mainframe.settings.height = (gbl.ButtonsSize*(row_count+1))+title_size
 
 	-- Dont go bellow the mimimum allowed
-	if mainframe.settings.width<NeP.min_width then mainframe.settings.width=NeP.min_width end
-	if mainframe.settings.height<NeP.min_height then mainframe.settings.height=NeP.min_height end
+	if mainframe.settings.width<gbl.min_width then mainframe.settings.width=gbl.min_width end
+	if mainframe.settings.height<gbl.min_height then mainframe.settings.height=gbl.min_height end
 
 	-- Dont allow Resize
 	mainframe.settings.minHeight = mainframe.settings.height
@@ -145,19 +145,19 @@ function NeP.Interface.RefreshToggles()
 	mainframe:ApplySettings()
 end
 
-function NeP.Interface.ResetToggles()
+function gbl.Interface.ResetToggles()
 	for i=1, #Toggles do
 		if not Toggles[i].nohide then
 			Toggles[i]:Hide()
 		end
 	end
-	NeP.Interface:RefreshToggles()
+	gbl.Interface:RefreshToggles()
 end
 
-function NeP.Interface.toggleToggle(_, key, state)
+function gbl.Interface.toggleToggle(_, key, state)
 	local tmp = GetToggle(key:lower())
 	if not tmp then return end
 	tmp.actv = state or not tmp.actv
 	tmp:SetChecked(tmp.actv)
-	NeP.Config:Write('TOGGLE_STATES', tmp.key, tmp.actv)
+	gbl.Config:Write('TOGGLE_STATES', tmp.key, tmp.actv)
 end

@@ -1,10 +1,10 @@
-local _, NeP = ...
+local _, gbl = ...
 
 local t_type = {}
 
 local function Ground(target, eval)
 	if target:find('.ground') then
-		eval.exeFunc = NeP.Protected["CastGround"]
+		eval.exeFunc = gbl.Protected["CastGround"]
     return target:sub(0,-8)
 	end
   return target
@@ -21,7 +21,7 @@ t_type["nil"] = function(_, eval)
 	or "target"
 end
 
-function NeP.Compiler.Target(target, ...)
+function gbl.Compiler.Target(target, ...)
   local hasChanges = t_type[type(target)]
   if hasChanges then
     return hasChanges(target, ...)

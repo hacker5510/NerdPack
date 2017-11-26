@@ -1,4 +1,4 @@
-local _, NeP = ...
+local _, gbl = ...
 local CreateFrame = CreateFrame
 local ChatFrame1 = ChatFrame1
 local C_Timer = C_Timer
@@ -23,8 +23,8 @@ local function fade(self)
   end
 end
 
---/run NeP.Interface:Alert("Hello World")
-function NeP.Interface.Alert(_, txt, time)
+--/run gbl.Interface:Alert("Hello World")
+function gbl.Interface.Alert(_, txt, time)
   time = time or 5
 	frame.text:SetText(txt)
   frame:SetHeight(frame.text:GetStringHeight())

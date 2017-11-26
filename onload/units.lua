@@ -1,34 +1,34 @@
-local _, NeP = ...
+local _, gbl = ...
 local _G = _G
 
 -- Valid wow units
 -- Full list can be found here:
 -- http://wowwiki.wikia.com/wiki/UnitId
 
-NeP.Unit:Add('player')
-NeP.Unit:Add('pet')
-NeP.Unit:Add('focus')
-NeP.Unit:Add('mouseover')
+gbl.Unit:Add('player')
+gbl.Unit:Add('pet')
+gbl.Unit:Add('focus')
+gbl.Unit:Add('mouseover')
 for i=1, 40 do
-	NeP.Unit:Add('raid'..i)
-	NeP.Unit:Add('raidpet'..i)
+	gbl.Unit:Add('raid'..i)
+	gbl.Unit:Add('raidpet'..i)
 end
 for i=1, 5 do
-	NeP.Unit:Add('arena'..i)
-	NeP.Unit:Add('arenapet'..i)
+	gbl.Unit:Add('arena'..i)
+	gbl.Unit:Add('arenapet'..i)
 end
 for i=1, 4 do
-	NeP.Unit:Add('boss'..i)
-	NeP.Unit:Add('party'..i)
-	NeP.Unit:Add('partypet'..i)
+	gbl.Unit:Add('boss'..i)
+	gbl.Unit:Add('party'..i)
+	gbl.Unit:Add('partypet'..i)
 end
 
 -- Lowest
-NeP.Unit:Add('lowest', function(num, role)
+gbl.Unit:Add('lowest', function(num, role)
 	local tmp = {}
-	for i=1, NeP.Protected.GetObjectCount() do
-		local Obj = NeP.Protected.GetObjectWithIndex(i)
-		if NeP.Protected.omVal(Obj)
+	for i=1, gbl.Protected.GetObjectCount() do
+		local Obj = gbl.Protected.GetObjectWithIndex(i)
+		if gbl.Protected.omVal(Obj)
 		and UnitIsFriend('player', Obj)
 		and (UnitInRaid(Obj) or UnitInParty(Obj))
 		and (not role or role and UnitGroupRolesAssigned(Obj) == role:upper()) then
@@ -43,11 +43,11 @@ NeP.Unit:Add('lowest', function(num, role)
 end)
 
 -- Tank
-NeP.Unit:Add('tank', function(num)
+gbl.Unit:Add('tank', function(num)
 	local tmp = {}
-	for i=1, NeP.Protected.GetObjectCount() do
-		local Obj = NeP.Protected.GetObjectWithIndex(i)
-		if NeP.Protected.omVal(Obj)
+	for i=1, gbl.Protected.GetObjectCount() do
+		local Obj = gbl.Protected.GetObjectWithIndex(i)
+		if gbl.Protected.omVal(Obj)
 		and UnitIsFriend('player', Obj)
 		and (UnitInRaid(Obj) or UnitInParty(Obj))
 		and UnitGroupRolesAssigned(Obj) == "TANK" then
@@ -62,11 +62,11 @@ NeP.Unit:Add('tank', function(num)
 end)
 
 -- Healer
-NeP.Unit:Add('healer', function(num)
+gbl.Unit:Add('healer', function(num)
 	local tmp = {}
-	for i=1, NeP.Protected.GetObjectCount() do
-		local Obj = NeP.Protected.GetObjectWithIndex(i)
-		if NeP.Protected.omVal(Obj)
+	for i=1, gbl.Protected.GetObjectCount() do
+		local Obj = gbl.Protected.GetObjectWithIndex(i)
+		if gbl.Protected.omVal(Obj)
 		and UnitIsFriend('player', Obj)
 		and (UnitInRaid(Obj) or UnitInParty(Obj))
 		and UnitGroupRolesAssigned(Obj) == "HEALER" then
@@ -81,11 +81,11 @@ NeP.Unit:Add('healer', function(num)
 end)
 
 -- DAMAGER
-NeP.Unit:Add('damager', function(num)
+gbl.Unit:Add('damager', function(num)
 	local tmp = {}
-	for i=1, NeP.Protected.GetObjectCount() do
-		local Obj = NeP.Protected.GetObjectWithIndex(i)
-		if NeP.Protected.omVal(Obj)
+	for i=1, gbl.Protected.GetObjectCount() do
+		local Obj = gbl.Protected.GetObjectWithIndex(i)
+		if gbl.Protected.omVal(Obj)
 		and UnitIsFriend('player', Obj)
 		and (UnitInRaid(Obj) or UnitInParty(Obj))
 		and UnitGroupRolesAssigned(Obj) == "DAMAGER" then
@@ -101,13 +101,13 @@ end)
 
 -- this is a table that contains all add units
 -- Uses IDs from tables/addsids.lua
-NeP.Unit:Add('add', function()
+gbl.Unit:Add('add', function()
 	local tmp = {}
-	for i=1, NeP.Protected.GetObjectCount() do
-		local Obj = NeP.Protected.GetObjectWithIndex(i)
-		if NeP.Protected.omVal(Obj)
+	for i=1, gbl.Protected.GetObjectCount() do
+		local Obj = gbl.Protected.GetObjectWithIndex(i)
+		if gbl.Protected.omVal(Obj)
 		and UnitCanAttack('player', Obj)
-		and NeP.AddsID:Eval(Obj) then
+		and gbl.AddsID:Eval(Obj) then
 			tmp[#tmp+1] = Obj
 		end
 	end
@@ -116,13 +116,13 @@ end)
 
 -- this is a table that contains all boss units
 -- Uses IDs from tables/bossids.lua and libbossids
-NeP.Unit:Add('boss', function()
+gbl.Unit:Add('boss', function()
 	local tmp = {}
-	for i=1, NeP.Protected.GetObjectCount() do
-		local Obj = NeP.Protected.GetObjectWithIndex(i)
-		if NeP.Protected.omVal(Obj)
+	for i=1, gbl.Protected.GetObjectCount() do
+		local Obj = gbl.Protected.GetObjectWithIndex(i)
+		if gbl.Protected.omVal(Obj)
 		and UnitCanAttack('player', Obj)
-		and NeP.BossID:Eval(Obj) then
+		and gbl.BossID:Eval(Obj) then
 			tmp[#tmp+1] = Obj
 		end
 	end
@@ -130,11 +130,11 @@ NeP.Unit:Add('boss', function()
 end)
 
 --This is a table with all enemie units
-NeP.Unit:Add('enemies', function()
+gbl.Unit:Add('enemies', function()
 	local tmp = {}
-	for i=1, NeP.Protected.GetObjectCount() do
-		local Obj = NeP.Protected.GetObjectWithIndex(i)
-		if NeP.Protected.omVal(Obj)
+	for i=1, gbl.Protected.GetObjectCount() do
+		local Obj = gbl.Protected.GetObjectWithIndex(i)
+		if gbl.Protected.omVal(Obj)
 		and UnitCanAttack('player', Obj) then
 			tmp[#tmp+1] = Obj
 		end
@@ -143,11 +143,11 @@ NeP.Unit:Add('enemies', function()
 end)
 
 --This is a table with all friendly units
-NeP.Unit:Add('friendly', function()
+gbl.Unit:Add('friendly', function()
 	local tmp = {}
-	for i=1, NeP.Protected.GetObjectCount() do
-		local Obj = NeP.Protected.GetObjectWithIndex(i)
-		if NeP.Protected.omVal(Obj)
+	for i=1, gbl.Protected.GetObjectCount() do
+		local Obj = gbl.Protected.GetObjectWithIndex(i)
+		if gbl.Protected.omVal(Obj)
 		and UnitIsFriend('player', Obj) then
 			tmp[#tmp+1] = Obj
 		end

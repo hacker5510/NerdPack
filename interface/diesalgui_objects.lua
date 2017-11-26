@@ -1,4 +1,4 @@
-local _, NeP = ...
+local _, gbl = ...
 local LibStub = LibStub
 local DiesalGUI   = LibStub("DiesalGUI-1.0")
 local SharedMedia = LibStub("LibSharedMedia-3.0")
@@ -51,7 +51,7 @@ DiesalGUI:RegisterObjectConstructor("StatusBar", function()
   local frame = CreateFrame('StatusBar',nil,UIParent)
   slf.frame  = frame
 
-  slf:SetStylesheet(NeP.Interface.statusBarStylesheet)
+  slf:SetStylesheet(gbl.Interface.statusBarStylesheet)
 
   frame.Left = frame:CreateFontString()
   frame.Left:SetFont(SharedMedia:Fetch('font', 'Calibri Bold'), 14)

@@ -1,4 +1,4 @@
-local _, NeP = ...
+local _, gbl = ...
 local _G = _G
 
 local honor_talents = {}
@@ -19,17 +19,17 @@ local function UpdateHonorTalents()
   end
 end
 
-NeP.Listener:Add('NeP_Honor_Talents', 'PLAYER_LOGIN', function()
+gbl.Listener:Add('gbl_Honor_Talents', 'PLAYER_LOGIN', function()
   UpdateHonorTalents()
-	NeP.Listener:Add('NeP_Honor_Talents', 'ACTIVE_TALENT_GROUP_CHANGED', function()
+	gbl.Listener:Add('gbl_Honor_Talents', 'ACTIVE_TALENT_GROUP_CHANGED', function()
     UpdateHonorTalents()
   end)
 end)
 
-NeP.Condition:Register("honortalent", function(_, args)
+gbl.Condition:Register("honortalent", function(_, args)
   return select(10, GetPvpTalentInfoByID(honor_talents[args], GetActiveSpecGroup()))
 end)
 
-NeP.Condition:Register("pvp", function(target)
+gbl.Condition:Register("pvp", function(target)
   return UnitIsPVP(target, 'PLAYER')
 end)

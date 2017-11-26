@@ -1,44 +1,44 @@
-local n_name, NeP = ...
+local n_name, gbl = ...
 
-NeP.Protected = {}
-NeP.Protected.Unlocked = false
-NeP.Protected.Unlockers = {}
-NeP.Protected.Callbacks = {}
+gbl.Protected = {}
+gbl.Protected.Unlocked = false
+gbl.Protected.Unlockers = {}
+gbl.Protected.Callbacks = {}
 
-NeP.Protected.ValidGround = {
+gbl.Protected.ValidGround = {
 	["player"] = true,
 	["cursor"] = true
 }
 
-NeP.Listener:Add(n_name, "ADDON_ACTION_FORBIDDEN", function(...)
+gbl.Listener:Add(n_name, "ADDON_ACTION_FORBIDDEN", function(...)
 	local addon = ...
 	if addon == n_name then
 		StaticPopup1:Hide()
 	end
 end)
 
-function NeP.Protected.omVal(Obj)
+function gbl.Protected.omVal(Obj)
 	return UnitInPhase(Obj)
-	and NeP.Protected.Distance('player', Obj) < 100
-	and NeP.Protected.LineOfSight('player', Obj)
+	and gbl.Protected.Distance('player', Obj) < 100
+	and gbl.Protected.LineOfSight('player', Obj)
 end
 
 local Count = 0
 
-function NeP.Protected:AddUnlocker(Unlocker)
+function gbl.Protected:AddUnlocker(Unlocker)
 	table.insert(self.Unlockers, Unlocker)
 	Unlocker.Prio = Count
 	table.sort(self.Unlockers, function(a,b) return a.Prio < b.Prio end)
 	Count = Count + 1
 end
 
-function NeP.Protected:AddCallBack(func)
+function gbl.Protected:AddCallBack(func)
 	if not func() then
 		table.insert(self.Callbacks, func)
 	end
 end
 
-function NeP.Protected:LoadCallbacks()
+function gbl.Protected:LoadCallbacks()
 	for i=1, #self.Callbacks do
 		local cur = self.Callbacks[i]
 		if cur and cur() then
@@ -47,8 +47,8 @@ function NeP.Protected:LoadCallbacks()
 	end
 end
 
-function NeP.Protected:SetUnlocker(Unlocker)
-	NeP.Core:Print('|cffff0000Found:|r ' .. Unlocker.Name)
+function gbl.Protected:SetUnlocker(Unlocker)
+	gbl.Core:Print('|cffff0000Found:|r ' .. Unlocker.Name)
 	for name, func in pairs(Unlocker) do
 			self[name] = func
 	end
@@ -56,20 +56,20 @@ function NeP.Protected:SetUnlocker(Unlocker)
 	self:LoadCallbacks()
 end
 
-function NeP.Protected:FindUnlocker()
+function gbl.Protected:FindUnlocker()
 	for i=1, #self.Unlockers do
 		local Unlocker = self.Unlockers[i]
 		if Unlocker.Test() then
-			NeP.Unlocked = nil
+			gbl.Unlocked = nil
 			self:SetUnlocker(Unlocker)
 		end
 	 end
 end
 
-local function Find() NeP.Protected:FindUnlocker() end
+local function Find() gbl.Protected:FindUnlocker() end
 
 -- Delay until everything is ready
-NeP.Core:WhenInGame(function()
-	NeP.Interface:Add("Find Unlocker", Find)
+gbl.Core:WhenInGame(function()
+	gbl.Interface:Add("Find Unlocker", Find)
 	C_Timer.After(1, Find)
 end)

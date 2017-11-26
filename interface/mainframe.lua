@@ -1,7 +1,7 @@
-local n_name, NeP = ...
-local logo = '|T'..NeP.Media..'logo.blp:10:10|t'
-local L = NeP.Locale
-local NeP_ver = tostring(NeP.Version.major.."."..NeP.Version.minor.."-"..NeP.Version.branch)
+local n_name, gbl = ...
+local logo = '|T'..gbl.Media..'logo.blp:10:10|t'
+local L = gbl.Locale
+local gbl_ver = tostring(gbl.Version.major.."."..gbl.Version.minor.."-"..gbl.Version.branch)
 
 local EasyMenu = EasyMenu
 local CreateFrame = CreateFrame
@@ -13,50 +13,50 @@ local function CR_Ver_WoW(cr_wow_ver, wow_ver)
 	return wow_ver:find('^'..tostring(cr_wow_ver))
 end
 
-local function CR_Ver_NeP(cr_nep_ver)
-	return NeP_ver:find('^'..tostring(cr_nep_ver))
+local function CR_Ver_gbl(cr_gbl_ver)
+	return gbl_ver:find('^'..tostring(cr_gbl_ver))
 end
 
-NeP.Interface.MainFrame = NeP.Interface:BuildGUI({
-	key = 'NePMFrame',
+gbl.Interface.MainFrame = gbl.Interface:BuildGUI({
+	key = 'gblMFrame',
 	width = 100,
 	height = 60,
 	title = logo..n_name,
-	subtitle = 'v:'..NeP_ver
+	subtitle = 'v:'..gbl_ver
 }).parent
-NeP.Interface.MainFrame:SetEventListener('OnClose', function()
-	NeP.Core:Print(L:TA('Any', 'NeP_Show'))
+gbl.Interface.MainFrame:SetEventListener('OnClose', function()
+	gbl.Core:Print(L:TA('Any', 'gbl_Show'))
 end)
 
-local menuFrame = CreateFrame("Frame", 'NeP_DropDown', NeP.Interface.MainFrame.frame, "UIDropDownMenuTemplate")
-menuFrame:SetPoint("BOTTOMLEFT", NeP.Interface.MainFrame.frame, "BOTTOMLEFT", 0, 0)
+local menuFrame = CreateFrame("Frame", 'gbl_DropDown', gbl.Interface.MainFrame.frame, "UIDropDownMenuTemplate")
+menuFrame:SetPoint("BOTTOMLEFT", gbl.Interface.MainFrame.frame, "BOTTOMLEFT", 0, 0)
 menuFrame:Hide()
 
 local DropMenu = {
-	{text = logo..'['..n_name..' |rv:'..NeP_ver..']', isTitle = 1, notCheckable = 1},
+	{text = logo..'['..n_name..' |rv:'..gbl_ver..']', isTitle = 1, notCheckable = 1},
 	{text = L:TA('mainframe', 'CRS'), hasArrow = true, menuList = {}},
 	{text = L:TA('mainframe', 'CRS_ST'), hasArrow = true, menuList = {}}
 }
 
-function NeP.Interface.ResetCRs()
+function gbl.Interface.ResetCRs()
 	DropMenu[2].menuList = {}
 	DropMenu[3].menuList = {}
 	local spec = GetSpecializationInfo(GetSpecialization())
-	for _,v in pairs(NeP.CR:GetList(spec)) do
-		NeP.Interface:AddCR(v)
-		if v.has_gui then NeP.Interface:AddCR_ST(v.name) end
+	for _,v in pairs(gbl.CR:GetList(spec)) do
+		gbl.Interface:AddCR(v)
+		if v.has_gui then gbl.Interface:AddCR_ST(v.name) end
 	end
 end
 
-function NeP.Interface.UpdateCRs()
+function gbl.Interface.UpdateCRs()
 	local spec = GetSpecializationInfo(GetSpecialization())
-	local last = NeP.Config:Read('SELECTED', spec)
+	local last = gbl.Config:Read('SELECTED', spec)
 	for _,v in pairs(DropMenu[2].menuList) do
 		v.checked = last == v.name
 	end
 end
 
-function NeP.Interface:AddCR_ST(Name)
+function gbl.Interface:AddCR_ST(Name)
 	table.insert(DropMenu[3].menuList, {
 		text = Name,
 		notCheckable = 1,
@@ -66,31 +66,31 @@ function NeP.Interface:AddCR_ST(Name)
 	})
 end
 
-function NeP.Interface.AddCR(_, ev)
-	local text = ev.name..'|cff0F0F0F <->|r [WoW: '..ev.wow_ver..' NeP: '..ev.nep_ver..']'
+function gbl.Interface.AddCR(_, ev)
+	local text = ev.name..'|cff0F0F0F <->|r [WoW: '..ev.wow_ver..' gbl: '..ev.gbl_ver..']'
 	local wow_ver = GetBuildInfo()
 	table.insert(DropMenu[2].menuList, {
 		text = text,
 		name = ev.name,
 		func = function()
-			NeP.CR:Set(ev.spec, ev.name)
+			gbl.CR:Set(ev.spec, ev.name)
 				if not CR_Ver_WoW(ev.wow_ver, wow_ver)  then
-					NeP.Core:Print(ev.name, "|rwas not built for WoW:", wow_ver, "\nThis might cause problems!")
+					gbl.Core:Print(ev.name, "|rwas not built for WoW:", wow_ver, "\nThis might cause problems!")
 				end
-				if not CR_Ver_NeP(ev.nep_ver, NeP_ver) then
-					NeP.Core:Print(ev.name, "|rwas not built for", NeP_ver, "\nThis might cause problems!")
+				if not CR_Ver_gbl(ev.gbl_ver, gbl_ver) then
+					gbl.Core:Print(ev.name, "|rwas not built for", gbl_ver, "\nThis might cause problems!")
 				end
-				NeP.Core:Print(L:TA('mainframe', 'ChangeCR'), ev.name)
-				NeP.Interface.UpdateCRs()
+				gbl.Core:Print(L:TA('mainframe', 'ChangeCR'), ev.name)
+				gbl.Interface.UpdateCRs()
 		end
 	})
 end
 
-function NeP.Interface.DropMenu()
+function gbl.Interface.DropMenu()
 	EasyMenu(DropMenu, menuFrame, menuFrame, 0, 0, "MENU")
 end
 
-function NeP.Interface.Add(_, name, func)
+function gbl.Interface.Add(_, name, func)
 	table.insert(DropMenu, {
 		text = tostring(name),
 		func = func,
@@ -99,10 +99,10 @@ function NeP.Interface.Add(_, name, func)
 end
 
 ----------------------------EVENTS
-NeP.Listener:Add("NeP_CR_interface", "PLAYER_LOGIN", function()
-	NeP.Interface.ResetCRs()
+gbl.Listener:Add("gbl_CR_interface", "PLAYER_LOGIN", function()
+	gbl.Interface.ResetCRs()
 end)
-NeP.Listener:Add("NeP_CR_interface", "PLAYER_SPECIALIZATION_CHANGED", function(unitID)
+gbl.Listener:Add("gbl_CR_interface", "PLAYER_SPECIALIZATION_CHANGED", function(unitID)
 	if unitID ~= 'player' then return end
-	NeP.Interface:ResetCRs()
+	gbl.Interface:ResetCRs()
 end)

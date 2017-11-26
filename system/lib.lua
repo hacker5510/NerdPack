@@ -1,21 +1,21 @@
-local _, NeP = ...
+local _, gbl = ...
 local strsplit = strsplit
-NeP.Library = {}
-NeP.Library.Libs = {}
-local libs = NeP.Library.Libs
+gbl.Library = {}
+gbl.Library.Libs = {}
+local libs = gbl.Library.Libs
 
-function NeP.Library.Add(_, name, lib)
+function gbl.Library.Add(_, name, lib)
 	if not libs[name] then
 		libs[name] = lib
 	end
 end
 
-function NeP.Library.Fetch(_, strg)
+function gbl.Library.Fetch(_, strg)
 	local a, b = strsplit(".", strg, 2)
 	return libs[a][b]
 end
 
-function NeP.Library:Parse(strg, ...)
+function gbl.Library:Parse(strg, ...)
 	local lib = self:Fetch(strg)
 	return lib(...)
 end

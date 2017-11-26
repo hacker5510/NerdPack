@@ -1,6 +1,6 @@
-local _, NeP = ...
-NeP.Protected.FireHack = {}
-local FireHack = NeP.Protected.FireHack
+local _, gbl = ...
+gbl.Protected.FireHack = {}
+local FireHack = gbl.Protected.FireHack
 FireHack.Name = "FireHack"
 FireHack.Test = function() return _G.FireHacK end
 
@@ -35,14 +35,14 @@ end
 
 FireHack.CastGround = function(spell, target)
 	-- fallback to generic if we can cast it using macros
-	if NeP.Protected.ValidGround[target] then
-		return NeP.Protected.CastGround(spell, target)
+	if gbl.Protected.ValidGround[target] then
+		return gbl.Protected.CastGround(spell, target)
 	end
 	if not ObjectIsVisible(target) then return end
 	local rX, rY = math.random(), math.random()
 	local oX, oY, oZ = ObjectPosition(target)
 	if oX then oX = oX + rX; oY = oY + rY end
-	NeP.Protected.Cast(spell)
+	gbl.Protected.Cast(spell)
 	if oX then ClickPosition(oX, oY, oZ) end
 	CancelPendingSpell()
 end
@@ -71,8 +71,8 @@ FireHack.LineOfSight = function(a, b)
 		return false
 	end
 	-- skip if its a boss
-	if NeP.BossID:Eval(a)
-	or NeP.BossID:Eval(b) then
+	if gbl.BossID:Eval(a)
+	or gbl.BossID:Eval(b) then
 		return true
 	end
 	-- contiunue
@@ -93,4 +93,4 @@ FireHack.IsGameObject = function(Obj)
 	return ObjectIsType(Obj, ObjectTypes.GameObject)
 end
 
-NeP.Protected:AddUnlocker(FireHack)
+gbl.Protected:AddUnlocker(FireHack)

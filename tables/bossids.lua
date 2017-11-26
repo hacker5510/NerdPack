@@ -1,11 +1,11 @@
-local _, NeP = ...
-NeP.BossID = {}
+local _, gbl = ...
+gbl.BossID = {}
 
 --BossIDs Lib
-NeP.BossID.table = LibStub("LibBossIDs-1.0").BossIDs
-local T = NeP.BossID.table
+gbl.BossID.table = LibStub("LibBossIDs-1.0").BossIDs
+local T = gbl.BossID.table
 
-function NeP.BossID:Add(...)
+function gbl.BossID:Add(...)
   if type(...) == 'table' then
     for id in pairs(...) do
       id = tonumber(id)
@@ -39,17 +39,17 @@ local function UnitID(unit)
   end
 end
 
-function NeP.BossID.Eval(_, unit)
+function gbl.BossID.Eval(_, unit)
   if not unit then return false end
   local unit2, unitid = UnitID(unit)
   return UnitExists(unit2) and WoWBossID(unit2) or T[unitid]
 end
 
-function NeP.BossID.Get()
+function gbl.BossID.Get()
   return T
 end
 
-NeP.BossID:Add({
+gbl.BossID:Add({
   -- The Nighthold
   [102263] = true, -- Skorpyron
   [101002] = true, -- Krosus

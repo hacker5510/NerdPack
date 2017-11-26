@@ -1,6 +1,6 @@
-local _, NeP = ...
+local _, gbl = ...
 
-NeP.Buttons = {}
+gbl.Buttons = {}
 
 local nBars = {
 	"ActionButton",
@@ -11,7 +11,7 @@ local nBars = {
 }
 
 local function UpdateButtons()
-	wipe(NeP.Buttons)
+	wipe(gbl.Buttons)
 	for _, group in ipairs(nBars) do
 		for i =1, 12 do
 			local button = _G[group .. i]
@@ -20,7 +20,7 @@ local function UpdateButtons()
 				if actionType == 'spell' then
 					local spell = GetSpellInfo(id)
 					if spell then
-						NeP.Buttons[spell] = button
+						gbl.Buttons[spell] = button
 					end
 				end
 			end
@@ -28,10 +28,10 @@ local function UpdateButtons()
 	end
 end
 
-NeP.Listener:Add('NeP_Buttons','PLAYER_ENTERING_WORLD', function ()
+gbl.Listener:Add('gbl_Buttons','PLAYER_ENTERING_WORLD', function ()
 	UpdateButtons()
 end)
 
-NeP.Listener:Add('NeP_Buttons','ACTIONBAR_SLOT_CHANGED', function ()
+gbl.Listener:Add('gbl_Buttons','ACTIONBAR_SLOT_CHANGED', function ()
 	UpdateButtons()
 end)

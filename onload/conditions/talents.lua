@@ -1,4 +1,4 @@
-local _, NeP = ...
+local _, gbl = ...
 local _G = _G
 
 local talents = {}
@@ -19,13 +19,13 @@ local function UpdateTalents()
   end
 end
 
-NeP.Listener:Add('NeP_Talents', 'PLAYER_LOGIN', function()
+gbl.Listener:Add('gbl_Talents', 'PLAYER_LOGIN', function()
   UpdateTalents()
-  NeP.Listener:Add('NeP_Talents', 'ACTIVE_TALENT_GROUP_CHANGED', function()
+  gbl.Listener:Add('gbl_Talents', 'ACTIVE_TALENT_GROUP_CHANGED', function()
     UpdateTalents()
   end)
 end)
 
-NeP.Condition:Register("talent", function(_, args)
+gbl.Condition:Register("talent", function(_, args)
   return select(10, GetTalentInfoByID(talents[args], GetActiveSpecGroup()))
 end)

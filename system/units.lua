@@ -1,8 +1,8 @@
-local _, NeP = ...
-NeP.Unit = {}
-NeP.Unit.Units = {}
+local _, gbl = ...
+gbl.Unit = {}
+gbl.Unit.Units = {}
 
-local Units = NeP.Unit.Units
+local Units = gbl.Unit.Units
 
 local function _add(name, func)
 	if not Units[name] then
@@ -10,7 +10,7 @@ local function _add(name, func)
 	end
 end
 
-function NeP.Unit.Add(_, name, func)
+function gbl.Unit.Add(_, name, func)
 	if type(func) == "string" then
 		func = function() return func end
 	elseif not func then
@@ -23,11 +23,11 @@ function NeP.Unit.Add(_, name, func)
 	elseif type(name) == 'string' then
 		_add(name, func)
 	else
-		NeP.Core:Print("ERROR! tried to add an invalid fake unit")
+		gbl.Core:Print("ERROR! tried to add an invalid fake unit")
 	end
 end
 
--- /dump NeP.Unit:Filter("lowest")
+-- /dump gbl.Unit:Filter("lowest")
 local function process(unit)
 	local arg = unit:match('%((.+)%)')
 	local num = tonumber(unit:match("%d+") or 0)
@@ -50,34 +50,34 @@ local function add_tbl(unit, tbl)
 	--table
 	if unit_type == 'table' then
 		for _, v in pairs(unit) do
-			NeP.Unit.Process(v.key or v, tbl)
+			gbl.Unit.Process(v.key or v, tbl)
 		end
 	--function
 	elseif unit_type == 'function' then
-		NeP.Unit.Process(unit(), tbl)
+		gbl.Unit.Process(unit(), tbl)
 	--add
 	elseif unit_type == 'string' then
 		unit = process(unit)
 		if not unit then return end
 		if type(unit) ~= 'string' then
-			NeP.Unit.Process(unit, tbl)
+			gbl.Unit.Process(unit, tbl)
 		elseif not_in_tbl(unit, tbl) then
 			tbl[#tbl+1] = unit
 		end
 	end
 end
 
-function NeP.Unit.Process(unit, tbl)
+function gbl.Unit.Process(unit, tbl)
 	tbl = tbl or {}
 	add_tbl(unit, tbl)
 	return tbl
 end
 
 --cache
-NeP.Cache.Targets = {}
-local C = NeP.Cache.Targets
+gbl.Cache.Targets = {}
+local C = gbl.Cache.Targets
 
-function NeP.Unit:Filter(unit, ...)
+function gbl.Unit:Filter(unit, ...)
 	-- cached
 	if not C[unit] then
 		C[unit] = self.Process(unit, ...)

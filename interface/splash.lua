@@ -1,4 +1,4 @@
-local _, NeP = ...
+local _, gbl = ...
 local _G = _G
 local UIParent = UIParent
 local CreateFrame = CreateFrame
@@ -36,8 +36,8 @@ local function SpecIcon()
   return select(4,GetSpecializationInfo(currentSpec))
 end
 
---/run NeP.Interface:Splash("Hello World")
-function NeP.Interface.Splash(_, txt, icon, time)
+--/run gbl.Interface:Splash("Hello World")
+function gbl.Interface.Splash(_, txt, icon, time)
   icon = icon or SpecIcon()
   time = time or 5
 	frame:SetAlpha(1)

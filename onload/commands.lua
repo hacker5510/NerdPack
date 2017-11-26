@@ -1,24 +1,24 @@
-local _, NeP = ...
+local n_name, gbl = ...
 
-NeP.Commands:Register('nep', nil, 'nep', 'nerdpack')
+gbl.Commands:Register(n_name, nil, n_name)
 
-NeP.Commands:Add('nep', 'mastertoggle', function(rest)
-	NeP.Interface:toggleToggle('MasterToggle', rest == 'on')
+gbl.Commands:Add(n_name, 'mastertoggle', function(rest)
+	gbl.Interface:toggleToggle('MasterToggle', rest == 'on')
 end)
 
-NeP.Commands:Add('nep', 'aoe', function(rest)
-	NeP.Interface:toggleToggle('AoE', rest == 'on')
+gbl.Commands:Add(n_name, 'aoe', function(rest)
+	gbl.Interface:toggleToggle('AoE', rest == 'on')
 end)
 
-NeP.Commands:Add('nep', 'cooldowns', function(rest)
-	NeP.Interface:toggleToggle('Cooldowns', rest == 'on')
+gbl.Commands:Add(n_name, 'cooldowns', function(rest)
+	gbl.Interface:toggleToggle('Cooldowns', rest == 'on')
 end)
 
-NeP.Commands:Add('nep', 'interrupts', function(rest)
-	NeP.Interface:toggleToggle('Interrupts', rest == 'on')
+gbl.Commands:Add(n_name, 'interrupts', function(rest)
+	gbl.Interface:toggleToggle('Interrupts', rest == 'on')
 end)
 
-NeP.Commands:Add('nep', 'version', function() NeP.Core:Print(NeP.Version) end)
-NeP.Commands:Add('nep', 'show', function() NeP.Interface.MainFrame:Show() end)
-NeP.Commands:Add('nep', 'hide', function() NeP.Interface.MainFrame:Hide() end)
-NeP.Commands:Add('nep', 'al', function() NeP.ActionLog.Frame:Show() end)
+gbl.Commands:Add(n_name, 'version', function() gbl.Core:Print(gbl.Version) end)
+gbl.Commands:Add(n_name, 'show', function() gbl.Interface.MainFrame:Show() end)
+gbl.Commands:Add(n_name, 'hide', function() gbl.Interface.MainFrame:Hide() end)
+gbl.Commands:Add(n_name, 'al', function() gbl.ActionLog.Frame:Show() end)

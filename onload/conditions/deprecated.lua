@@ -1,13 +1,13 @@
-local _, NeP = ...
+local _, gbl = ...
 
-NeP.Condition:Register("isself", function(target)
-  return NeP.Condition:Get("is")(target, 'player')
+gbl.Condition:Register("isself", function(target)
+  return gbl.Condition:Get("is")(target, 'player')
 end)
 
-NeP.Condition:Register('furydiff', function(target)
-  return NeP.Condition:Get("fury.diff")(target)
+gbl.Condition:Register('furydiff', function(target)
+  return gbl.Condition:Get("fury.diff")(target)
 end)
 
-NeP.Condition:Register('pull_timer', function()
-  return NeP.Condition:Get('dbm')(nil, "Pull in")
+gbl.Condition:Register('pull_timer', function()
+  return gbl.Condition:Get('dbm')(nil, "Pull in")
 end)

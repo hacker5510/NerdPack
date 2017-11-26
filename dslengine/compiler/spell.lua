@@ -1,4 +1,4 @@
-local _, NeP = ...
+local _, gbl = ...
 
 local s_types = {}
 local s_tokens = {}
@@ -8,11 +8,11 @@ local noop = function() end
 -- this is the regual spell path
 -- has to validate the spell, if its ready, etc...
 local function regularSpell(eval)
-  eval.spell = NeP.Spells:Convert(eval.spell)
+  eval.spell = gbl.Spells:Convert(eval.spell)
   eval.icon = select(3,GetSpellInfo(eval.spell))
-  eval.id = NeP.Core:GetSpellID(eval.spell)
-  eval.exeVal = NeP.API.IsSpellReady
-  eval.exe = NeP.API.CastSpell
+  eval.id = gbl.Core:GetSpellID(eval.spell)
+  eval.exeVal = gbl.API.IsSpellReady
+  eval.exe = gbl.API.CastSpell
   eval.token = "Spell"
 end
 
@@ -63,13 +63,13 @@ end
 s_tokens["#"] = function(eval)
   local item = eval.spell
   item = InvItems(item, eval)
-  eval.id = tonumber(item) or NeP.Core:GetItemID(item)
+  eval.id = tonumber(item) or gbl.Core:GetItemID(item)
   local itemName, itemLink, _,_,_,_,_,_,_, texture = GetItemInfo(eval.id)
   eval.spell = itemName or eval.spell
   eval.icon = texture
   eval.link = itemLink
-  eval.exeVal = NeP.API.IsItemReady
-  eval.exe = NeP.API.UseItem
+  eval.exeVal = gbl.API.IsItemReady
+  eval.exe = gbl.API.UseItem
   eval.token = "Item"
 end
 
@@ -82,20 +82,20 @@ end
 -- has no real sanity checks... its up to the dev
 s_tokens["/"] = function(eval)
   eval.token = "Macro"
-  eval.exe = NeP.API.Macro
+  eval.exe = gbl.API.Macro
 end
 
 -- Interrupt
 -- same as spell but Interrupts the current
 s_tokens["!"] = function(eval)
-  eval.exeExtra = function() NeP.API:Interrupt(eval.spell) end
+  eval.exeExtra = function() gbl.API:Interrupt(eval.spell) end
 end
 
 -- Library
 -- has no real sanity checks... its up to the dev
 s_tokens["@"] = function(eval)
   eval.token = "Library"
-  eval.exe = function(...) return NeP.Library:Parse(...) end
+  eval.exe = function(...) return gbl.Library:Parse(...) end
 end
 
 -- usual string spell
@@ -142,7 +142,7 @@ end
 s_types["table"] = function(...)
   return {
     spell = "TABLEZ",
-    exeFunc = NeP.Compiler.Compile(...),
+    exeFunc = gbl.Compiler.Compile(...),
     token = "Table",
     isTable = true
   }
@@ -161,6 +161,6 @@ end
 
 -- public func (main)
 -- return a function ready for usage
-function NeP.Compiler.Spell(...)
+function gbl.Compiler.Spell(...)
   return s_types[type(...)](...)
 end

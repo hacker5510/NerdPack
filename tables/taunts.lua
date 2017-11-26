@@ -1,9 +1,9 @@
-local _, NeP = ...
-NeP.Taunts = {}
-NeP.Taunts.table = {}
-local T = NeP.Taunts.table
+local _, gbl = ...
+gbl.Taunts = {}
+gbl.Taunts.table = {}
+local T = gbl.Taunts.table
 
-function NeP.Taunts:Add(id, stacks)
+function gbl.Taunts:Add(id, stacks)
   if type(id) == 'table' then
     for i=1, #id do
       local tmp = id[i]
@@ -14,7 +14,7 @@ function NeP.Taunts:Add(id, stacks)
   end
 end
 
-function NeP.Taunts:ShouldTaunt(unit)
+function gbl.Taunts:ShouldTaunt(unit)
   --Quit if we have its threat
   local threat = UnitThreatSituation("player", unit) or 0
   if threat >= 3 then return end
@@ -33,11 +33,11 @@ function NeP.Taunts:ShouldTaunt(unit)
   end
 end
 
-function NeP.Taunts:Get()
+function gbl.Taunts:Get()
   return T
 end
 
-NeP.Taunts:Add({
+gbl.Taunts:Add({
   { id = 143436, stacks = 1 },-- Corrosive Blast (Immerseus/71543)
   { id = 146124, stacks = 3 },-- Self Doubt (Norushen/72276)
   { id = 144358, stacks = 1 },-- Wounded Pride (Sha of Pride/71734)

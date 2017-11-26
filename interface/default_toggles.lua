@@ -1,9 +1,9 @@
-local _, NeP = ...
-local L = NeP.Locale
+local _, gbl = ...
+local L = gbl.Locale
 local IsControlKeyDown = IsControlKeyDown
 
 -- MasterToggle
-NeP.Interface:AddToggle({
+gbl.Interface:AddToggle({
   key = 'mastertoggle',
   name = 'MasterToggle',
   text = L:TA('mainframe', 'MasterToggle'),
@@ -13,16 +13,16 @@ NeP.Interface:AddToggle({
       if IsControlKeyDown() then
         self.MainFrame.drag:Show()
       else
-        NeP.Interface:DropMenu()
+        gbl.Interface:DropMenu()
       end
-      NeP.Interface:UpdateCRs()
+      gbl.Interface:UpdateCRs()
     end
   end,
   nohide = true
 })
 
 --Interrupts
-NeP.Interface:AddToggle({
+gbl.Interface:AddToggle({
   key = 'interrupts',
   name = 'Interrupts',
   text = L:TA('mainframe', 'Interrupts'),
@@ -31,7 +31,7 @@ NeP.Interface:AddToggle({
 })
 
 -- Cooldowns
-NeP.Interface:AddToggle({
+gbl.Interface:AddToggle({
   key = 'cooldowns',
   name = 'Cooldowns',
   text = L:TA('mainframe', 'Cooldowns'),
@@ -40,7 +40,7 @@ NeP.Interface:AddToggle({
 })
 
 --Multitarget
-NeP.Interface:AddToggle({
+gbl.Interface:AddToggle({
   key = 'aoe',
   name = 'Multitarget',
   text = L:TA('mainframe', 'AoE'),

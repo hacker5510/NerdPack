@@ -1,6 +1,6 @@
-local _, NeP = ...
+local _, gbl = ...
 
-NeP.Interface:AddToggle({
+gbl.Interface:AddToggle({
 		key = 'AutoTarget',
 		name = 'Auto Target',
 		text = 'Automatically target the nearest enemy when target dies or does not exist',
@@ -8,7 +8,7 @@ NeP.Interface:AddToggle({
 		nohide = true
 })
 
-local NeP_forceTarget = {
+local gbl_forceTarget = {
 	-- WOD DUNGEONS/RAIDS
 	[75966] = 100,	-- Defiled Spirit (Shadowmoon Burial Grounds)
 	[76220] = 100,	-- Blazing Trickster (Auchindoun Normal)
@@ -53,28 +53,28 @@ local function getTargetPrio(Obj)
 	local id = tonumber(select(6, strsplit('-', UnitGUID(Obj))) or 0)
 	local prio = 1
 	-- Elite
-	if NeP.DSL:Get('elite')(Obj) then
+	if gbl.DSL:Get('elite')(Obj) then
 		prio = prio + 30
 	end
 	-- If its forced
-	if NeP_forceTarget[tonumber(Obj)] then
-		prio = prio + NeP_forceTarget[id]
+	if gbl_forceTarget[tonumber(Obj)] then
+		prio = prio + gbl_forceTarget[id]
 	end
 	return prio
 end
 
-function NeP.CombatHelper.Target()
+function gbl.CombatHelper.Target()
 	-- If dont have a target, target is friendly or dead
   if not UnitExists('target')
 	or UnitReaction('player', 'target') > 4
 	or UnitIsDeadOrGhost('target') then
 		local setPrio = {}
-		for _, Obj in pairs(NeP.OM:Get('Enemy')) do
+		for _, Obj in pairs(gbl.OM:Get('Enemy')) do
 			if UnitExists(Obj.key)
 			and Obj.distance <= 40 then
 				if (UnitAffectingCombat(Obj.key)
-				or NeP.DSL:Get('isdummy')(Obj.key))
-				and NeP.DSL:Get('infront')(Obj.key) then
+				or gbl.DSL:Get('isdummy')(Obj.key))
+				and gbl.DSL:Get('infront')(Obj.key) then
 					setPrio[#setPrio+1] = {
 						key = Obj.key,
 						bonus = getTargetPrio(Obj.key),
@@ -85,7 +85,7 @@ function NeP.CombatHelper.Target()
 		end
 		table.sort(setPrio, function(a,b) return a.bonus > b.bonus end)
 		if setPrio[1] then
-			NeP.Protected.TargetUnit(setPrio[1].key)
+			gbl.Protected.TargetUnit(setPrio[1].key)
 		end
 	end
 end
@@ -93,8 +93,8 @@ end
 -- Ticker
 C_Timer.NewTicker(0.1, (function()
 	if UnitAffectingCombat('player')
-	and NeP.DSL:Get('toggle')(nil, 'mastertoggle')
-	and NeP.DSL:Get('toggle')(nil, 'AutoTarget') then
-			NeP.CombatHelper:Target()
+	and gbl.DSL:Get('toggle')(nil, 'mastertoggle')
+	and gbl.DSL:Get('toggle')(nil, 'AutoTarget') then
+			gbl.CombatHelper:Target()
 	end
 end), nil)

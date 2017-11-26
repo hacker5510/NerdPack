@@ -1,8 +1,8 @@
-local n_name, NeP = ...
+local n_name, gbl = ...
 
-NeP.Locale.ptBR = {
+gbl.Locale.ptBR = {
   Any = {
-    NeP_Show = 'Para exibir '..n_name..', Execute: \n/nep show',
+    gbl_Show = 'Para exibir '..n_name..', Execute: \n/gbl show',
     ON = 'LIGADO',
     OFF = 'DESLIGADO'
   },
@@ -12,7 +12,7 @@ NeP.Locale.ptBR = {
     Cooldowns = 'Alternar Cooldowns ON or OFF',
     AoE = 'Alternar AoE ON ou OFF',
     Settings = 'Configurações',
-    HideNeP = 'Esconder '..n_name,
+    Hidegbl = 'Esconder '..n_name,
     ChangeCR = 'Mudou a rotina de combate a:',
     Donate = 'Doar Para '..n_name,
     Forum = 'Visite o nosso forum',

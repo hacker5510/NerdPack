@@ -1,6 +1,6 @@
-local _, NeP = ...
+local _, gbl = ...
 
-NeP.Condition:Register("glyph", function(_,spell)
+gbl.Condition:Register("glyph", function(_,spell)
   local spellId = tonumber(spell)
   local glyphName, glyphId
   for i = 1, 6 do
@@ -11,7 +11,7 @@ NeP.Condition:Register("glyph", function(_,spell)
           return true
         end
       else
-        glyphName = NeP.Core:GetSpellName(glyphId)
+        glyphName = gbl.Core:GetSpellName(glyphId)
         if glyphName:find(spell) then
           return true
         end

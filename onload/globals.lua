@@ -1,80 +1,80 @@
-local _, NeP = ...
-local g = NeP.Globals
+local _, gbl = ...
+local g = gbl.Globals
 
 --[[----------------
 	This is where we assign whats Globaly usable
 ------------------]]
 
-g.Actions = NeP.Actions
-g.RegisterCommand = NeP.Commands.Register
-g.Core = NeP.Core
-g.Unit = NeP.Unit
-g.Listener = NeP.Listener
-g.Tooltip = NeP.Tooltip
-g.Protected = NeP.Protected
-g.Artifact = NeP.Artifact
-g.DBM = NeP.DBM
-g.ClassTable = NeP.ClassTable
-g.Spells = NeP.Spells
-g.API = NeP.API
-g.LuaEngine = NeP.LuaEngine
+g.Actions = gbl.Actions
+g.RegisterCommand = gbl.Commands.Register
+g.Core = gbl.Core
+g.Unit = gbl.Unit
+g.Listener = gbl.Listener
+g.Tooltip = gbl.Tooltip
+g.Protected = gbl.Protected
+g.Artifact = gbl.Artifact
+g.DBM = gbl.DBM
+g.ClassTable = gbl.ClassTable
+g.Spells = gbl.Spells
+g.API = gbl.API
+g.LuaEngine = gbl.LuaEngine
 
 g.Condition = {
-	Get = NeP.Condition.Get,
-	Exists = NeP.Condition.Exists,
-	Register = NeP.Condition.Register,
+	Get = gbl.Condition.Get,
+	Exists = gbl.Condition.Exists,
+	Register = gbl.Condition.Register,
 }
 g.CR = {
-	Add = NeP.CR.Add,
-	GetList = NeP.CR.GetList
+	Add = gbl.CR.Add,
+	GetList = gbl.CR.GetList
 }
 g.Debug = {
-	Add =  NeP.Debug.Add
+	Add =  gbl.Debug.Add
 }
 g.DSL = {
-	Register = NeP.DSL.Register,
-	Parse = NeP.DSL.Parse
+	Register = gbl.DSL.Register,
+	Parse = gbl.DSL.Parse
 }
 g.Library = {
-	Add = NeP.Library.Add,
-	Fetch = NeP.Library.Fetch,
-	Parse = NeP.Library.Parse
+	Add = gbl.Library.Add,
+	Fetch = gbl.Library.Fetch,
+	Parse = gbl.Library.Parse
 }
 g.Interface = {
-	BuildGUI = NeP.Interface.BuildGUI,
-	Fetch = NeP.Interface.Fetch,
-	GetElement = NeP.Interface.GetElement,
-	Add = NeP.Interface.Add,
-	toggleToggle = NeP.Interface.toggleToggle,
-	AddToggle = NeP.Interface.AddToggle,
-	Alert = NeP.Interface.Alert,
-	Splash = NeP.Interface.Splash
+	BuildGUI = gbl.Interface.BuildGUI,
+	Fetch = gbl.Interface.Fetch,
+	GetElement = gbl.Interface.GetElement,
+	Add = gbl.Interface.Add,
+	toggleToggle = gbl.Interface.toggleToggle,
+	AddToggle = gbl.Interface.AddToggle,
+	Alert = gbl.Interface.Alert,
+	Splash = gbl.Interface.Splash
 }
 g.ActionLog = {
-	Add = NeP.ActionLog.Add,
+	Add = gbl.ActionLog.Add,
 }
 g.AddsID = {
-  Add = NeP.AddsID.Add,
-  Eval = NeP.AddsID.Eval,
-  Get = NeP.AddsID.Get
+  Add = gbl.AddsID.Add,
+  Eval = gbl.AddsID.Eval,
+  Get = gbl.AddsID.Get
 }
 g.Debuffs = {
-  Add = NeP.Debuffs.Add,
-  Eval = NeP.Debuffs.Eval,
-  Get = NeP.Debuffs.Get
+  Add = gbl.Debuffs.Add,
+  Eval = gbl.Debuffs.Eval,
+  Get = gbl.Debuffs.Get
 }
 g.BossID = {
-  Add = NeP.BossID.Add,
-  Eval = NeP.BossID.Eval,
-  Get = NeP.BossID.Get
+  Add = gbl.BossID.Add,
+  Eval = gbl.BossID.Eval,
+  Get = gbl.BossID.Get
 }
 g.ByPassMounts = {
-  Add = NeP.ByPassMounts.Add,
-  Eval = NeP.ByPassMounts.Eval,
-  Get = NeP.ByPassMounts.Get
+  Add = gbl.ByPassMounts.Add,
+  Eval = gbl.ByPassMounts.Eval,
+  Get = gbl.ByPassMounts.Get
 }
 g.Taunts = {
-  Add = NeP.Taunts.Add,
-  ShouldTaunt = NeP.Taunts.ShouldTaunt,
-  Get = NeP.Taunts.Get
+  Add = gbl.Taunts.Add,
+  ShouldTaunt = gbl.Taunts.ShouldTaunt,
+  Get = gbl.Taunts.Get
 }

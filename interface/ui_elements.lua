@@ -1,4 +1,4 @@
-local _, NeP = ...
+local _, gbl = ...
 local LibStub = LibStub
 local CreateFrame = CreateFrame
 local DiesalGUI = LibStub('DiesalGUI-1.0')
@@ -8,7 +8,7 @@ local SharedMedia = LibStub('LibSharedMedia-3.0')
 local def_text_size = 10
 local spacer_size = 10
 
-function NeP.Interface.Text(_, element, parent, table)
+function gbl.Interface.Text(_, element, parent, table)
 	local tmp = DiesalGUI:Create('FontString')
 	tmp:SetParent(parent.content)
 	parent:AddChild(tmp)
@@ -23,11 +23,11 @@ function NeP.Interface.Text(_, element, parent, table)
 	return tmp
 end
 
-function NeP.Interface:Header(element, parent, table)
+function gbl.Interface:Header(element, parent, table)
 	element.size = element.size or 13
 	local tmp = self:Text(element, parent, table)
 	-- Only when loaded
-	NeP.Core:WhenInGame(function()
+	gbl.Core:WhenInGame(function()
 		element.color = element.color or table.color
 		tmp:SetText((element.color and '|cff'..element.color or '')..element.text)
 	end, 1)
@@ -35,7 +35,7 @@ function NeP.Interface:Header(element, parent, table)
 	return tmp
 end
 
-function NeP.Interface.Rule(_,_, parent, table)
+function gbl.Interface.Rule(_,_, parent, table)
 	local tmp = DiesalGUI:Create('Rule')
 	parent:AddChild(tmp)
 	tmp:SetParent(parent.content)
@@ -45,7 +45,7 @@ function NeP.Interface.Rule(_,_, parent, table)
 	return tmp
 end
 
-function NeP.Interface.Texture(_, element, parent, table)
+function gbl.Interface.Texture(_, element, parent, table)
 	local tmp = CreateFrame('Frame')
 	tmp:SetParent(parent.content)
 	tmp:SetPoint(element.align or 'TOPLEFT', parent.content,
@@ -60,7 +60,7 @@ function NeP.Interface.Texture(_, element, parent, table)
 	return tmp
 end
 
-function NeP.Interface.Checkbox(_,element, parent, table)
+function gbl.Interface.Checkbox(_,element, parent, table)
 	local key = element.key_check or element.key
 	local default = element.default_check or element.default
 	local tmp = DiesalGUI:Create('CheckBox')
@@ -68,17 +68,17 @@ function NeP.Interface.Checkbox(_,element, parent, table)
 	tmp:SetParent(parent.content)
 	tmp:SetPoint('TOPLEFT', parent.content, 'TOPLEFT', 5, table.offset)
 	tmp:SetEventListener('OnValueChanged', function(_, _, checked)
-		NeP.Interface:Write(table.key, key, checked)
+		gbl.Interface:Write(table.key, key, checked)
 	end)
 	-- Only when loaded
-	NeP.Core:WhenInGame(function()
-		tmp:SetChecked(NeP.Interface:Fetch(table.key, key, default or false))
+	gbl.Core:WhenInGame(function()
+		tmp:SetChecked(gbl.Interface:Fetch(table.key, key, default or false))
 	end)
 	element.h = 20
 	return tmp
 end
 
-function NeP.Interface.Spinner(_,element, parent, table)
+function gbl.Interface.Spinner(_,element, parent, table)
 	local key = element.key_spin or element.key
 	local default = element.default_spin or element.default
 	local tmp = DiesalGUI:Create('Spinner')
@@ -86,8 +86,8 @@ function NeP.Interface.Spinner(_,element, parent, table)
 	tmp:SetParent(parent.content)
 	tmp:SetPoint('TOPRIGHT', parent.content, 'TOPRIGHT', -5, table.offset)
 	-- Only when loaded
-	NeP.Core:WhenInGame(function()
-		tmp:SetNumber(NeP.Interface:Fetch(table.key, key, default))
+	gbl.Core:WhenInGame(function()
+		tmp:SetNumber(gbl.Interface:Fetch(table.key, key, default))
 	end)
 	--Settings
 	tmp.settings.width = element.width or tmp.settings.width
@@ -101,12 +101,12 @@ function NeP.Interface.Spinner(_,element, parent, table)
 	element.y = tmp.settings.width
 	tmp:SetEventListener('OnValueChanged', function(_, _, userInput, number)
 		if not userInput then return end
-		NeP.Interface:Write(table.key, key, number)
+		gbl.Interface:Write(table.key, key, number)
 	end)
 	return tmp
 end
 
-function NeP.Interface:Checkspin(element, parent, table)
+function gbl.Interface:Checkspin(element, parent, table)
 	local original_offset, final_offset = table.offset
 	local original_text, original_desc = element.text, element.desc
 	element.key_check = element.key..'_check'
@@ -125,7 +125,7 @@ function NeP.Interface:Checkspin(element, parent, table)
 	return tmp
 end
 
-function NeP.Interface.Combo(_,element, parent, table)
+function gbl.Interface.Combo(_,element, parent, table)
 	local tmp = DiesalGUI:Create('Dropdown')
 	parent:AddChild(tmp)
 	tmp:SetParent(parent.content)
@@ -139,11 +139,11 @@ function NeP.Interface.Combo(_,element, parent, table)
 	end
 	tmp:SetList(list, orderdKeys)
 	tmp:SetEventListener('OnValueChanged', function(_, _, value)
-		NeP.Interface:Write(table.key, element.key, value)
+		gbl.Interface:Write(table.key, element.key, value)
 	end)
 	-- Only when loaded
-	NeP.Core:WhenInGame(function()
-		tmp:SetValue(NeP.Interface:Fetch(table.key, element.key, element.default))
+	gbl.Core:WhenInGame(function()
+		tmp:SetValue(gbl.Interface:Fetch(table.key, element.key, element.default))
 	end)
 	--Settings
 	tmp.settings.width = element.width or tmp.settings.width
@@ -151,7 +151,7 @@ function NeP.Interface.Combo(_,element, parent, table)
 	return tmp
 end
 
-function NeP.Interface:Button(element, parent, table)
+function gbl.Interface:Button(element, parent, table)
 	local tmp = DiesalGUI:Create('Button')
 	parent:AddChild(tmp)
 	tmp:SetParent(parent.content)
@@ -165,23 +165,23 @@ function NeP.Interface:Button(element, parent, table)
 	return tmp
 end
 
-function NeP.Interface.Input(_, element, parent, table)
+function gbl.Interface.Input(_, element, parent, table)
 	local tmp = DiesalGUI:Create('Input')
 	parent:AddChild(tmp)
 	tmp:SetParent(parent.content)
 	tmp:SetPoint('TOPRIGHT', parent.content, 'TOPRIGHT', -5, table.offset)
 	if element.width then tmp:SetWidth(element.width) end
 	-- Only when loaded
-	NeP.Core:WhenInGame(function()
-		tmp:SetText(NeP.Interface:Fetch(table.key, element.key, element.default or ''))
+	gbl.Core:WhenInGame(function()
+		tmp:SetText(gbl.Interface:Fetch(table.key, element.key, element.default or ''))
 	end, 9)
 	tmp:SetEventListener('OnEditFocusLost', function(this)
-		NeP.Interface:Write(table.key, element.key, this:GetText())
+		gbl.Interface:Write(table.key, element.key, this:GetText())
 	end)
 	return tmp
 end
 
-function NeP.Interface.Statusbar(_, element, parent)
+function gbl.Interface.Statusbar(_, element, parent)
 	local tmp = DiesalGUI:Create('StatusBar')
 	parent:AddChild(tmp)
 	tmp:SetParent(parent.content)
@@ -192,11 +192,11 @@ function NeP.Interface.Statusbar(_, element, parent)
 	return tmp
 end
 
-function NeP.Interface:Header(element, parent, table)
+function gbl.Interface:Header(element, parent, table)
 	element.size = element.size or 13
 	local tmp = self:Text(element, parent, table)
 	-- Only when loaded
-	NeP.Core:WhenInGame(function()
+	gbl.Core:WhenInGame(function()
 		element.color = element.color or table.color
 		tmp:SetText((element.color and '|cff'..element.color or '')..element.text)
 	end, 1)
@@ -204,6 +204,6 @@ function NeP.Interface:Header(element, parent, table)
 	return tmp
 end
 
-function NeP.Interface.Spacer(_,element,_, table)
+function gbl.Interface.Spacer(_,element,_, table)
 	table.offset = table.offset - (element.size or spacer_size)
 end

@@ -1,14 +1,14 @@
-local _, NeP = ...
-NeP.Debuffs = {}
-NeP.Debuffs.table = {}
-local T = NeP.Debuffs.table
+local _, gbl = ...
+gbl.Debuffs = {}
+gbl.Debuffs.table = {}
+local T = gbl.Debuffs.table
 
 --[[
 	DESC: Checks if unit has a Blacklisted Debuff.
 	This will remove the unit from the OM cache.
 ---------------------------------------------------]]
 
-function NeP.Debuffs:Eval(unit)
+function gbl.Debuffs:Eval(unit)
 	for i = 1, 40 do
 		local ID = select(11, UnitDebuff(unit, i))
 		if ID and T[ID] then
@@ -17,7 +17,7 @@ function NeP.Debuffs:Eval(unit)
 	end
 end
 
-function NeP.Debuffs:Add(ID)
+function gbl.Debuffs:Add(ID)
 	if type(ID) == 'table' then
 		for i=1, #ID do
 			self:Add(ID[i])
@@ -27,11 +27,11 @@ function NeP.Debuffs:Add(ID)
 	end
 end
 
-function NeP.Debuffs:Get()
+function gbl.Debuffs:Get()
 	return T
 end
 
-NeP.Debuffs:Add({
+gbl.Debuffs:Add({
 		-- CROWD CONTROL
 	118,     -- Polymorph
 	1513,     -- Scare Beast

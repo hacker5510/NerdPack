@@ -1,7 +1,7 @@
-local _, NeP = ...
-NeP.Interface = {}
+local _, gbl = ...
+gbl.Interface = {}
 
-NeP.Interface.statusBarStylesheet = {
+gbl.Interface.statusBarStylesheet = {
   ['frame-texture'] = {
     type		= 'texture',
     layer		= 'BORDER',
@@ -13,7 +13,7 @@ NeP.Interface.statusBarStylesheet = {
   }
 }
 
-NeP.Interface.buttonStyleSheet = {
+gbl.Interface.buttonStyleSheet = {
 	['frame-color'] = {
 		type			= 'texture',
 		layer			= 'BACKGROUND',
@@ -57,7 +57,7 @@ NeP.Interface.buttonStyleSheet = {
 	},
 }
 
-NeP.Interface.createButtonStyle = {
+gbl.Interface.createButtonStyle = {
 	type			= 'texture',
 	texFile		= 'DiesalGUIcons',
 	texCoord		= {1,6,16,256,128},
@@ -67,7 +67,7 @@ NeP.Interface.createButtonStyle = {
 	height		= 16,
 }
 
-NeP.Interface.deleteButtonStyle = {
+gbl.Interface.deleteButtonStyle = {
 	type			= 'texture',
 	texFile		='DiesalGUIcons',
 	texCoord		= {2,6,16,256,128},

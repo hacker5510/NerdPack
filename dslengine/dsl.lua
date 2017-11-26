@@ -1,7 +1,7 @@
-local _, NeP = ...
+local _, gbl = ...
 local _G = _G
-NeP.DSL = {}
-local DSL = NeP.DSL
+gbl.DSL = {}
+local DSL = gbl.DSL
 local strsplit = strsplit
 
 local function FilterNum(str)
@@ -39,7 +39,7 @@ local math_OP = {
 
 local DSL_OP = {
 	['!']  = function(...) return not DSL.Parse(...) end,
-	['@']  = function(arg,_,target) return NeP.Library:Parse(arg:gsub('%((.+)%)', ''), target, arg:match('%((.+)%)')) end,
+	['@']  = function(arg,_,target) return gbl.Library:Parse(arg:gsub('%((.+)%)', ''), target, arg:match('%((.+)%)')) end,
 }
 
 local function _AND(strg, spell, target)
@@ -85,14 +85,14 @@ local function Nest(strg, spell, target)
 end
 
 --cache
-NeP.Cache.Conditions = {}
-local C = NeP.Cache.Conditions
+gbl.Cache.Conditions = {}
+local C = gbl.Cache.Conditions
 
 local function ProcessCondition(strg, spell, target)
 	-- Unit prefix
-	if not NeP.Condition:Exists(strg:gsub("%((.+)%)", "")) then
+	if not gbl.Condition:Exists(strg:gsub("%((.+)%)", "")) then
 		local unitID, rest = strsplit('.', strg, 2)
-		unitID =  NeP.Unit:Filter(unitID)[1]
+		unitID =  gbl.Unit:Filter(unitID)[1]
 		-- condition target
 		if unitID
 		and rest
@@ -112,7 +112,7 @@ local function ProcessCondition(strg, spell, target)
 	C[strg] = C[strg] or {}
 	C[strg][target] = C[strg][target] or {}
 	if C[strg][target][Args] == nil then
-		C[strg][target][Args] = NeP.Condition:Get(strg)(target, Args) or false
+		C[strg][target][Args] = gbl.Condition:Get(strg)(target, Args) or false
 	end
 
 	return C[strg][target][Args]
@@ -152,10 +152,10 @@ end
 local function ExeFunc(strg)
 	local Args = strg:match('%((.+)%)')
 	strg = strg:gsub('%((.+)%)', '')
-	return NeP.Condition.cust_funcs[strg](Args)
+	return gbl.Condition.cust_funcs[strg](Args)
 end
 
-function NeP.DSL.Parse(strg, spell, target)
+function gbl.DSL.Parse(strg, spell, target)
 	local pX = strg:sub(1, 1)
 	if strg:find('{(.-)}') then
 		return Nest(strg, spell, target)

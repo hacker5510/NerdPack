@@ -1,5 +1,5 @@
-local _, NeP = ...
-NeP.ClassTable = {}
+local _, gbl = ...
+gbl.ClassTable = {}
 
 local rangex = {
 	["melee"] = 1.5,
@@ -297,11 +297,11 @@ local ShortByIndex = {
 	[12] = Demon_Hunter
 }
 
-function NeP.ClassTable.GetClass(_, classid)
+function gbl.ClassTable.GetClass(_, classid)
 	return ShortByIndex[classid]
 end
 
-function NeP.ClassTable.GetSpec(_, specid)
+function gbl.ClassTable.GetSpec(_, specid)
 	for i=1, #ShortByIndex do
 		if ShortByIndex[i].specs[specid] then
 			return ShortByIndex[i].specs[specid]
@@ -309,7 +309,7 @@ function NeP.ClassTable.GetSpec(_, specid)
 	end
 end
 
-function NeP.ClassTable:GetClassSpecs(classid)
+function gbl.ClassTable:GetClassSpecs(classid)
 	local class = self:GetClass(classid)
 	local tmp = {}
 	for specid in pairs (class.specs) do
@@ -318,22 +318,22 @@ function NeP.ClassTable:GetClassSpecs(classid)
 	return tmp
 end
 
-function NeP.ClassTable:SpecIsFromClass(classid, specid)
+function gbl.ClassTable:SpecIsFromClass(classid, specid)
 	local class = self:GetClass(classid)
 	return not not class.specs[specid]
 end
 
-function NeP.ClassTable:GetClassColor(classid, type)
+function gbl.ClassTable:GetClassColor(classid, type)
 	local class = self:GetClass(classid)
 	return class[type or "hex"]
 end
 
-function NeP.ClassTable:GetRange(specid)
+function gbl.ClassTable:GetRange(specid)
 	local spec = self:GetSpec(specid)
 	return spec.range
 end
 
-function NeP.ClassTable:GetRole(specid)
+function gbl.ClassTable:GetRole(specid)
 	local spec = self:GetSpec(specid)
 	return spec.role
 end

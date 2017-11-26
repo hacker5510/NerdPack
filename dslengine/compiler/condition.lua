@@ -1,4 +1,4 @@
-local _, NeP = ...
+local _, gbl = ...
 
 local c_type = {}
 
@@ -15,7 +15,7 @@ local function CondSpellLocale(str)
 	return str:gsub("%((.-)%)", function(s)
 		-- we cant convert numbers due to it messing up other things
 		if tonumber(s) then return '('..s..')' end
-		return '('..NeP.Spells:Convert(s)..')'
+		return '('..gbl.Spells:Convert(s)..')'
 	end)
 end
 
@@ -24,7 +24,7 @@ c_type["string"] = function(cond, eval)
   cond = CondSpaces(cond)
   cond = CondSpellLocale(cond)
   return function()
-		return NeP.DSL.Parse(cond, eval.spell, eval.curUnit)
+		return gbl.DSL.Parse(cond, eval.spell, eval.curUnit)
 	end
 end
 
@@ -43,6 +43,6 @@ end
 -- public func (main)
 -- return a function ready for usage
 -- TODO: compile the condition instead of doing it in runtime
-function NeP.Compiler.Condition(cond, ...)
+function gbl.Compiler.Condition(cond, ...)
   return c_type[type(cond)](cond, ...)
 end

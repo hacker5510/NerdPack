@@ -1,20 +1,20 @@
-local _, NeP = ...
+local _, gbl = ...
 
-NeP.Commands = {}
-NeP.Commands.cache = {}
+gbl.Commands = {}
+gbl.Commands.cache = {}
 
-function NeP.Commands:Add(a, b, func)
+function gbl.Commands:Add(a, b, func)
 	self.cache[a][b] = func
 end
 
 local default_func = function(a, msg)
 	local b, rest = msg:match("^(%S*)%s*(.-)$");
-	if NeP.Commands.cache[a][b] then
-		NeP.Commands.cache[a][b](rest)
+	if gbl.Commands.cache[a][b] then
+		gbl.Commands.cache[a][b](rest)
 	end
 end
 
-function NeP.Commands:Register(name, func, ...)
+function gbl.Commands:Register(name, func, ...)
 	SlashCmdList[name] = func or function(msg) default_func(name, msg) end
 	local command
 	for i = 1, select('#', ...) do

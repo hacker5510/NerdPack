@@ -1,8 +1,8 @@
-local n_name, NeP = ...
+local n_name, gbl = ...
 
-NeP.Locale.ruRU = {
+gbl.Locale.ruRU = {
   Any = {
-    NeP_Show = 'Для отображения '..n_name..' используйте команду чата: \n/nep show',
+    gbl_Show = 'Для отображения '..n_name..' используйте команду чата: \n/gbl show',
     ON = 'Вкл',
     OFF = 'Выкл'
   },
@@ -12,7 +12,7 @@ NeP.Locale.ruRU = {
     Cooldowns = 'Вкл/Выкл использование КД(бурстов)',
     AoE = 'Вкл/Выкл АОЕ',
     Settings = 'Настройки',
-    HideNeP = 'Скрыть '..n_name,
+    Hidegbl = 'Скрыть '..n_name,
     ChangeCR = 'Сменить ротацию:',
     Donate = 'Сделать пожертвование '..n_name,
     Forum = 'Посетить наш форум',

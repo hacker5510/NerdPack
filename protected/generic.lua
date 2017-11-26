@@ -1,6 +1,6 @@
-local _, NeP = ...
-NeP.Protected.Generic = {}
-local Generic = NeP.Protected.Generic
+local _, gbl = ...
+gbl.Protected.Generic = {}
+local Generic = gbl.Protected.Generic
 Generic.Name = "Generic"
 
 Generic.Test = function()
@@ -18,7 +18,7 @@ Generic.Cast = function(spell, target)
 end
 
 Generic.CastGround = function(spell, target)
-	if not NeP.Protected.ValidGround[target] then
+	if not gbl.Protected.ValidGround[target] then
 		target = "cursor"
 	end
 	Generic.Macro("/cast [@"..target.."]"..spell)
@@ -44,4 +44,4 @@ Generic.SpellStopCasting = function()
 	SpellStopCasting()
 end
 
-NeP.Protected:AddUnlocker(Generic)
+gbl.Protected:AddUnlocker(Generic)

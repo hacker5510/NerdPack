@@ -1,5 +1,5 @@
-local _, NeP       = ...
-NeP.Spells         = {}
+local _, gbl       = ...
+gbl.Spells         = {}
 local SpellsTable  = {}
 
 local function _add(...)
@@ -10,7 +10,7 @@ local function _add(...)
 	end
 end
 
-function NeP.Spells.Add(_, ...)
+function gbl.Spells.Add(_, ...)
 	if type(...) == 'table' then
 		for name, id in pairs(...) do
 			_add(name, id)
@@ -20,7 +20,7 @@ function NeP.Spells.Add(_, ...)
 	end
 end
 
-function NeP.Spells.Convert(_, spell)
+function gbl.Spells.Convert(_, spell)
 	if not spell then return end
 	if type(spell) == 'number' or spell:find('%d') then
 		spell = GetSpellInfo(spell) or spell

@@ -1,9 +1,9 @@
-local _, NeP = ...
+local _, gbl = ...
 
-NeP.Condition:Register("advanced", function()
+gbl.Condition:Register("advanced", function()
 	return HackEnabled ~= nil
 end)
 
-NeP.Condition:Register("ishackenabled", function(_, hack)
+gbl.Condition:Register("ishackenabled", function(_, hack)
 	return HackEnabled and HackEnabled(hack)
 end)

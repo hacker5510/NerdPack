@@ -1,35 +1,35 @@
-local _, NeP = ...
+local _, gbl = ...
 local GetTime = GetTime
 
-NeP.LuaEngine = {}
-NeP.LuaEngine.Queue = {}
+gbl.LuaEngine = {}
+gbl.LuaEngine.Queue = {}
 
 -- returns target if it exists or player
-function NeP.LuaEngine.NoopUnit()
+function gbl.LuaEngine.NoopUnit()
   return UnitExists('target') and 'target' or 'player'
 end
 
-function NeP.LuaEngine.BuildUnits()
-  for unit_name, unit_func in pairs(NeP.Unit.Units) do
+function gbl.LuaEngine.BuildUnits()
+  for unit_name, unit_func in pairs(gbl.Unit.Units) do
     -- build the Object
-    NeP.LuaEngine[unit_name] = {
+    gbl.LuaEngine[unit_name] = {
       unit = unit_func,
       unit_func = unit_func
     }
     -- give it all conditions
-    for cond_name, cond_func in pairs(NeP.Condition.conditions) do
-      NeP.LuaEngine[unit_name][cond_name] = function(arg)
+    for cond_name, cond_func in pairs(gbl.Condition.conditions) do
+      gbl.LuaEngine[unit_name][cond_name] = function(arg)
         return cond_func(unit_func(), arg)
       end
     end
   end
 end
 
-function NeP.LuaEngine.QueueSpell(spell, unit)
-  spell = NeP.Spells:Convert(spell)
+function gbl.LuaEngine.QueueSpell(spell, unit)
+  spell = gbl.Spells:Convert(spell)
   if not spell then return end
-  NeP.LuaEngine.Queue[spell] = {
+  gbl.LuaEngine.Queue[spell] = {
     time = GetTime(),
-    unit = unit or NeP.NoopUnit()
+    unit = unit or gbl.NoopUnit()
   }
 end

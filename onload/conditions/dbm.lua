@@ -1,20 +1,20 @@
-local _, NeP = ...
-NeP.DBM = {}
+local _, gbl = ...
+gbl.DBM = {}
 
 --dont load if DBM is not installed
-function NeP.DBM.BuildTimers()end
+function gbl.DBM.BuildTimers()end
 if not DBM then return end
 
-NeP.Cache.DBM_Timers = {}
+gbl.Cache.DBM_Timers = {}
 local fake_timer = 999
 
-function NeP.DBM.BuildTimers()
+function gbl.DBM.BuildTimers()
   for bar in pairs(DBM.Bars.bars) do
       local id = GetSpellInfo(bar.id:match("%d+")) or bar.id:lower()
-      NeP.Cache.DBM_Timers[id] = bar.timer and bar.timer
+      gbl.Cache.DBM_Timers[id] = bar.timer and bar.timer
   end
 end
 
-NeP.Condition:Register('dbm', function(_, event)
-  return NeP.Cache.DBM_Timers[event:lower()] or fake_timer
+gbl.Condition:Register('dbm', function(_, event)
+  return gbl.Cache.DBM_Timers[event:lower()] or fake_timer
 end)

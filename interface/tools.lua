@@ -1,10 +1,10 @@
-local _, NeP = ...
-NeP.Interface.usedGUIs = {}
+local _, gbl = ...
+gbl.Interface.usedGUIs = {}
 local LibStub = LibStub
 local unpack = unpack
 local DiesalGUI = LibStub("DiesalGUI-1.0")
 local element_space = 2
-function NeP.Interface.Noop() end
+function gbl.Interface.Noop() end
 
 local Elements = {
 	header = 'Header',
@@ -26,7 +26,7 @@ local default_profiles = {{key='default',text='Default'}}
 local new_prof_Name = "New Profile Name"
 
 local function new_prof(table, parent)
-	local pFrame = NeP.Interface.pFrame
+	local pFrame = gbl.Interface.pFrame
 	local profileName = pFrame.Input:GetText()
 	if profileName == ''
 	or profileName == new_prof_Name
@@ -39,13 +39,13 @@ local function new_prof(table, parent)
 		end
 	end
 	table.insert(table.av_profiles, {key = profileName, text = profileName})
-	NeP.Config:Write(table.key, 'av_profiles', table.av_profiles, 'settings')
-	NeP.Config:Write(table.key, 'selected_profile', profileName, 'settings')
+	gbl.Config:Write(table.key, 'av_profiles', table.av_profiles, 'settings')
+	gbl.Config:Write(table.key, 'selected_profile', profileName, 'settings')
 	pFrame:Hide()
 	parent:Hide()
 	parent:Release()
-	NeP.Interface.usedGUIs[table.key] = nil
-	NeP.Interface:BuildGUI(table)
+	gbl.Interface.usedGUIs[table.key] = nil
+	gbl.Interface:BuildGUI(table)
 	pFrame:Hide()
 	pFrame.Input:SetText(new_prof_Name)
 end
@@ -56,19 +56,19 @@ local function del_prof(table, parent)
 			if table.selected_profile ~= 'default' then
 				table.av_profiles[i] = nil
 			end
-			NeP.Config:Write(table.key, 'av_profiles', table.av_profiles, 'settings')
-			NeP.Config:Write(table.key, 'selected_profile', 'default', 'settings')
+			gbl.Config:Write(table.key, 'av_profiles', table.av_profiles, 'settings')
+			gbl.Config:Write(table.key, 'selected_profile', 'default', 'settings')
 			parent:Hide()
 			parent:Release()
-			NeP.Interface.usedGUIs[table.key] = nil
-			NeP.Config:Reset(table.key, nil, table.selected_profile)
-			NeP.Interface:BuildGUI(table)
+			gbl.Interface.usedGUIs[table.key] = nil
+			gbl.Config:Reset(table.key, nil, table.selected_profile)
+			gbl.Interface:BuildGUI(table)
 			break
 		end
 	end
 end
 
-function NeP.Interface:BuildGUI_New(table, parent)
+function gbl.Interface:BuildGUI_New(table, parent)
 	local tmp = DiesalGUI:Create('Button')
 	parent:AddChild(tmp)
 	tmp:SetParent(parent.footer)
@@ -77,13 +77,13 @@ function NeP.Interface:BuildGUI_New(table, parent)
 	tmp:SetText('N')
 	tmp:SetStylesheet(self.buttonStyleSheet)
 	tmp:SetEventListener('OnClick', function()
-		local pFrame = NeP.Interface.pFrame
+		local pFrame = gbl.Interface.pFrame
 		pFrame:Show()
 		pFrame.Button:SetEventListener('OnClick', function() new_prof(table, parent) end)
 	end)
 end
 
-function NeP.Interface:BuildGUI_Del(table, parent)
+function gbl.Interface:BuildGUI_Del(table, parent)
 	local tmp = DiesalGUI:Create('Button')
 	parent:AddChild(tmp)
 	tmp:SetParent(parent.footer)
@@ -94,7 +94,7 @@ function NeP.Interface:BuildGUI_Del(table, parent)
 	tmp:SetEventListener('OnClick', function() del_prof(table, parent) end)
 end
 
-function NeP.Interface:BuildGUI_Combo(table, parent)
+function gbl.Interface:BuildGUI_Combo(table, parent)
 		local tmp = DiesalGUI:Create('Dropdown')
 		parent:AddChild(tmp)
 		tmp:SetParent(parent.footer)
@@ -104,7 +104,7 @@ function NeP.Interface:BuildGUI_Combo(table, parent)
 		local orderdKeys = {}
 		local list = {}
 		-- Only when loaded
-		NeP.Core:WhenInGame(function()
+		gbl.Core:WhenInGame(function()
 			for i, value in pairs(table.av_profiles) do
 				orderdKeys[i] = value.key
 				list[value.key] = value.text
@@ -114,7 +114,7 @@ function NeP.Interface:BuildGUI_Combo(table, parent)
 		end)
 		tmp:SetEventListener('OnValueChanged', function(_,_, value)
 			if table.selected_profile == value then return end
-			NeP.Config:Write(table.key, 'selected_profile', value, 'settings')
+			gbl.Config:Write(table.key, 'selected_profile', value, 'settings')
 			parent:Hide()
 			parent:Release()
 			self.usedGUIs[table.key] = nil
@@ -122,7 +122,7 @@ function NeP.Interface:BuildGUI_Combo(table, parent)
 		end)
 end
 
-function NeP.Interface:AddText(element, parent, table, element_type, tmp)
+function gbl.Interface:AddText(element, parent, table, element_type, tmp)
 	if element.text
 	and element_type ~= "Text"
 	and element_type ~= "Header"
@@ -137,7 +137,7 @@ function NeP.Interface:AddText(element, parent, table, element_type, tmp)
 	end
 end
 
-function NeP.Interface:AddDesc(element, parent, table, tmp)
+function gbl.Interface:AddDesc(element, parent, table, tmp)
 	if element.desc then
 		element.text = element.desc
 		tmp.desc = self:Text(element, parent, table)
@@ -145,7 +145,7 @@ function NeP.Interface:AddDesc(element, parent, table, tmp)
 	end
 end
 
-function NeP.Interface:BuildElements(table, parent)
+function gbl.Interface:BuildElements(table, parent)
 	table.offset = -5
 	for i=1, #table.config do
 		local element = table.config[i]
@@ -160,35 +160,35 @@ function NeP.Interface:BuildElements(table, parent)
 	end
 end
 
-function NeP.Interface:GetElement(key, element)
+function gbl.Interface:GetElement(key, element)
 	return self.usedGUIs[key].elements[element].parent
 end
 
 -- This opens a existing GUI instead of creating another
-function NeP.Interface:TestCreated(table)
+function gbl.Interface:TestCreated(table)
 	local test = type(table) == 'string' and table or table.key
 	return self.usedGUIs[test]
 end
 
 local function UI_WhenInGame(table, parent)
 	--Colors
-	if not table.color then table.color = NeP.Color end
+	if not table.color then table.color = gbl.Color end
 	if type(table.color) == 'function' then table.color = table.color() end
 	-- load Location
-	local left, top = unpack(NeP.Config:Read(table.key, 'Location', {500, 500}, 'settings'))
+	local left, top = unpack(gbl.Config:Read(table.key, 'Location', {500, 500}, 'settings'))
 	parent.settings.left = left
 	parent.settings.top = top
 	parent:UpdatePosition()
 	--tittle
 	parent:SetTitle("|cff"..table.color..(table.title or table.key).."|r", table.subtitle)
 	--profiles
-	table.selected_profile = NeP.Config:Read(table.key, 'selected_profile', 'default', 'settings')
-	table.av_profiles = NeP.Config:Read(table.key, 'av_profiles', default_profiles, 'settings')
+	table.selected_profile = gbl.Config:Read(table.key, 'selected_profile', 'default', 'settings')
+	table.av_profiles = gbl.Config:Read(table.key, 'av_profiles', default_profiles, 'settings')
 	parent:ApplySettings()
 end
 
-function NeP.Interface.BuildGUI(_, table)
-	local self = NeP.Interface
+function gbl.Interface.BuildGUI(_, table)
+	local self = gbl.Interface
 	--Tests (if created, show it)
 	local gui_test = self:TestCreated(table)
 	if gui_test then
@@ -207,10 +207,10 @@ function NeP.Interface.BuildGUI(_, table)
 	--parent:SetStylesheet(self.WindowStyleSheet)
 	--Save Location after dragging
 	parent:SetEventListener('OnDragStop', function(_,_, l, t)
-		NeP.Config:Write(table.key, 'Location', {l, t}, 'settings')
+		gbl.Config:Write(table.key, 'Location', {l, t}, 'settings')
 	end)
 	-- Only build the body after we'r done loading configs
-	NeP.Core:WhenInGame(function() UI_WhenInGame(table, parent) end, 9)
+	gbl.Core:WhenInGame(function() UI_WhenInGame(table, parent) end, 9)
 	-- Build Profiles
 	if table.profiles then
 		parent.settings.footer = true
@@ -234,12 +234,12 @@ function NeP.Interface.BuildGUI(_, table)
 	return self.usedGUIs[table.key]
 end
 
-function NeP.Interface.Fetch(_, a, b, default)
-	local cprofile = NeP.Config:Read(a, 'selected_profile', 'default', 'settings')
-	return NeP.Config:Read(a, b, default, cprofile)
+function gbl.Interface.Fetch(_, a, b, default)
+	local cprofile = gbl.Config:Read(a, 'selected_profile', 'default', 'settings')
+	return gbl.Config:Read(a, b, default, cprofile)
 end
 
-function NeP.Interface.Write(_, a, b, key)
-	local cprofile = NeP.Config:Read(a, 'selected_profile', 'default', 'settings')
-	NeP.Config:Write(a, b, key, cprofile)
+function gbl.Interface.Write(_, a, b, key)
+	local cprofile = gbl.Config:Read(a, 'selected_profile', 'default', 'settings')
+	gbl.Config:Write(a, b, key, cprofile)
 end

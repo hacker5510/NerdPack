@@ -1,15 +1,15 @@
-local _, NeP = ...
+local _, gbl = ...
 
-NeP.Locale = {}
+gbl.Locale = {}
 
 local locale = GetLocale()
-function NeP.Locale:TA(gui, index)
-  if NeP.Locale[locale] and NeP.Locale[locale][gui] then
-    if NeP.Locale[locale][gui][index] then
-      return NeP.Locale[locale][gui][index]
+function gbl.Locale:TA(gui, index)
+  if gbl.Locale[locale] and gbl.Locale[locale][gui] then
+    if gbl.Locale[locale][gui][index] then
+      return gbl.Locale[locale][gui][index]
     end
   end
-  return NeP.Locale.enUS[gui][index] or 'INVALID STRING'
+  return gbl.Locale.enUS[gui][index] or 'INVALID STRING'
 end
 
 --[[

@@ -1,17 +1,17 @@
-local n_name, NeP = ...
+local n_name, gbl = ...
 
-NeP.Debug = {}
-NeP.Debug.Enable = true
-NeP.Debug.Profiles = {}
-NeP.Debug.Profiles.total_usage = 0
-NeP.Debug.Profiles.total_average = 0
+gbl.Debug = {}
+gbl.Debug.Enable = true
+gbl.Debug.Profiles = {}
+gbl.Debug.Profiles.total_usage = 0
+gbl.Debug.Profiles.total_average = 0
 
-SetCVar("scriptProfile", NeP.Debug.Enable and "1" or "0")
+SetCVar("scriptProfile", gbl.Debug.Enable and "1" or "0")
 -- Force lua erros on
 SetCVar("scriptErrors", "1")
 
-function NeP.Debug:Add(name, func, subroutines)
-	if not NeP.Debug.Enable then return end
+function gbl.Debug:Add(name, func, subroutines)
+	if not gbl.Debug.Enable then return end
 	table.insert(self.Profiles, {
 		name = name,
 		func = func,
@@ -22,17 +22,17 @@ function NeP.Debug:Add(name, func, subroutines)
 	})
 end
 
-if NeP.Debug.Enable then
+if gbl.Debug.Enable then
 
-NeP.Core:WhenInGame(function()
-	NeP.Interface:Add(n_name..' Debugger', function() texplore(NeP) end)
+gbl.Core:WhenInGame(function()
+	gbl.Interface:Add(n_name..' Debugger', function() texplore(gbl) end)
 end)
 
 local function GetAvg(a, b)
   return a == 0 and b or (a+b)/2
 end
 
-local tbl = NeP.Debug.Profiles
+local tbl = gbl.Debug.Profiles
 C_Timer.NewTicker(1, function()
   tbl.total_usage = 0
 	for i=1, #tbl do

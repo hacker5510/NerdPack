@@ -1,5 +1,5 @@
-local _, NeP = ...
-NeP.CombatHelper = {}
+local _, gbl = ...
+gbl.CombatHelper = {}
 
 local config = {
 	key = 'CombatHelper',
@@ -14,6 +14,6 @@ local config = {
 	}
 }
 
-local GUI = NeP.Interface:BuildGUI(config)
-NeP.Interface:Add('Combat Helper', function() GUI.parent:Show() end)
+local GUI = gbl.Interface:BuildGUI(config)
+gbl.Interface:Add('Combat Helper', function() GUI.parent:Show() end)
 GUI.parent:Hide()

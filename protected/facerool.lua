@@ -1,7 +1,7 @@
-local _, NeP = ...
+local _, gbl = ...
 local _G = _G
 local CreateFrame = CreateFrame
-NeP.Faceroll = {}
+gbl.Faceroll = {}
 
 -- This to put an icon on top of the spell we want
 local activeFrame = CreateFrame('Frame', 'activeCastFrame', UIParent)
@@ -32,8 +32,8 @@ display.text = display:CreateFontString('PE_StatusText')
 display.text:SetFont("Fonts\\ARIALN.TTF", 16)
 display.text:SetPoint("CENTER", display)
 
-function NeP.Faceroll.Set(_, spell, target)
-	local spellButton = NeP.Buttons[spell]
+function gbl.Faceroll.Set(_, spell, target)
+	local spellButton = gbl.Buttons[spell]
 	if not spellButton then return end
 	local bSize = spellButton:GetWidth()
 	activeFrame:SetSize(bSize+5, bSize+5)
@@ -41,13 +41,13 @@ function NeP.Faceroll.Set(_, spell, target)
 	activeFrame.texture:SetSize(activeFrame:GetWidth()-5,activeFrame:GetHeight()-5)
 	activeFrame:SetPoint("CENTER", spellButton, "CENTER")
 	display:SetPoint("TOP", spellButton, 0, display.text:GetStringHeight()+20)
-	spell = '|cff'..NeP.Color.."Spell:|r "..spell
-	local isTargeting = '|cff'..NeP.Color..tostring(UnitIsUnit("target", target or 'player'))
-	target = '|cff'..NeP.Color.."\nTarget:|r"..(UnitName(target or 'player') or '')
+	spell = '|cff'..gbl.Color.."Spell:|r "..spell
+	local isTargeting = '|cff'..gbl.Color..tostring(UnitIsUnit("target", target or 'player'))
+	target = '|cff'..gbl.Color.."\nTarget:|r"..(UnitName(target or 'player') or '')
 	display.text:SetText(spell..target.."("..isTargeting..")")
 	activeFrame:Show()
 end
 
-function NeP.Faceroll.Hide()
+function gbl.Faceroll.Hide()
 	activeFrame:Hide()
 end

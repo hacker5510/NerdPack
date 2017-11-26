@@ -1,9 +1,9 @@
-local _, NeP = ...
+local _, gbl = ...
 local _G = _G
 
-NeP.CombatTracker = {}
-NeP.CombatTracker.Data = {}
-local Data = NeP.CombatTracker.Data
+gbl.CombatTracker = {}
+gbl.CombatTracker.Data = {}
+local Data = gbl.CombatTracker.Data
 local GetTime = GetTime
 local wipe = wipe
 
@@ -110,7 +110,7 @@ local addAction = function(...)
 	if not spellName then return end
 	if sourceGUID == UnitGUID('player') then
 		local icon = select(3, GetSpellInfo(spellName))
-		NeP.ActionLog:Add('Spell Cast Succeed', spellName, icon, destName)
+		gbl.ActionLog:Add('Spell Cast Succeed', spellName, icon, destName)
 	end
 	Data[sourceGUID].lastcast = spellName
 end
@@ -130,7 +130,7 @@ local EVENTS = {
 }
 
 --[[ Returns the total ammount of time a unit is in-combat for ]]
-function NeP.CombatTracker.CombatTime(_, UNIT)
+function gbl.CombatTracker.CombatTime(_, UNIT)
 	local GUID = UnitGUID(UNIT)
 	if Data[GUID] and InCombatLockdown() then
 		local combatTime = (GetTime()-Data[GUID].combat_time)
@@ -139,7 +139,7 @@ function NeP.CombatTracker.CombatTime(_, UNIT)
 	return 0
 end
 
-function NeP.CombatTracker:getDMG(UNIT)
+function gbl.CombatTracker:getDMG(UNIT)
 	local total, Hits, phys, magic = 0, 0, 0, 0
 	local GUID = UnitGUID(UNIT)
 	if Data[GUID] then
@@ -158,7 +158,7 @@ function NeP.CombatTracker:getDMG(UNIT)
 	return total, Hits, phys, magic
 end
 
-function NeP.CombatTracker:TimeToDie(unit)
+function gbl.CombatTracker:TimeToDie(unit)
 	local ttd = 0
 	local DMG, Hits = self:getDMG(unit)
 	if DMG >= 1 and Hits > 1 then
@@ -167,23 +167,23 @@ function NeP.CombatTracker:TimeToDie(unit)
 	return ttd or 8675309
 end
 
-function NeP.CombatTracker.LastCast(_, unit)
+function gbl.CombatTracker.LastCast(_, unit)
   local GUID = UnitGUID(unit)
   if Data[GUID] then
     return Data[GUID].lastcast
   end
 end
 
-function NeP.CombatTracker.LastUsed(_, spell, unit)
+function gbl.CombatTracker.LastUsed(_, spell, unit)
 	local GUID = UnitGUID(unit)
-  spell = tonumber(spell) or NeP.Core:GetSpellID(spell)
+  spell = tonumber(spell) or gbl.Core:GetSpellID(spell)
 	return Data[GUID]
 	and Data[GUID][spell]
 	and Data[GUID][spell].lastUse
 	or 999
 end
 
-function NeP.CombatTracker.SpellDamage(_, unit, spellID)
+function gbl.CombatTracker.SpellDamage(_, unit, spellID)
   local GUID = UnitGUID(unit)
   return Data[GUID]
 	and Data[GUID][spellID]
@@ -191,7 +191,7 @@ function NeP.CombatTracker.SpellDamage(_, unit, spellID)
 	or 0
 end
 
-NeP.Listener:Add('NeP_CombatTracker', 'COMBAT_LOG_EVENT_UNFILTERED', function(...)
+gbl.Listener:Add('gbl_CombatTracker', 'COMBAT_LOG_EVENT_UNFILTERED', function(...)
 	local _, EVENT, _, SourceGUID, _,_,_, DestGUID = ...
 	-- Add the unit to our data if we dont have it
 	addToData(SourceGUID)
@@ -203,10 +203,10 @@ NeP.Listener:Add('NeP_CombatTracker', 'COMBAT_LOG_EVENT_UNFILTERED', function(..
 	if EVENTS[EVENT] then EVENTS[EVENT](...) end
 end)
 
-NeP.Listener:Add('NeP_CombatTracker', 'PLAYER_REGEN_ENABLED', function()
+gbl.Listener:Add('gbl_CombatTracker', 'PLAYER_REGEN_ENABLED', function()
 	wipe(Data)
 end)
 
-NeP.Listener:Add('NeP_CombatTracker', 'PLAYER_REGEN_DISABLED', function()
+gbl.Listener:Add('gbl_CombatTracker', 'PLAYER_REGEN_DISABLED', function()
 	wipe(Data)
 end)

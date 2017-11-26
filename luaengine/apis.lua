@@ -1,16 +1,16 @@
-local _, NeP = ...
+local _, gbl = ...
 local GetTime = GetTime
-local CR = NeP.CR
+local CR = gbl.CR
 
-NeP.API = {}
+gbl.API = {}
 
 local queue_var;
 local spellCooldown;
 local spell_queued = false
 local toggle;
 
-function NeP.API.CastSpell(spell, target)
-	NeP.Protected.Cast(spell, target)
+function gbl.API.CastSpell(spell, target)
+	gbl.Protected.Cast(spell, target)
 	spell_queued = true
 	C_Timer.After((queue_var+.1), function()
 		spell_queued = false
@@ -18,21 +18,21 @@ function NeP.API.CastSpell(spell, target)
 	return true
 end
 
-function NeP.API.UseItem(item, target)
-	NeP.Protected.UseItem(item, target)
+function gbl.API.UseItem(item, target)
+	gbl.Protected.UseItem(item, target)
 	return true
 end
 
-function NeP.API.Macro(macro, target)
-	NeP.Protected.Macro("/"..macro, target)
+function gbl.API.Macro(macro, target)
+	gbl.Protected.Macro("/"..macro, target)
 	return true
 end
 
 --Return if we're mounted or not
-function NeP.API.IsMounted()
+function gbl.API.IsMounted()
 	for i = 1, 40 do
 		local mountID = select(11, UnitBuff('player', i))
-		if mountID and NeP.ByPassMounts:Eval(mountID) then
+		if mountID and gbl.ByPassMounts:Eval(mountID) then
 			return true
 		end
 	end
@@ -40,7 +40,7 @@ function NeP.API.IsMounted()
 end
 
 -- Returns name, time and if its a channel
-function NeP.API.CastingTime()
+function gbl.API.CastingTime()
 	local channeling = false
 	local name, _,_,_,_, endTime = UnitCastingInfo("player")
 	if not name then
@@ -57,17 +57,17 @@ local function testUnitBlackList(_type, unit)
 	for i=1, #tbl do
 		local _count = tbl[i].count
 		if _count then
-			if NeP.DSL:Get(_type..'.count.any')(unit, tbl[i].name) >= _count then return true end
+			if gbl.DSL:Get(_type..'.count.any')(unit, tbl[i].name) >= _count then return true end
 		else
-			if NeP.DSL:Get(_type..'.any')(unit, tbl[i]) then return true end
+			if gbl.DSL:Get(_type..'.any')(unit, tbl[i]) then return true end
 		end
 	end
 end
 
--- Returns if a Unit is blacklist by NeP orthe CR
-function NeP.API.UnitBlacklist(unit)
-	return NeP.Debuffs:Eval(unit)
-	or CR.CurrentCR.blacklist.units[NeP.Core:UnitID(unit)]
+-- Returns if a Unit is blacklist by gbl orthe CR
+function gbl.API.UnitBlacklist(unit)
+	return gbl.Debuffs:Eval(unit)
+	or CR.CurrentCR.blacklist.units[gbl.Core:UnitID(unit)]
 	or testUnitBlackList("buff", unit)
 	or testUnitBlackList("debuff", unit)
 end
@@ -75,26 +75,26 @@ end
 -- Interrupt a Cast/Channel and returns the result
 -- Decides if you should interrput or not
 -- FIXME: should take time into account.
-function NeP.API:Interrupt(spell)
+function gbl.API:Interrupt(spell)
   local name = self:CastingTime()
 	if name == spell then
 		return false
 	end
-	NeP.Protected.SpellStopCasting()
+	gbl.Protected.SpellStopCasting()
 	return true
 end
 
 -- Returns if the unit is valid for usage
-function NeP.API:ValidUnit(unit)
+function gbl.API:ValidUnit(unit)
 	return UnitExists(unit)
 	and UnitIsVisible(unit)
-	and NeP.Protected.LineOfSight('player', unit)
+	and gbl.Protected.LineOfSight('player', unit)
 	and not self.UnitBlacklist(unit)
 end
 
 -- Returns if the spell is ready and if it has mana
 -- Ready, Mana
-function NeP.API.IsSpellReady(spell)
+function gbl.API.IsSpellReady(spell)
 	if not spell_queued
 	and GetSpellBookItemInfo(spell) ~= 'FUTURESPELL'
   and spellCooldown(nil, spell) <= queue_var then
@@ -103,27 +103,27 @@ function NeP.API.IsSpellReady(spell)
 end
 
 -- Returns if the item is ready
-function NeP.API.IsItemReady()
+function gbl.API.IsItemReady()
 	-- TODO
 	return false
 end
 
 local function ParseStart()
-	NeP.Faceroll:Hide()
-	NeP:Wipe_Cache()
-	NeP.DBM.BuildTimers()
+	gbl.Faceroll:Hide()
+	gbl:Wipe_Cache()
+	gbl.DBM.BuildTimers()
 	if toggle(nil, 'mastertoggle')
 	and not UnitIsDeadOrGhost('player')
-	and NeP.API.IsMounted()
+	and gbl.API.IsMounted()
 	and not LootFrame:IsShown() then
 		CR.CurrentCR[InCombatLockdown()].func()
 	end
 end
 
-NeP.Core:WhenInGame(function()
-	toggle = NeP.Condition:Get('toggle')
+gbl.Core:WhenInGame(function()
+	toggle = gbl.Condition:Get('toggle')
 	queue_var = (tonumber(GetCVar("SpellQueueWindow")) / 1000)
-	spellCooldown = NeP.Condition:Get('spell.cooldown')
+	spellCooldown = gbl.Condition:Get('spell.cooldown')
 	C_Timer.NewTicker(0.1, ParseStart)
-	NeP.Debug:Add("CR_TICKER", ParseStart, true)
+	gbl.Debug:Add("CR_TICKER", ParseStart, true)
 end, -99)

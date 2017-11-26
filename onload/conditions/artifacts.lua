@@ -1,4 +1,4 @@
-local _, NeP = ...
+local _, gbl = ...
 local LAD = LibStub("LibArtifactData-1.0")
 --[[
 					ARTIFACT CONDITIONS!
@@ -8,19 +8,19 @@ local LAD = LibStub("LibArtifactData-1.0")
 --------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
 ]]
-NeP.Artifact = {}
+gbl.Artifact = {}
 
-function NeP.Artifact.Update()
+function gbl.Artifact.Update()
     LAD.ForceUpdate()
 end
 
-function NeP.Artifact.Traits(_, artifactID)
+function gbl.Artifact.Traits(_, artifactID)
     artifactID = LAD.GetArtifactTraits(artifactID)
     return LAD.GetArtifactTraits(artifactID)
 end
 
-function NeP.Artifact:TraitInfo(spell)
-  local artifactID = NeP.Condition:Get('artifact.active_id')()
+function gbl.Artifact:TraitInfo(spell)
+  local artifactID = gbl.Condition:Get('artifact.active_id')()
   if not artifactID then self:Update() end
   local _, traits = self:Traits(artifactID)
   if not traits then return end
@@ -31,30 +31,30 @@ function NeP.Artifact:TraitInfo(spell)
   end
 end
 
-NeP.Condition:Register('artifact.acquired_power', function(artifactID)
+gbl.Condition:Register('artifact.acquired_power', function(artifactID)
   return LAD.GetAcquiredArtifactPower(artifactID)
 end)
 
-NeP.Condition:Register('artifact.active_id', function()
+gbl.Condition:Register('artifact.active_id', function()
   return LAD.GetActiveArtifactID()
 end)
 
-NeP.Condition:Register('artifact.knowledge', function()
+gbl.Condition:Register('artifact.knowledge', function()
   return select(1,LAD.GetArtifactKnowledge())
 end)
 
-NeP.Condition:Register('artifact.power', function(artifactID)
+gbl.Condition:Register('artifact.power', function(artifactID)
   return select(3,LAD.GetArtifactPower(artifactID))
 end)
 
-NeP.Condition:Register('artifact.relics', function(artifactID)
+gbl.Condition:Register('artifact.relics', function(artifactID)
   return LAD.GetArtifactRelics(artifactID)
 end)
 
-NeP.Condition:Register('artifact.num_obtained', function()
+gbl.Condition:Register('artifact.num_obtained', function()
   return LAD.GetNumObtainedArtifacts()
 end)
 
-NeP.Condition:Register('artifact.enabled', function(_, spell)
-    return not not select(10,NeP.Artifact:TraitInfo(spell))
+gbl.Condition:Register('artifact.enabled', function(_, spell)
+    return not not select(10,gbl.Artifact:TraitInfo(spell))
 end)

@@ -1,11 +1,11 @@
-local _, NeP = ...
+local _, gbl = ...
 
-function NeP.CombatHelper.Load_Face()
+function gbl.CombatHelper.Load_Face()
 
 	-- Dont even load if not using advaned
 	if not HackEnabled then return end
 
-	NeP.Interface:AddToggle({
+	gbl.Interface:AddToggle({
 			key = 'AutoFace',
 			name = 'Auto Face',
 			text = 'Automatically Face your target',
@@ -13,7 +13,7 @@ function NeP.CombatHelper.Load_Face()
 			nohide = true
 	})
 
-	function NeP.CombatHelper.Face()
+	function gbl.CombatHelper.Face()
 		local ax, ay = ObjectPosition('player')
 		local bx, by = ObjectPosition('target')
 		if not ax or not bx or UnitIsDeadOrGhost('target') then return end
@@ -29,18 +29,18 @@ function NeP.CombatHelper.Load_Face()
 	C_Timer.NewTicker(0.1, (function()
 		if UnitAffectingCombat('player')
 		and UnitExists('target')
-		and NeP.DSL:Get('toggle')(nil, 'mastertoggle')
-		and NeP.DSL:Get('toggle')(nil, 'AutoFace')
+		and gbl.DSL:Get('toggle')(nil, 'mastertoggle')
+		and gbl.DSL:Get('toggle')(nil, 'AutoFace')
 		and not UnitChannelInfo('player')
 		and not UnitCastingInfo('player')
-		and not NeP.DSL:Get('Infront')('target')
-		and not NeP.DSL:Get('moving')('player')
-		and not NeP.CombatHelper:ManualMoving() then
-			NeP.CombatHelper:Face()
+		and not gbl.DSL:Get('Infront')('target')
+		and not gbl.DSL:Get('moving')('player')
+		and not gbl.CombatHelper:ManualMoving() then
+			gbl.CombatHelper:Face()
 		end
 	end), nil)
 
 	return true
 end
 
-NeP.Protected:AddCallBack(NeP.CombatHelper.Load_Face)
+gbl.Protected:AddCallBack(gbl.CombatHelper.Load_Face)

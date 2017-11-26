@@ -1,6 +1,6 @@
-local _, NeP = ...
-NeP.Protected.EWT = {}
-local EWT = NeP.Protected.EWT
+local _, gbl = ...
+gbl.Protected.EWT = {}
+local EWT = gbl.Protected.EWT
 EWT.Name = "EWT"
 EWT.Test = function() return _G.EWT end
 
@@ -25,14 +25,14 @@ end
 
 EWT.CastGround = function(spell, target)
 	-- fallback to generic if we can cast it using macros
-	if NeP.Protected.ValidGround[target] then
-		return NeP.Protected.CastGround(spell, target)
+	if gbl.Protected.ValidGround[target] then
+		return gbl.Protected.CastGround(spell, target)
 	end
 	if not ObjectExists(target) then return end
 	local rX, rY = math.random(), math.random()
 	local oX, oY, oZ = ObjectPosition(target)
 	if oX then oX = oX + rX; oY = oY + rY end
-	NeP.Protected.Cast(spell)
+	gbl.Protected.Cast(spell)
 	if oX then CastAtPosition(oX, oY, oZ) end
 	CancelPendingSpell()
 end
@@ -46,7 +46,7 @@ EWT.UnitCombatRange = function(a, b)
 	or not ObjectExists(b) then
 		return 999
 	end
-	return NeP.Protected.Distance(a, b) - (UnitCombatReach(a) + UnitCombatReach(b))
+	return gbl.Protected.Distance(a, b) - (UnitCombatReach(a) + UnitCombatReach(b))
 end
 
 EWT.LineOfSight = function(a, b)
@@ -55,8 +55,8 @@ EWT.LineOfSight = function(a, b)
 		return false
 	end
 	-- skip if its a boss
-	if NeP.BossID:Eval(a)
-	or NeP.BossID:Eval(b) then
+	if gbl.BossID:Eval(a)
+	or gbl.BossID:Eval(b) then
 		return true
 	end
 	local ax, ay, az = ObjectPosition(a)
@@ -64,4 +64,4 @@ EWT.LineOfSight = function(a, b)
 	return not TraceLine(ax, ay, az+2.25, bx, by, bz+2.25, bit.bor(0x10, 0x100))
 end
 
-NeP.Protected:AddUnlocker(EWT)
+gbl.Protected:AddUnlocker(EWT)

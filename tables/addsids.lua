@@ -1,9 +1,9 @@
-local _, NeP = ...
-NeP.AddsID = {}
-NeP.AddsID.table = {}
-local T = NeP.AddsID.table
+local _, gbl = ...
+gbl.AddsID = {}
+gbl.AddsID.table = {}
+local T = gbl.AddsID.table
 
-function NeP.AddsID:Add(ID)
+function gbl.AddsID:Add(ID)
   if type(ID) == 'table' then
 		for i=1, #ID do
 			self:Add(ID[i])
@@ -13,7 +13,7 @@ function NeP.AddsID:Add(ID)
 	end
 end
 
-function NeP.AddsID.Eval(_, unit)
+function gbl.AddsID.Eval(_, unit)
   if tonumber(unit) then
     return T[tonumber(unit)]
   elseif UnitExists(unit) then
@@ -22,11 +22,11 @@ function NeP.AddsID.Eval(_, unit)
   end
 end
 
-function NeP.AddsID.Get()
+function gbl.AddsID.Get()
   return T
 end
 
-NeP.AddsID:Add({
+gbl.AddsID:Add({
 	--	Shadowmoon Burial Grounds
 	75966	,	-- Defiled Spirit (Shadowmoon Burial Grounds)
 	76518	,	-- Ritual of Bones (Shadowmoon Burial Grounds)

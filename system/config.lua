@@ -1,19 +1,19 @@
-local n_name, NeP = ...
+local n_name, gbl = ...
 
-NeP.Config = {}
+gbl.Config = {}
 local Data = {}
 local version = "0.2"
 
-NeP.Listener:Add("NeP_Config", "ADDON_LOADED", function(addon)
+gbl.Listener:Add("gbl_Config", "ADDON_LOADED", function(addon)
 	if addon:lower() == n_name:lower() then
-		NePDATA = NePDATA or Data
-		Data = NePDATA
+		gblDATA = gblDATA or Data
+		Data = gblDATA
 		if Data["config_ver"] ~= version then wipe(Data) end
 		Data["config_ver"] = version
 	end
 end)
 
-function NeP.Config.Read(_, a, b, default, profile)
+function gbl.Config.Read(_, a, b, default, profile)
 	profile = profile or "default"
 	if Data[a] then
 		if not Data[a][profile] then
@@ -30,14 +30,14 @@ function NeP.Config.Read(_, a, b, default, profile)
 	return Data[a][profile][b]
 end
 
-function NeP.Config.Write(_, a, b, value, profile)
+function gbl.Config.Write(_, a, b, value, profile)
 	profile = profile or "default"
 	if not Data[a] then Data[a] = {} end
 	if not Data[a][profile] then Data[a][profile] = {} end
 	Data[a][profile][b] = value
 end
 
-function NeP.Config.Reset(_, a, b, profile)
+function gbl.Config.Reset(_, a, b, profile)
 	if profile then
 		Data[a][profile] = nil
 	elseif b then
@@ -49,6 +49,6 @@ function NeP.Config.Reset(_, a, b, profile)
 	end
 end
 
-function NeP.Config.Rest_all()
+function gbl.Config.Rest_all()
 	wipe(Data)
 end

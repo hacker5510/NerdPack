@@ -1,9 +1,9 @@
-local _, NeP = ...
-NeP.ByPassMounts = {}
-NeP.ByPassMounts.table = {}
-local T = NeP.ByPassMounts.table
+local _, gbl = ...
+gbl.ByPassMounts = {}
+gbl.ByPassMounts.table = {}
+local T = gbl.ByPassMounts.table
 
-function NeP.ByPassMounts:Eval(ID)
+function gbl.ByPassMounts:Eval(ID)
 	for i=1, #T do
 		if tonumber(ID) == T[i] then
 			return true
@@ -11,7 +11,7 @@ function NeP.ByPassMounts:Eval(ID)
 	end
 end
 
-function NeP.ByPassMounts:Add(ID)
+function gbl.ByPassMounts:Add(ID)
 	if type(ID) == 'table' then
 		for i=1, #ID do
 			self:Add(ID[i])
@@ -21,11 +21,11 @@ function NeP.ByPassMounts:Add(ID)
 	end
 end
 
-function NeP.ByPassMounts:Get()
+function gbl.ByPassMounts:Get()
 	return T
 end
 
-NeP.ByPassMounts:Add({
+gbl.ByPassMounts:Add({
 	165803, --telaari-talbuk
 	164222, --frostwolf-war-wolf
 	221883, --divine-steed

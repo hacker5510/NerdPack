@@ -1,11 +1,11 @@
-local _, NeP = ...
+local _, gbl = ...
 
-function NeP.CombatHelper.Load_Move()
+function gbl.CombatHelper.Load_Move()
 
 	-- Dont even load if not using advaned
 	if not HackEnabled then return end
 
-	NeP.Interface:AddToggle({
+	gbl.Interface:AddToggle({
 			key = 'AutoMove',
 			name = 'Auto Move',
 			text = 'Automatically move to your target',
@@ -14,7 +14,7 @@ function NeP.CombatHelper.Load_Move()
 	})
 
 	local awsd = {65, 83, 68, 87}
-	function NeP.CombatHelper.ManualMoving()
+	function gbl.CombatHelper.ManualMoving()
 	  for i=1, #awsd do
 	    if GetKeyState(awsd[i]) then
 	      return true
@@ -22,10 +22,10 @@ function NeP.CombatHelper.Load_Move()
 	  end
 	end
 
-	function NeP.CombatHelper.Move()
+	function gbl.CombatHelper.Move()
 		local specIndex = GetSpecializationInfo(GetSpecialization())
-		local tRange = NeP.ClassTable:GetRange(specIndex)
-		local Range = NeP.DSL:Get("range")("player", "target")
+		local tRange = gbl.ClassTable:GetRange(specIndex)
+		local Range = gbl.DSL:Get("range")("player", "target")
 		local unitSpeed = GetUnitSpeed('player')
 		-- Stop Moving
 		if Range > tRange and unitSpeed ~= 0 then
@@ -42,15 +42,15 @@ function NeP.CombatHelper.Load_Move()
 	C_Timer.NewTicker(0.5, (function()
 		if UnitAffectingCombat('player')
 		and UnitExists('target')
-		and NeP.DSL:Get('toggle')(nil, 'mastertoggle')
-		and NeP.DSL:Get('toggle')(nil, 'AutoMove')
-		and not NeP.DSL:Get('casting')('player')
-		and not NeP.CombatHelper:ManualMoving() then
-			NeP.CombatHelper:Move()
+		and gbl.DSL:Get('toggle')(nil, 'mastertoggle')
+		and gbl.DSL:Get('toggle')(nil, 'AutoMove')
+		and not gbl.DSL:Get('casting')('player')
+		and not gbl.CombatHelper:ManualMoving() then
+			gbl.CombatHelper:Move()
 		end
 	end), nil)
 
 	return true
 end
 
-NeP.Protected:AddCallBack(NeP.CombatHelper.Load_Move)
+gbl.Protected:AddCallBack(gbl.CombatHelper.Load_Move)
