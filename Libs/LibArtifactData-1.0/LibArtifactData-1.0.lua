@@ -1,14 +1,14 @@
 local MAJOR, MINOR = "LibArtifactData-1.0", 16
 
-assert(_G.LibStub, MAJOR .. " requires LibStub")
-local lib = _G.LibStub:NewLibrary(MAJOR, MINOR)
+assert(LibStub, MAJOR .. " requires LibStub")
+local lib = LibStub:NewLibrary(MAJOR, MINOR)
 if not lib then return end
 
-lib.callbacks = lib.callbacks or _G.LibStub("CallbackHandler-1.0"):New(lib)
+lib.callbacks = lib.callbacks or LibStub("CallbackHandler-1.0"):New(lib)
 
 local Debug = function() end
-if _G.AdiDebug then
-	Debug = _G.AdiDebug:Embed({}, MAJOR)
+if AdiDebug then
+	Debug = AdiDebug:Embed({}, MAJOR)
 end
 
 -- local store
@@ -19,50 +19,50 @@ artifacts.knowledgeMultiplier = 1
 
 -- constants
 local _G                       = _G
-local BACKPACK_CONTAINER       = _G.BACKPACK_CONTAINER
-local BANK_CONTAINER           = _G.BANK_CONTAINER
-local INVSLOT_MAINHAND         = _G.INVSLOT_MAINHAND
-local LE_ITEM_CLASS_ARMOR      = _G.LE_ITEM_CLASS_ARMOR
-local LE_ITEM_CLASS_WEAPON     = _G.LE_ITEM_CLASS_WEAPON
-local LE_ITEM_QUALITY_ARTIFACT = _G.LE_ITEM_QUALITY_ARTIFACT
-local NUM_BAG_SLOTS            = _G.NUM_BAG_SLOTS
-local NUM_BANKBAGSLOTS         = _G.NUM_BANKBAGSLOTS
+local BACKPACK_CONTAINER       = BACKPACK_CONTAINER
+local BANK_CONTAINER           = BANK_CONTAINER
+local INVSLOT_MAINHAND         = INVSLOT_MAINHAND
+local LE_ITEM_CLASS_ARMOR      = LE_ITEM_CLASS_ARMOR
+local LE_ITEM_CLASS_WEAPON     = LE_ITEM_CLASS_WEAPON
+local LE_ITEM_QUALITY_ARTIFACT = LE_ITEM_QUALITY_ARTIFACT
+local NUM_BAG_SLOTS            = NUM_BAG_SLOTS
+local NUM_BANKBAGSLOTS         = NUM_BANKBAGSLOTS
 
 -- blizzard api
-local aUI                              = _G.C_ArtifactUI
+local aUI                              = C_ArtifactUI
 local Clear                            = aUI.Clear
 local GetArtifactInfo                  = aUI.GetArtifactInfo
 local GetArtifactKnowledgeLevel        = aUI.GetArtifactKnowledgeLevel
 local GetArtifactKnowledgeMultiplier   = aUI.GetArtifactKnowledgeMultiplier
-local GetContainerItemInfo             = _G.GetContainerItemInfo
-local GetContainerNumSlots             = _G.GetContainerNumSlots
+local GetContainerItemInfo             = GetContainerItemInfo
+local GetContainerNumSlots             = GetContainerNumSlots
 local GetCostForPointAtRank            = aUI.GetCostForPointAtRank
-local GetCurrencyInfo                  = _G.GetCurrencyInfo
+local GetCurrencyInfo                  = GetCurrencyInfo
 local GetEquippedArtifactInfo          = aUI.GetEquippedArtifactInfo
-local GetInventoryItemEquippedUnusable = _G.GetInventoryItemEquippedUnusable
-local GetItemInfo                      = _G.GetItemInfo
+local GetInventoryItemEquippedUnusable = GetInventoryItemEquippedUnusable
+local GetItemInfo                      = GetItemInfo
 local GetNumObtainedArtifacts          = aUI.GetNumObtainedArtifacts
-local GetNumPurchasableTraits          = _G.MainMenuBar_GetNumArtifactTraitsPurchasableFromXP
+local GetNumPurchasableTraits          = MainMenuBar_GetNumArtifactTraitsPurchasableFromXP
 local GetNumRelicSlots                 = aUI.GetNumRelicSlots
 local GetPowerInfo                     = aUI.GetPowerInfo
 local GetPowers                        = aUI.GetPowers
 local GetRelicInfo                     = aUI.GetRelicInfo
 local GetRelicLockedReason             = aUI.GetRelicLockedReason
-local GetSpellInfo                     = _G.GetSpellInfo
-local HasArtifactEquipped              = _G.HasArtifactEquipped
+local GetSpellInfo                     = GetSpellInfo
+local HasArtifactEquipped              = HasArtifactEquipped
 local IsAtForge                        = aUI.IsAtForge
 local IsViewedArtifactEquipped         = aUI.IsViewedArtifactEquipped
-local SocketContainerItem              = _G.SocketContainerItem
-local SocketInventoryItem              = _G.SocketInventoryItem
+local SocketContainerItem              = SocketContainerItem
+local SocketInventoryItem              = SocketInventoryItem
 
 -- lua api
-local select   = _G.select
-local strmatch = _G.string.match
-local tonumber = _G.tonumber
+local select   = select
+local strmatch = string.match
+local tonumber = tonumber
 
 local private = {} -- private space for the event handlers
 
-lib.frame = lib.frame or _G.CreateFrame("Frame")
+lib.frame = lib.frame or CreateFrame("Frame")
 local frame = lib.frame
 frame:UnregisterAllEvents() -- deactivate old versions
 frame:SetScript("OnEvent", function(_, event, ...) private[event](event, ...) end)
@@ -83,9 +83,9 @@ end
 
 local function PrepareForScan()
 	frame:UnregisterEvent("ARTIFACT_UPDATE")
-	_G.UIParent:UnregisterEvent("ARTIFACT_UPDATE")
+	UIParent:UnregisterEvent("ARTIFACT_UPDATE")
 
-	local ArtifactFrame = _G.ArtifactFrame
+	local ArtifactFrame = ArtifactFrame
 	if ArtifactFrame and not ArtifactFrame:IsShown() then
 		ArtifactFrame:UnregisterEvent("ARTIFACT_UPDATE")
 		ArtifactFrame:UnregisterEvent("ARTIFACT_CLOSE")
@@ -95,9 +95,9 @@ end
 
 local function RestoreStateAfterScan()
 	frame:RegisterEvent("ARTIFACT_UPDATE")
-	_G.UIParent:RegisterEvent("ARTIFACT_UPDATE")
+	UIParent:RegisterEvent("ARTIFACT_UPDATE")
 
-	local ArtifactFrame = _G.ArtifactFrame
+	local ArtifactFrame = ArtifactFrame
 	if ArtifactFrame and not ArtifactFrame:IsShown() then
 		Clear()
 		ArtifactFrame:RegisterEvent("ARTIFACT_UPDATE")
@@ -518,7 +518,7 @@ function lib.GetAcquiredArtifactPower(_, artifactID)
 end
 
 function lib.ForceUpdate()
-	if _G.ArtifactFrame and _G.ArtifactFrame:IsShown() then
+	if ArtifactFrame and ArtifactFrame:IsShown() then
 		Debug("ForceUpdate", "aborted because ArtifactFrame is open.")
 		return
 	end

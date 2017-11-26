@@ -6,9 +6,9 @@ local version = "0.2"
 
 NeP.Listener:Add("NeP_Config", "ADDON_LOADED", function(addon)
 	if addon:lower() == n_name:lower() then
-		_G.NePDATA = _G.NePDATA or Data
-		Data = _G.NePDATA
-		if Data["config_ver"] ~= version then _G.wipe(Data) end
+		NePDATA = NePDATA or Data
+		Data = NePDATA
+		if Data["config_ver"] ~= version then wipe(Data) end
 		Data["config_ver"] = version
 	end
 end)
@@ -50,5 +50,5 @@ function NeP.Config.Reset(_, a, b, profile)
 end
 
 function NeP.Config.Rest_all()
-	_G.wipe(Data)
+	wipe(Data)
 end

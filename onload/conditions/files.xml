@@ -16,5 +16,6 @@
 	<Script file="unit.lua" />
 	<Script file="class.lua" />
 	<Script file="heal.lua" />
+	<Script file="protected.lua" />
 
 </Ui>

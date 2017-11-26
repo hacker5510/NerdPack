@@ -1,5 +1,5 @@
 local _, NeP = ...
-local GetTime = _G.GetTime
+local GetTime = GetTime
 local CR = NeP.CR
 
 NeP.API = {}
@@ -12,7 +12,7 @@ local toggle;
 function NeP.API.CastSpell(spell, target)
 	NeP.Protected.Cast(spell, target)
 	spell_queued = true
-	_G.C_Timer.After((queue_var+.1), function()
+	C_Timer.After((queue_var+.1), function()
 		spell_queued = false
 	end)
 	return true
@@ -31,20 +31,20 @@ end
 --Return if we're mounted or not
 function NeP.API.IsMounted()
 	for i = 1, 40 do
-		local mountID = select(11, _G.UnitBuff('player', i))
+		local mountID = select(11, UnitBuff('player', i))
 		if mountID and NeP.ByPassMounts:Eval(mountID) then
 			return true
 		end
 	end
-	return (_G.SecureCmdOptionParse("[overridebar][vehicleui][possessbar,@vehicle,exists][mounted]true")) ~= "true"
+	return (SecureCmdOptionParse("[overridebar][vehicleui][possessbar,@vehicle,exists][mounted]true")) ~= "true"
 end
 
 -- Returns name, time and if its a channel
 function NeP.API.CastingTime()
 	local channeling = false
-	local name, _,_,_,_, endTime = _G.UnitCastingInfo("player")
+	local name, _,_,_,_, endTime = UnitCastingInfo("player")
 	if not name then
-		name, _,_,_,_, endTime = _G.UnitChannelInfo("player")
+		name, _,_,_,_, endTime = UnitChannelInfo("player")
 		channeling = true
 	end
 	local time = (name and (endTime/1000)-GetTime()) or 0
@@ -86,8 +86,8 @@ end
 
 -- Returns if the unit is valid for usage
 function NeP.API:ValidUnit(unit)
-	return _G.UnitExists(unit)
-	and _G.UnitIsVisible(unit)
+	return UnitExists(unit)
+	and UnitIsVisible(unit)
 	and NeP.Protected.LineOfSight('player', unit)
 	and not self.UnitBlacklist(unit)
 end
@@ -96,9 +96,9 @@ end
 -- Ready, Mana
 function NeP.API.IsSpellReady(spell)
 	if not spell_queued
-	and _G.GetSpellBookItemInfo(spell) ~= 'FUTURESPELL'
+	and GetSpellBookItemInfo(spell) ~= 'FUTURESPELL'
   and spellCooldown(nil, spell) <= queue_var then
-    return _G.IsUsableSpell(spell)
+    return IsUsableSpell(spell)
   end
 end
 
@@ -113,17 +113,17 @@ local function ParseStart()
 	NeP:Wipe_Cache()
 	NeP.DBM.BuildTimers()
 	if toggle(nil, 'mastertoggle')
-	and not _G.UnitIsDeadOrGhost('player')
+	and not UnitIsDeadOrGhost('player')
 	and NeP.API.IsMounted()
-	and not _G.LootFrame:IsShown() then
-		CR.CurrentCR[_G.InCombatLockdown()].func()
+	and not LootFrame:IsShown() then
+		CR.CurrentCR[InCombatLockdown()].func()
 	end
 end
 
 NeP.Core:WhenInGame(function()
 	toggle = NeP.Condition:Get('toggle')
-	queue_var = (tonumber(_G.GetCVar("SpellQueueWindow")) / 1000)
+	queue_var = (tonumber(GetCVar("SpellQueueWindow")) / 1000)
 	spellCooldown = NeP.Condition:Get('spell.cooldown')
-	_G.C_Timer.NewTicker(0.1, ParseStart)
+	C_Timer.NewTicker(0.1, ParseStart)
 	NeP.Debug:Add("CR_TICKER", ParseStart, true)
 end, -99)

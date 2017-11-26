@@ -16,10 +16,10 @@ if not lib then return end
 
 local _G = getfenv(0)
 
-local pairs		           = _G.pairs
-local type		           = _G.type
-local band			         = _G.bit.band
-local table_sort	       = _G.table.sort
+local pairs		           = pairs
+local type		           = type
+local band			         = bit.band
+local table_sort	       = table.sort
 local locale             = GetLocale()
 local locale_is_western
 local LOCALE_MASK        = 0

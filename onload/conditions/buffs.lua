@@ -2,12 +2,12 @@ local _, NeP = ...
 local _G = _G
 
 local function UnitBuffL(target, spell, own)
-  local name,_,_,count,_,_,expires,caster = _G.UnitBuff(target, spell, nil, own)
+  local name,_,_,count,_,_,expires,caster = UnitBuff(target, spell, nil, own)
   return name, count, expires, caster
 end
 
 local function UnitDebuffL(target, spell, own)
-  local name, _,_, count, _,_, expires, caster = _G.UnitDebuff(target, spell, nil, own)
+  local name, _,_, count, _,_, expires, caster = UnitDebuff(target, spell, nil, own)
   return name, count, expires, caster
 end
 
@@ -41,7 +41,7 @@ end)
 
 NeP.Condition:Register("buff.duration", function(target, spell)
   local buff,_,expires = UnitBuffL(target, spell, 'PLAYER')
-  return buff and (expires - _G.GetTime()) or 0
+  return buff and (expires - GetTime()) or 0
 end)
 
 NeP.Condition:Register("buff.many", function(target, spell)
@@ -83,7 +83,7 @@ end)
 
 NeP.Condition:Register("debuff.duration", function(target, spell)
   local debuff,_,expires = UnitDebuffL(target, spell)
-  return debuff and (expires - _G.GetTime()) or 0
+  return debuff and (expires - GetTime()) or 0
 end)
 
 NeP.Condition:Register("debuff.many", function(target, spell)
@@ -111,7 +111,7 @@ NeP.Condition:Register("count.enemies.buffs", function(_,buff)
   for i=1, NeP.Protected.GetObjectCount() do
     local Obj = NeP.Protected.GetObjectWithIndex(i)
     if NeP.Protected.omVal(Obj)
-    and _G.UnitCanAttack('player', Obj)
+    and UnitCanAttack('player', Obj)
     and NeP.Condition:Get('buff')(Obj, buff) then
       n1 = n1 + 1
     end
@@ -126,7 +126,7 @@ NeP.Condition:Register("count.friendly.buffs", function(_,buff)
   for i=1, NeP.Protected.GetObjectCount() do
     local Obj = NeP.Protected.GetObjectWithIndex(i)
     if NeP.Protected.omVal(Obj)
-    and _G.UnitCanAttack('player', Obj)
+    and UnitCanAttack('player', Obj)
     and NeP.Condition:Get('buff')(Obj, buff) then
           n1 = n1 + 1
       end
@@ -141,7 +141,7 @@ NeP.Condition:Register("count.enemies.debuffs", function(_,debuff)
   for i=1, NeP.Protected.GetObjectCount() do
     local Obj = NeP.Protected.GetObjectWithIndex(i)
     if NeP.Protected.omVal(Obj)
-    and _G.UnitCanAttack('player', Obj)
+    and UnitCanAttack('player', Obj)
     and NeP.Condition:Get('debuff')(Obj, debuff) then
           n1 = n1 + 1
       end
@@ -156,7 +156,7 @@ NeP.Condition:Register("count.friendly.debuffs", function(_,debuff)
   for i=1, NeP.Protected.GetObjectCount() do
     local Obj = NeP.Protected.GetObjectWithIndex(i)
     if NeP.Protected.omVal(Obj)
-    and _G.UnitCanAttack('player', Obj)
+    and UnitCanAttack('player', Obj)
     and NeP.Condition:Get('debuff')(Obj, debuff) then
           n1 = n1 + 1
       end

@@ -46,4 +46,4 @@ PE.rotation.register_custom = function(id, name, incombat, outcombat, callback)
 	})
 end
 
-_G.ProbablyEngine = PE
+ProbablyEngine = PE

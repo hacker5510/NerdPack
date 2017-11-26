@@ -16,8 +16,8 @@ end
 function NeP.AddsID.Eval(_, unit)
   if tonumber(unit) then
     return T[tonumber(unit)]
-  elseif _G.UnitExists(unit) then
-    unit = select(6, _G.strsplit("-", _G.UnitGUID(unit)))
+  elseif UnitExists(unit) then
+    unit = select(6, strsplit("-", UnitGUID(unit)))
     return T[tonumber(unit)]
   end
 end

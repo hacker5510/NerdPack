@@ -19,6 +19,6 @@ NeP.Cache = {}
 
 function NeP.Wipe_Cache()
 	for _, v in pairs(NeP.Cache) do
-		_G.wipe(v)
+		wipe(v)
 	end
 end

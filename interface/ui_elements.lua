@@ -1,6 +1,6 @@
 local _, NeP = ...
-local LibStub = _G.LibStub
-local CreateFrame = _G.CreateFrame
+local LibStub = LibStub
+local CreateFrame = CreateFrame
 local DiesalGUI = LibStub('DiesalGUI-1.0')
 local DiesalTools = LibStub('DiesalTools-1.0')
 local SharedMedia = LibStub('LibSharedMedia-3.0')

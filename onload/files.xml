@@ -1,12 +1,13 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
 
-	<Include file="conditions\files.xml" />
 	<Script file="commands.lua" />
 	<Script file="units.lua" />
 	<Script file="actions.lua" />
 	<Script file="misc.lua" />
 	<Script file="globals.lua" />
 	<Script file="deprecated.lua" />
+	<Include file="conditions\files.xml" />
+	<Include file="routines\files.xml" />
 
 </Ui>

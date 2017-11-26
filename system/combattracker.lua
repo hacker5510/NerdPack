@@ -4,8 +4,8 @@ local _G = _G
 NeP.CombatTracker = {}
 NeP.CombatTracker.Data = {}
 local Data = NeP.CombatTracker.Data
-local GetTime = _G.GetTime
-local wipe = _G.wipe
+local GetTime = GetTime
+local wipe = wipe
 
 -- Thse are Mixed Damage types (magic and pysichal)
 local Doubles = {
@@ -50,7 +50,7 @@ end
 local logDamage = function(...)
 	local _,_,_, SourceGUID, _,_,_, DestGUID, _,_,_, spellID, _, school, Amount = ...
 	-- Chat Output for Debugging
---	if SourceGUID == _G.UnitGUID('player') then
+--	if SourceGUID == UnitGUID('player') then
 --		print(spellID)
 --	end
 	-- Mixed
@@ -108,8 +108,8 @@ end
 local addAction = function(...)
 	local _,_,_, sourceGUID, _,_,_,_, destName, _,_,_, spellName = ...
 	if not spellName then return end
-	if sourceGUID == _G.UnitGUID('player') then
-		local icon = select(3, _G.GetSpellInfo(spellName))
+	if sourceGUID == UnitGUID('player') then
+		local icon = select(3, GetSpellInfo(spellName))
 		NeP.ActionLog:Add('Spell Cast Succeed', spellName, icon, destName)
 	end
 	Data[sourceGUID].lastcast = spellName
@@ -131,8 +131,8 @@ local EVENTS = {
 
 --[[ Returns the total ammount of time a unit is in-combat for ]]
 function NeP.CombatTracker.CombatTime(_, UNIT)
-	local GUID = _G.UnitGUID(UNIT)
-	if Data[GUID] and _G.InCombatLockdown() then
+	local GUID = UnitGUID(UNIT)
+	if Data[GUID] and InCombatLockdown() then
 		local combatTime = (GetTime()-Data[GUID].combat_time)
 		return combatTime
 	end
@@ -141,7 +141,7 @@ end
 
 function NeP.CombatTracker:getDMG(UNIT)
 	local total, Hits, phys, magic = 0, 0, 0, 0
-	local GUID = _G.UnitGUID(UNIT)
+	local GUID = UnitGUID(UNIT)
 	if Data[GUID] then
 		local time = GetTime()
 		-- Remove a unit if it hasnt recived dmg for more then 5 sec
@@ -162,20 +162,20 @@ function NeP.CombatTracker:TimeToDie(unit)
 	local ttd = 0
 	local DMG, Hits = self:getDMG(unit)
 	if DMG >= 1 and Hits > 1 then
-		ttd = _G.UnitHealth(unit) / DMG
+		ttd = UnitHealth(unit) / DMG
 	end
 	return ttd or 8675309
 end
 
 function NeP.CombatTracker.LastCast(_, unit)
-  local GUID = _G.UnitGUID(unit)
+  local GUID = UnitGUID(unit)
   if Data[GUID] then
     return Data[GUID].lastcast
   end
 end
 
 function NeP.CombatTracker.LastUsed(_, spell, unit)
-	local GUID = _G.UnitGUID(unit)
+	local GUID = UnitGUID(unit)
   spell = tonumber(spell) or NeP.Core:GetSpellID(spell)
 	return Data[GUID]
 	and Data[GUID][spell]
@@ -184,7 +184,7 @@ function NeP.CombatTracker.LastUsed(_, spell, unit)
 end
 
 function NeP.CombatTracker.SpellDamage(_, unit, spellID)
-  local GUID = _G.UnitGUID(unit)
+  local GUID = UnitGUID(unit)
   return Data[GUID]
 	and Data[GUID][spellID]
 	and Data[GUID][spellID].value

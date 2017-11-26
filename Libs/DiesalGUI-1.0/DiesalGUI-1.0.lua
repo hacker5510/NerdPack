@@ -32,7 +32,7 @@ end
 local function WorldFrameOnMouse(frame,button)
 	OnMouse(frame,button)
 end
-_G.WorldFrame:HookScript("OnMouseDown", WorldFrameOnMouse )
+WorldFrame:HookScript("OnMouseDown", WorldFrameOnMouse )
 -- Returns a new object
 local function newObject(objectType)
 	if not ObjectFactory[objectType] then error("Attempt to construct unknown Object type", 2) end

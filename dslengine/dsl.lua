@@ -2,7 +2,7 @@ local _, NeP = ...
 local _G = _G
 NeP.DSL = {}
 local DSL = NeP.DSL
-local strsplit = _G.strsplit
+local strsplit = strsplit
 
 local function FilterNum(str)
 	local type_X = type(str)
@@ -91,12 +91,12 @@ local C = NeP.Cache.Conditions
 local function ProcessCondition(strg, spell, target)
 	-- Unit prefix
 	if not NeP.Condition:Exists(strg:gsub("%((.+)%)", "")) then
-		local unitID, rest = _G.strsplit('.', strg, 2)
+		local unitID, rest = strsplit('.', strg, 2)
 		unitID =  NeP.Unit:Filter(unitID)[1]
 		-- condition target
 		if unitID
 		and rest
-		and _G.UnitExists(unitID) then
+		and UnitExists(unitID) then
 			target = unitID
 			strg = rest
 		else
@@ -141,7 +141,7 @@ end
 local function StringMath(strg, spell, target)
 	local tokens = "[/%*%+%-]"
 	local OP = strg:match(tokens)
-	local arg1, arg2 = _G.strsplit(OP, strg, 2)
+	local arg1, arg2 = strsplit(OP, strg, 2)
 	arg1 = DSL.Parse(arg1, spell, target)
 	arg2 = DSL.Parse(arg2, spell, target)
 	arg1 = FilterNum(arg1)

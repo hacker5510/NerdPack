@@ -1,5 +1,5 @@
 local _, NeP = ...
-local LibDispellable = _G.LibStub('LibDispellable-1.0')
+local LibDispellable = LibStub('LibDispellable-1.0')
 local tlp = NeP.Tooltip
 
 NeP.Condition:Register('state.purge', function(target, spell)

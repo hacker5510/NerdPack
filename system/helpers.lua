@@ -1,8 +1,8 @@
 local _, NeP = ...
 local _G = _G
 NeP.Helpers = {}
---local UIErrorsFrame = _G.UIErrorsFrame
-local C_Timer = _G.C_Timer
+--local UIErrorsFrame = UIErrorsFrame
+local C_Timer = C_Timer
 
 local _Failed = {}
 
@@ -30,7 +30,7 @@ local function blackListInfront(GUID)
 end
 
 function NeP.Helpers.Infront(_, target, GUID)
-	GUID = GUID or _G.UnitGUID(target)
+	GUID = GUID or UnitGUID(target)
 	if _Failed[GUID] then
 		 return not _Failed[GUID].infront
 	end
@@ -38,7 +38,7 @@ function NeP.Helpers.Infront(_, target, GUID)
 end
 
 function NeP.Helpers.Spell(_, spell, target, GUID)
-	GUID = GUID or _G.UnitGUID(target)
+	GUID = GUID or UnitGUID(target)
 	if _Failed[GUID] then
 		 return not _Failed[GUID][spell]
 	end
@@ -51,7 +51,7 @@ function NeP.Helpers:Check(spell, target)
 	or type(target) ~= 'string' then
 		return true
 	end
-	local GUID = _G.UnitGUID(target)
+	local GUID = UnitGUID(target)
 	if _Failed[GUID] then
 		return self:Spell(spell, target, GUID) and self:Infront(target, GUID)
 	end
@@ -61,12 +61,12 @@ end
 NeP.Listener:Add("NeP_Helpers", "UI_ERROR_MESSAGE", function(_, msg)
 	local unit, spell = NeP.Helpers.LastTarget, NeP.Helpers.LastCast
 	if not unit or not spell then return end
-	local GUID = _G.UnitGUID(unit)
+	local GUID = UnitGUID(unit)
 	if not GUID then return end
 	addToData(GUID)
 	NeP.ActionLog:Add(">>> BLACKLIST - "..(msg or ""), spell, nil, unit)
 	-- not infront
-	if msg == _G.ERR_BADATTACKFACING then
+	if msg == ERR_BADATTACKFACING then
 		blackListInfront(GUID)
 	end
 	blackListSpell(GUID, spell)

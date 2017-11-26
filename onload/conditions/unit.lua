@@ -2,11 +2,11 @@ local _, NeP = ...
 local _G = _G
 
 NeP.Condition:Register('ingroup', function(target)
-  return _G.UnitInParty(target) or _G.UnitInRaid(target)
+  return UnitInParty(target) or UnitInRaid(target)
 end)
 
 NeP.Condition:Register('group.members', function()
-  return (_G.GetNumGroupMembers() or 0)
+  return (GetNumGroupMembers() or 0)
 end)
 
 -- USAGE: group.type==#
@@ -14,7 +14,7 @@ end)
 -- * 2 = Party
 -- * 1 = SOLO
 NeP.Condition:Register('group.type', function()
-  return _G.IsInRaid() and 3 or _G.IsInGroup() and 2 or 1
+  return IsInRaid() and 3 or IsInGroup() and 2 or 1
 end)
 
 local UnitClsf = {
@@ -25,7 +25,7 @@ local UnitClsf = {
 }
 
 NeP.Condition:Register('boss', function (target)
-  local classification = _G.UnitClassification(target)
+  local classification = UnitClassification(target)
   if UnitClsf[classification] then
     return UnitClsf[classification] >= 3
   end
@@ -33,7 +33,7 @@ NeP.Condition:Register('boss', function (target)
 end)
 
 NeP.Condition:Register('elite', function (target)
-  local classification = _G.UnitClassification(target)
+  local classification = UnitClassification(target)
   if UnitClsf[classification] then
     return UnitClsf[classification] >= 2
   end
@@ -46,24 +46,24 @@ NeP.Condition:Register('id', function(target, id)
 end)
 
 NeP.Condition:Register('threat', function(target)
-  if _G.UnitThreatSituation('player', target) then
-    return select(3, _G.UnitDetailedThreatSituation('player', target))
+  if UnitThreatSituation('player', target) then
+    return select(3, UnitDetailedThreatSituation('player', target))
   end
   return 0
 end)
 
 NeP.Condition:Register('aggro', function(target)
-  return (_G.UnitThreatSituation(target) and _G.UnitThreatSituation(target) >= 2)
+  return (UnitThreatSituation(target) and UnitThreatSituation(target) >= 2)
 end)
 
 NeP.Condition:Register('moving', function(target)
-  local speed, _ = _G.GetUnitSpeed(target)
+  local speed, _ = GetUnitSpeed(target)
   return speed ~= 0
 end)
 
 NeP.Condition:Register('classification', function (target, spell)
   if not spell then return false end
-  local classification = _G.UnitClassification(target)
+  local classification = UnitClassification(target)
   if string.find(spell, '[%s,]+') then
     for classificationExpected in string.gmatch(spell, '%a+') do
       if classification == string.lower(classificationExpected) then
@@ -72,28 +72,28 @@ NeP.Condition:Register('classification', function (target, spell)
     end
     return false
   else
-    return _G.UnitClassification(target) == string.lower(spell)
+    return UnitClassification(target) == string.lower(spell)
   end
 end)
 
 NeP.Condition:Register('target', function(target, spell)
-  return ( _G.UnitGUID(target .. 'target') == _G.UnitGUID(spell) )
+  return ( UnitGUID(target .. 'target') == UnitGUID(spell) )
 end)
 
 NeP.Condition:Register('player', function(target)
-  return _G.UnitIsPlayer(target)
+  return UnitIsPlayer(target)
 end)
 
 NeP.Condition:Register('exists', function(target)
-  return _G.UnitExists(target)
+  return UnitExists(target)
 end)
 
 NeP.Condition:Register('dead', function (target)
-  return _G.UnitIsDeadOrGhost(target)
+  return UnitIsDeadOrGhost(target)
 end)
 
 NeP.Condition:Register('alive', function(target)
-  return not _G.UnitIsDeadOrGhost(target)
+  return not UnitIsDeadOrGhost(target)
 end)
 
 NeP.Condition:Register('behind', function(target)
@@ -107,24 +107,24 @@ end)
 local movingCache = {}
 
 NeP.Condition:Register('lastmoved', function(target)
-  if _G.UnitExists(target) then
-    local guid = _G.UnitGUID(target)
+  if UnitExists(target) then
+    local guid = UnitGUID(target)
     if movingCache[guid] then
-      local moving = (_G.GetUnitSpeed(target) > 0)
+      local moving = (GetUnitSpeed(target) > 0)
       if not movingCache[guid].moving and moving then
-        movingCache[guid].last = _G.GetTime()
+        movingCache[guid].last = GetTime()
         movingCache[guid].moving = true
         return false
       elseif moving then
         return false
       elseif not moving then
         movingCache[guid].moving = false
-        return _G.GetTime() - movingCache[guid].last
+        return GetTime() - movingCache[guid].last
       end
     else
       movingCache[guid] = { }
-      movingCache[guid].last = _G.GetTime()
-      movingCache[guid].moving = (_G.GetUnitSpeed(target) > 0)
+      movingCache[guid].last = GetTime()
+      movingCache[guid].moving = (GetUnitSpeed(target) > 0)
       return false
     end
   end
@@ -132,24 +132,24 @@ NeP.Condition:Register('lastmoved', function(target)
 end)
 
 NeP.Condition:Register('movingfor', function(target)
-  if _G.UnitExists(target) then
-    local guid = _G.UnitGUID(target)
+  if UnitExists(target) then
+    local guid = UnitGUID(target)
     if movingCache[guid] then
-      local moving = (_G.GetUnitSpeed(target) > 0)
+      local moving = (GetUnitSpeed(target) > 0)
       if not movingCache[guid].moving then
-        movingCache[guid].last = _G.GetTime()
-        movingCache[guid].moving = (_G.GetUnitSpeed(target) > 0)
+        movingCache[guid].last = GetTime()
+        movingCache[guid].moving = (GetUnitSpeed(target) > 0)
         return 0
       elseif moving then
-        return _G.GetTime() - movingCache[guid].last
+        return GetTime() - movingCache[guid].last
       elseif not moving then
         movingCache[guid].moving = false
         return 0
       end
     else
       movingCache[guid] = { }
-      movingCache[guid].last = _G.GetTime()
-      movingCache[guid].moving = (_G.GetUnitSpeed(target) > 0)
+      movingCache[guid].last = GetTime()
+      movingCache[guid].moving = (GetUnitSpeed(target) > 0)
       return 0
     end
   end
@@ -157,11 +157,11 @@ NeP.Condition:Register('movingfor', function(target)
 end)
 
 NeP.Condition:Register('friend', function(target)
-  return not _G.UnitCanAttack('player', target)
+  return not UnitCanAttack('player', target)
 end)
 
 NeP.Condition:Register('enemy', function(target)
-  return _G.UnitCanAttack('player', target)
+  return UnitCanAttack('player', target)
 end)
 
 NeP.Condition:Register({'distance', 'range'}, function(unit)
@@ -173,33 +173,33 @@ NeP.Condition:Register({'distancefrom', 'rangefrom'}, function(unit, unit2)
 end)
 
 NeP.Condition:Register('level', function(target)
-  return _G.UnitLevel(target)
+  return UnitLevel(target)
 end)
 
 NeP.Condition:Register('combat', function(target)
-  return _G.UnitAffectingCombat(target)
+  return UnitAffectingCombat(target)
 end)
 
 -- Checks if the player has autoattack toggled currently
 -- Use {'/startattack', '!isattacking'}, at the top of a CR to force autoattacks
 NeP.Condition:Register('isattacking', function()
-  return _G.IsCurrentSpell(6603)
+  return IsCurrentSpell(6603)
 end)
 
 NeP.Condition:Register('role', function(target, role)
-  return role:upper() == _G.UnitGroupRolesAssigned(target)
+  return role:upper() == UnitGroupRolesAssigned(target)
 end)
 
 NeP.Condition:Register('name', function (target, expectedName)
-  return _G.UnitName(target):lower():find(expectedName:lower()) ~= nil
+  return UnitName(target):lower():find(expectedName:lower()) ~= nil
 end)
 
 NeP.Condition:Register('creatureType', function (target, expectedType)
-  return _G.UnitCreatureType(target) == expectedType
+  return UnitCreatureType(target) == expectedType
 end)
 
 NeP.Condition:Register('class', function (target, expectedClass)
-  local class, _, classID = _G.UnitClass(target)
+  local class, _, classID = UnitClass(target)
   if tonumber(expectedClass) then
     return tonumber(expectedClass) == classID
   else
@@ -218,7 +218,7 @@ NeP.Condition:Register('inranged', function(target)
 end)
 
 NeP.Condition:Register('incdmg', function(target, args)
-  if args and _G.UnitExists(target) then
+  if args and UnitExists(target) then
     local pDMG = NeP.CombatTracker:getDMG(target)
     return pDMG * tonumber(args)
   end
@@ -226,7 +226,7 @@ NeP.Condition:Register('incdmg', function(target, args)
 end)
 
 NeP.Condition:Register('incdmg.phys', function(target, args)
-  if args and _G.UnitExists(target) then
+  if args and UnitExists(target) then
     local pDMG = select(3, NeP.CombatTracker:getDMG(target))
     return pDMG * tonumber(args)
   end
@@ -234,7 +234,7 @@ NeP.Condition:Register('incdmg.phys', function(target, args)
 end)
 
 NeP.Condition:Register('incdmg.magic', function(target, args)
-  if args and _G.UnitExists(target) then
+  if args and UnitExists(target) then
     local mDMG = select(4, NeP.CombatTracker:getDMG(target))
     return mDMG * tonumber(args)
   end
@@ -242,16 +242,16 @@ NeP.Condition:Register('incdmg.magic', function(target, args)
 end)
 
 NeP.Condition:Register('swimming', function ()
-  return _G.IsSwimming()
+  return IsSwimming()
 end)
 
 --return if a unit is a unit
 NeP.Condition:Register('is', function(a,b)
-  return _G.UnitIsUnit(a,b)
+  return UnitIsUnit(a,b)
 end)
 
 NeP.Condition:Register("falling", function()
-  return _G.IsFalling()
+  return IsFalling()
 end)
 
 NeP.Condition:Register({"deathin", "ttd", "timetodie"}, function(target)
@@ -259,28 +259,28 @@ NeP.Condition:Register({"deathin", "ttd", "timetodie"}, function(target)
 end)
 
 NeP.Condition:Register("charmed", function(target)
-  return _G.UnitIsCharmed(target)
+  return UnitIsCharmed(target)
 end)
 
 local communName = NeP.Locale:TA('Dummies', 'Name')
 local matchs = NeP.Locale:TA('Dummies', 'Pattern')
 
 NeP.Condition:Register('isdummy', function(unit)
-  if not _G.UnitExists(unit) then return end
-  if _G.UnitName(unit):lower():find(communName) then return true end
+  if not UnitExists(unit) then return end
+  if UnitName(unit):lower():find(communName) then return true end
   return NeP.Tooltip:Unit(unit, matchs)
 end)
 
 NeP.Condition:Register('indoors', function()
-    return _G.IsIndoors()
+    return IsIndoors()
 end)
 
 NeP.Condition:Register('haste', function(unit)
-  return _G.UnitSpellHaste(unit)
+  return UnitSpellHaste(unit)
 end)
 
 NeP.Condition:Register("mounted", function()
-  return _G.IsMounted()
+  return IsMounted()
 end)
 
 NeP.Condition:Register('combat.time', function(target)

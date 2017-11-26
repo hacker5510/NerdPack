@@ -9,7 +9,7 @@ local noop = function() end
 -- has to validate the spell, if its ready, etc...
 local function regularSpell(eval)
   eval.spell = NeP.Spells:Convert(eval.spell)
-  eval.icon = select(3,_G.GetSpellInfo(eval.spell))
+  eval.icon = select(3,GetSpellInfo(eval.spell))
   eval.id = NeP.Core:GetSpellID(eval.spell)
   eval.exeVal = NeP.API.IsSpellReady
   eval.exe = NeP.API.CastSpell
@@ -51,8 +51,8 @@ local function InvItems(item, eval)
   if not invItems[item] then
     return item
   end
-  local invItem = _G.GetInventorySlotInfo(invItems[item])
-  item = _G.GetInventoryItemID("player", invItem) or eval.spell
+  local invItem = GetInventorySlotInfo(invItems[item])
+  item = GetInventoryItemID("player", invItem) or eval.spell
   eval.invitem = true
   eval.invslot = invItem
   return item
@@ -64,7 +64,7 @@ s_tokens["#"] = function(eval)
   local item = eval.spell
   item = InvItems(item, eval)
   eval.id = tonumber(item) or NeP.Core:GetItemID(item)
-  local itemName, itemLink, _,_,_,_,_,_,_, texture = _G.GetItemInfo(eval.id)
+  local itemName, itemLink, _,_,_,_,_,_,_, texture = GetItemInfo(eval.id)
   eval.spell = itemName or eval.spell
   eval.icon = texture
   eval.link = itemLink

@@ -16,14 +16,14 @@ end
 
 function NeP.Taunts:ShouldTaunt(unit)
   --Quit if we have its threat
-  local threat = _G.UnitThreatSituation("player", unit) or 0
+  local threat = UnitThreatSituation("player", unit) or 0
   if threat >= 3 then return end
   -- Taunts in a raid, where you have 2 tanks
-  if _G.IsInRaid() then
+  if IsInRaid() then
     for i=1, #T do
-      local debuff = _G.etSpellInfo(T[i].id)
-      if not _G.UnitDebuff('player', debuff)
-      and (select(4, _G.UnitDebuff(unit..'target', debuff)) or 0) > T[i].stacks then
+      local debuff = etSpellInfo(T[i].id)
+      if not UnitDebuff('player', debuff)
+      and (select(4, UnitDebuff(unit..'target', debuff)) or 0) > T[i].stacks then
         return true
       end
     end

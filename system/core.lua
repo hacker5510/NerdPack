@@ -17,8 +17,8 @@ local d_color = {
 
 function NeP.Core.ClassColor(_, unit, type)
 	type = type and type:lower() or 'hex'
-	if _G.UnitExists(unit) then
-		local classid  = select(3, _G.UnitClass(unit))
+	if UnitExists(unit) then
+		local classid  = select(3, UnitClass(unit))
 		if classid then
 			return NeP.ClassTable:GetClassColor(classid, type)
 		end
@@ -39,7 +39,7 @@ function NeP.Core.GetSpellID(_, spell)
 		return tonumber(spell)
 	end
 	local index, stype = NeP.Core:GetSpellBookIndex(spell)
-	local spellID = select(7, _G.GetSpellInfo(index, stype))
+	local spellID = select(7, GetSpellInfo(index, stype))
 	return spellID
 end
 
@@ -47,19 +47,19 @@ function NeP.Core.GetSpellName(_, spell)
 	if not spell or type(spell) == 'string' then return spell end
 	local spellID = tonumber(spell)
 	if spellID then
-		return _G.GetSpellInfo(spellID)
+		return GetSpellInfo(spellID)
 	end
 	return spell
 end
 
 function NeP.Core.GetItemID(_, item)
 	if not item or type(item) == 'number' then return item end
-	local itemID = string.match(select(2, _G.GetItemInfo(item)) or '', 'Hitem:(%d+):')
+	local itemID = string.match(select(2, GetItemInfo(item)) or '', 'Hitem:(%d+):')
 	return tonumber(itemID) or item
 end
 
 function NeP.Core.UnitID(_, unit)
-	return tonumber(unit and select(6, _G.strsplit('-', _G.UnitGUID(unit))) or 0)
+	return tonumber(unit and select(6, strsplit('-', UnitGUID(unit))) or 0)
 end
 
 function NeP.Core.GetSpellBookIndex(_, spell)
@@ -68,21 +68,21 @@ function NeP.Core.GetSpellBookIndex(_, spell)
 	spellName = spellName:lower()
 
 	for t = 1, 2 do
-		local _, _, offset, numSpells = _G.GetSpellTabInfo(t)
+		local _, _, offset, numSpells = GetSpellTabInfo(t)
 		for i = 1, (offset + numSpells) do
-			if _G.GetSpellBookItemName(i, _G.BOOKTYPE_SPELL):lower() == spellName then
-				return i, _G.BOOKTYPE_SPELL
+			if GetSpellBookItemName(i, BOOKTYPE_SPELL):lower() == spellName then
+				return i, BOOKTYPE_SPELL
 			end
 		end
 	end
 
-	local numFlyouts = _G.GetNumFlyouts()
+	local numFlyouts = GetNumFlyouts()
 	for f = 1, numFlyouts do
-		local flyoutID = _G.GetFlyoutID(f)
-		local _, _, numSlots, isKnown = _G.GetFlyoutInfo(flyoutID)
+		local flyoutID = GetFlyoutID(f)
+		local _, _, numSlots, isKnown = GetFlyoutInfo(flyoutID)
 		if isKnown and numSlots > 0 then
 			for g = 1, numSlots do
-				local spellID, _, isKnownSpell = _G.GetFlyoutSlotInfo(flyoutID, g)
+				local spellID, _, isKnownSpell = GetFlyoutSlotInfo(flyoutID, g)
 				local name = NeP.Core:GetSpellName(spellID)
 				if name and isKnownSpell and name:lower() == spellName then
 					return spellID, nil
@@ -91,11 +91,11 @@ function NeP.Core.GetSpellBookIndex(_, spell)
 		end
 	end
 
-	local numPetSpells = _G.HasPetSpells()
+	local numPetSpells = HasPetSpells()
 	if numPetSpells then
 		for i = 1, numPetSpells do
-			if _G.GetSpellBookItemName(i, _G.BOOKTYPE_PET):lower() == spellName then
-				return i, _G.BOOKTYPE_PET
+			if GetSpellBookItemName(i, BOOKTYPE_PET):lower() == spellName then
+				return i, BOOKTYPE_PET
 			end
 		end
 	end
@@ -127,7 +127,7 @@ function NeP.Core.string_split(_, string, delimiter)
 end
 
 NeP.Listener:Add("NeP_Core_load", "PLAYER_LOGIN", function()
-	_G.C_Timer.After(5, function()
+	C_Timer.After(5, function()
 		table.sort(Run_Cache, function(a,b) return a.prio > b.prio end)
 		NeP.Color = NeP.Core:ClassColor('player', 'hex')
 		for i=1, #Run_Cache do

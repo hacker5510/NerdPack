@@ -1,12 +1,12 @@
 local _, NeP = ...
-local GetTime = _G.GetTime
+local GetTime = GetTime
 
 NeP.LuaEngine = {}
 NeP.LuaEngine.Queue = {}
 
 -- returns target if it exists or player
 function NeP.LuaEngine.NoopUnit()
-  return _G.UnitExists('target') and 'target' or 'player'
+  return UnitExists('target') and 'target' or 'player'
 end
 
 function NeP.LuaEngine.BuildUnits()

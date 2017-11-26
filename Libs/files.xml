@@ -17,5 +17,6 @@
 	<Script file="LibBossIDs-1.0\LibBossIDs-1.0.lua" />
 	<Script file="TableExplorer\core.lua" />
 	<Script file="TableExplorer\objects\TableExplorer.lua" />
+	<Script file="LibDraw.lua" />
 
 </Ui>
