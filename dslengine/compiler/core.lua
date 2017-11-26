@@ -7,9 +7,9 @@ local noop = function() end
 local noopVal = function() return true end
 
 local function ForEachUnit(eval)
-	eval.targets = NeP.Unit:Filter(eval.targets)
-	for i=1, #eval.targets do
-		local curUnit = eval.targets[i]
+	local targets = NeP.Unit:Filter(eval.targets)
+	for i=1, #targets do
+		local curUnit = targets[i]
 		eval.curUnit = curUnit
 		if eval.isTable then
 			return eval.conditions() and eval.exeFunc(eval.spell, curUnit, eval.spellArgs)
