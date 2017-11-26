@@ -5,26 +5,26 @@ local _G = _G
 -- Full list can be found here:
 -- http://wowwiki.wikia.com/wiki/UnitId
 
-gbl.Unit:Add("player")
-gbl.Unit:Add("pet")
-gbl.Unit:Add("focus")
-gbl.Unit:Add("mouseover")
+gbl.Unit.Add("player")
+gbl.Unit.Add("pet")
+gbl.Unit.Add("focus")
+gbl.Unit.Add("mouseover")
 for i=1, 40 do
-	gbl.Unit:Add("raid"..i)
-	gbl.Unit:Add("raidpet"..i)
+	gbl.Unit.Add("raid"..i)
+	gbl.Unit.Add("raidpet"..i)
 end
 for i=1, 5 do
-	gbl.Unit:Add("arena"..i)
-	gbl.Unit:Add("arenapet"..i)
+	gbl.Unit.Add("arena"..i)
+	gbl.Unit.Add("arenapet"..i)
 end
 for i=1, 4 do
-	gbl.Unit:Add("boss"..i)
-	gbl.Unit:Add("party"..i)
-	gbl.Unit:Add("partypet"..i)
+	gbl.Unit.Add("boss"..i)
+	gbl.Unit.Add("party"..i)
+	gbl.Unit.Add("partypet"..i)
 end
 
 -- Lowest
-gbl.Unit:Add("lowest", function(num, role)
+gbl.Unit.Add("lowest", function(num, role)
 	local tmp = {}
 	for i=1, gbl.Protected.GetObjectCount() do
 		local Obj = gbl.Protected.GetObjectWithIndex(i)
@@ -43,7 +43,7 @@ gbl.Unit:Add("lowest", function(num, role)
 end)
 
 -- Tank
-gbl.Unit:Add("tank", function(num)
+gbl.Unit.Add("tank", function(num)
 	local tmp = {}
 	for i=1, gbl.Protected.GetObjectCount() do
 		local Obj = gbl.Protected.GetObjectWithIndex(i)
@@ -62,7 +62,7 @@ gbl.Unit:Add("tank", function(num)
 end)
 
 -- Healer
-gbl.Unit:Add("healer", function(num)
+gbl.Unit.Add("healer", function(num)
 	local tmp = {}
 	for i=1, gbl.Protected.GetObjectCount() do
 		local Obj = gbl.Protected.GetObjectWithIndex(i)
@@ -81,7 +81,7 @@ gbl.Unit:Add("healer", function(num)
 end)
 
 -- DAMAGER
-gbl.Unit:Add("damager", function(num)
+gbl.Unit.Add("damager", function(num)
 	local tmp = {}
 	for i=1, gbl.Protected.GetObjectCount() do
 		local Obj = gbl.Protected.GetObjectWithIndex(i)
@@ -101,7 +101,7 @@ end)
 
 -- this is a table that contains all add units
 -- Uses IDs from tables/addsids.lua
-gbl.Unit:Add("add", function()
+gbl.Unit.Add("add", function()
 	local tmp = {}
 	for i=1, gbl.Protected.GetObjectCount() do
 		local Obj = gbl.Protected.GetObjectWithIndex(i)
@@ -116,7 +116,7 @@ end)
 
 -- this is a table that contains all boss units
 -- Uses IDs from tables/bossids.lua and libbossids
-gbl.Unit:Add("boss", function()
+gbl.Unit.Add("boss", function()
 	local tmp = {}
 	for i=1, gbl.Protected.GetObjectCount() do
 		local Obj = gbl.Protected.GetObjectWithIndex(i)
@@ -130,7 +130,7 @@ gbl.Unit:Add("boss", function()
 end)
 
 --This is a table with all enemie units
-gbl.Unit:Add("enemies", function()
+gbl.Unit.Add("enemies", function()
 	local tmp = {}
 	for i=1, gbl.Protected.GetObjectCount() do
 		local Obj = gbl.Protected.GetObjectWithIndex(i)
@@ -143,7 +143,7 @@ gbl.Unit:Add("enemies", function()
 end)
 
 --This is a table with all friendly units
-gbl.Unit:Add("friendly", function()
+gbl.Unit.Add("friendly", function()
 	local tmp = {}
 	for i=1, gbl.Protected.GetObjectCount() do
 		local Obj = gbl.Protected.GetObjectWithIndex(i)

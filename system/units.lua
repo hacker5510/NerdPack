@@ -10,7 +10,7 @@ local function _add(name, func)
 	end
 end
 
-function gbl.Unit.Add(_, name, func)
+function gbl.Unit.Add(name, func)
 	if type(func) == "string" then
 		func = function() return func end
 	elseif not func then
@@ -27,7 +27,7 @@ function gbl.Unit.Add(_, name, func)
 	end
 end
 
--- /dump gbl.Unit:Filter("lowest")
+-- /dump gbl.Unit.Filter("lowest")
 local function process(unit)
 	local arg = unit:match("%((.+)%)")
 	local num = tonumber(unit:match("%d+") or 0)
@@ -77,10 +77,10 @@ end
 gbl.Cache.Targets = {}
 local C = gbl.Cache.Targets
 
-function gbl.Unit:Filter(unit, ...)
+function gbl.Unit.Filter(unit)
 	-- cached
 	if not C[unit] then
-		C[unit] = self.Process(unit, ...)
+		C[unit] = gbl.Unit.Process(unit)
 	end
 	return C[unit]
 end

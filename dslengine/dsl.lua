@@ -92,7 +92,7 @@ local function ProcessCondition(strg, spell, target)
 	-- Unit prefix
 	if not gbl.Condition:Exists(strg:gsub("%((.+)%)", "")) then
 		local unitID, rest = strsplit(".", strg, 2)
-		unitID =  gbl.Unit:Filter(unitID)[1]
+		unitID =  gbl.Unit.Filter(unitID)[1]
 		-- condition target
 		if unitID
 		and rest

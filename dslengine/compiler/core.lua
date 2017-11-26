@@ -7,7 +7,7 @@ local noop = function() end
 local noopVal = function() return true end
 
 local function ForEachUnit(eval)
-	local targets = gbl.Unit:Filter(eval.targets)
+	local targets = gbl.Unit.Filter(eval.targets)
 	for i=1, #targets do
 		local curUnit = targets[i]
 		eval.curUnit = curUnit
