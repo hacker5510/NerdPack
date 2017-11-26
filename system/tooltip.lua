@@ -1,5 +1,5 @@
 local _, gbl = ...
-local _G = _G
+
 gbl.Tooltip = {}
 local frame = CreateFrame("GameTooltip", "gbl_ScanningTooltip", UIParent, "GameTooltipTemplate")
 
@@ -16,7 +16,7 @@ local function pPattern(text, pattern)
 	end
 end
 
-function gbl.Tooltip.Scan_Buff(_, target, pattern)
+function gbl.Tooltip.Scan_Buff(target, pattern)
 	for i = 1, 40 do
 		frame:SetOwner(UIParent, "ANCHOR_NONE")
 		frame:SetUnitBuff(target, i)
@@ -26,7 +26,7 @@ function gbl.Tooltip.Scan_Buff(_, target, pattern)
 	return false
 end
 
-function gbl.Tooltip.Scan_Debuff(_, target, pattern)
+function gbl.Tooltip.Scan_Debuff(target, pattern)
 	for i = 1, 40 do
 		frame:SetOwner(UIParent, "ANCHOR_NONE")
 		frame:SetUnitDebuff(target, i)
@@ -36,7 +36,7 @@ function gbl.Tooltip.Scan_Debuff(_, target, pattern)
 	return false
 end
 
-function gbl.Tooltip.Unit(_, target, pattern)
+function gbl.Tooltip.Unit(target, pattern)
 	frame:SetOwner(UIParent, "ANCHOR_NONE")
 	frame:SetUnit(target)
 	local tooltipText = _G["gbl_ScanningTooltipTextLeft2"]:GetText()
@@ -44,7 +44,7 @@ function gbl.Tooltip.Unit(_, target, pattern)
 	return tooltipText and pPattern(tooltipText, pattern)
 end
 
-function gbl.Tooltip.Tick_Time(_, target)
+function gbl.Tooltip.Tick_Time(target)
 	frame:SetOwner(UIParent, "ANCHOR_NONE")
 	frame:SetUnitBuff(target)
 	local tooltipText = _G["gbl_ScanningTooltipTextLeft2"]:GetText()

@@ -1,5 +1,5 @@
 local _, gbl = ...
-local _G = _G
+
 local CreateFrame = CreateFrame
 gbl.Faceroll = {}
 

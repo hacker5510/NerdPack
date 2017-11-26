@@ -1,5 +1,5 @@
 local n_name, gbl = ...
-local _G = _G
+
 gbl.Core = {}
 
 local last_print = ""
@@ -126,7 +126,7 @@ function gbl.Core.string_split(string, delimiter)
 	return result
 end
 
-gbl.Listener:Add("gbl_Core_load", "PLAYER_LOGIN", function()
+gbl.Listener.Add("gbl_Core_load", "PLAYER_LOGIN", function()
 	C_Timer.After(5, function()
 		table.sort(Run_Cache, function(a,b) return a.prio > b.prio end)
 		gbl.Color = gbl.Core.ClassColor("player", "hex")

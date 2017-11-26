@@ -12,7 +12,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
 	end
 end)
 
-function gbl.Listener.Add(_, name, event, callback)
+function gbl.Listener.Add(name, event, callback)
 	if not listeners[event] then
 		frame:RegisterEvent(event)
 		listeners[event] = {}
@@ -20,12 +20,12 @@ function gbl.Listener.Add(_, name, event, callback)
 	listeners[event][name] = callback
 end
 
-function gbl.Listener.Remove(_, name, event)
+function gbl.Listener.Remove(name, event)
 	if listeners[event] then
 		listeners[event][name] = nil
 	end
 end
 
-function gbl.Listener.Trigger(_, event, ...)
+function gbl.Listener.Trigger(event, ...)
 	onEvent(nil, event, ...)
 end

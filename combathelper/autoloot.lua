@@ -1,6 +1,6 @@
 local _, gbl = ...
 
-local _G = _G
+
 local icon = "Interface\\Icons\\trade_archaeology_chestoftinyglassanimals"
 local GetNumLootItems = GetNumLootItems
 local LootSlotHasItem = LootSlotHasItem
@@ -57,8 +57,8 @@ function gbl.CombatHelper.Load_Loot()
 	end
 
 	local function Start()
-		if gbl.Condition:Get("toggle")(nil, "mastertoggle")
-		and gbl.Condition:Get("toggle")(nil, "AutoLoot")
+		if gbl.Condition.Get("toggle")(nil, "mastertoggle")
+		and gbl.Condition.Get("toggle")(nil, "AutoLoot")
 		and not UnitChannelInfo("player")
 		and not UnitCastingInfo("player")
 	  and not IsMounted("player")
@@ -77,7 +77,7 @@ function gbl.CombatHelper.Load_Loot()
 
 	-- Ticker
 	C_Timer.NewTicker(0.1, Start)
-	gbl.Debug:Add("AUTO_LOOT", Start, true)
+	gbl.Debug.Add("AUTO_LOOT", Start, true)
 
 	return true
 end

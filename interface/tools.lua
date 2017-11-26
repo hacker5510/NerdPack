@@ -39,8 +39,8 @@ local function new_prof(table, parent)
 		end
 	end
 	table.insert(table.av_profiles, {key = profileName, text = profileName})
-	gbl.Config:Write(table.key, "av_profiles", table.av_profiles, "settings")
-	gbl.Config:Write(table.key, "selected_profile", profileName, "settings")
+	gbl.Config.Write(table.key, "av_profiles", table.av_profiles, "settings")
+	gbl.Config.Write(table.key, "selected_profile", profileName, "settings")
 	pFrame:Hide()
 	parent:Hide()
 	parent:Release()
@@ -56,12 +56,12 @@ local function del_prof(table, parent)
 			if table.selected_profile ~= "default" then
 				table.av_profiles[i] = nil
 			end
-			gbl.Config:Write(table.key, "av_profiles", table.av_profiles, "settings")
-			gbl.Config:Write(table.key, "selected_profile", "default", "settings")
+			gbl.Config.Write(table.key, "av_profiles", table.av_profiles, "settings")
+			gbl.Config.Write(table.key, "selected_profile", "default", "settings")
 			parent:Hide()
 			parent:Release()
 			gbl.Interface.usedGUIs[table.key] = nil
-			gbl.Config:Reset(table.key, nil, table.selected_profile)
+			gbl.Config.Reset(table.key, nil, table.selected_profile)
 			gbl.Interface.BuildGUI(table)
 			break
 		end
@@ -114,7 +114,7 @@ function gbl.Interface:BuildGUI_Combo(table, parent)
 		end)
 		tmp:SetEventListener("OnValueChanged", function(_,_, value)
 			if table.selected_profile == value then return end
-			gbl.Config:Write(table.key, "selected_profile", value, "settings")
+			gbl.Config.Write(table.key, "selected_profile", value, "settings")
 			parent:Hide()
 			parent:Release()
 			self.usedGUIs[table.key] = nil
@@ -175,15 +175,15 @@ local function UI_WhenInGame(table, parent)
 	if not table.color then table.color = gbl.Color end
 	if type(table.color) == "function" then table.color = table.color() end
 	-- load Location
-	local left, top = unpack(gbl.Config:Read(table.key, "Location", {500, 500}, "settings"))
+	local left, top = unpack(gbl.Config.Read(table.key, "Location", {500, 500}, "settings"))
 	parent.settings.left = left
 	parent.settings.top = top
 	parent:UpdatePosition()
 	--tittle
 	parent:SetTitle("|cff"..table.color..(table.title or table.key).."|r", table.subtitle)
 	--profiles
-	table.selected_profile = gbl.Config:Read(table.key, "selected_profile", "default", "settings")
-	table.av_profiles = gbl.Config:Read(table.key, "av_profiles", default_profiles, "settings")
+	table.selected_profile = gbl.Config.Read(table.key, "selected_profile", "default", "settings")
+	table.av_profiles = gbl.Config.Read(table.key, "av_profiles", default_profiles, "settings")
 	parent:ApplySettings()
 end
 
@@ -207,7 +207,7 @@ function gbl.Interface.BuildGUI(table)
 	--parent:SetStylesheet(self.WindowStyleSheet)
 	--Save Location after dragging
 	parent:SetEventListener("OnDragStop", function(_,_, l, t)
-		gbl.Config:Write(table.key, "Location", {l, t}, "settings")
+		gbl.Config.Write(table.key, "Location", {l, t}, "settings")
 	end)
 	-- Only build the body after we"r done loading configs
 	gbl.Core.WhenInGame(function() UI_WhenInGame(table, parent) end, 9)
@@ -235,11 +235,11 @@ function gbl.Interface.BuildGUI(table)
 end
 
 function gbl.Interface.Fetch(a, b, default)
-	local cprofile = gbl.Config:Read(a, "selected_profile", "default", "settings")
-	return gbl.Config:Read(a, b, default, cprofile)
+	local cprofile = gbl.Config.Read(a, "selected_profile", "default", "settings")
+	return gbl.Config.Read(a, b, default, cprofile)
 end
 
 function gbl.Interface.Write(a, b, key)
-	local cprofile = gbl.Config:Read(a, "selected_profile", "default", "settings")
-	gbl.Config:Write(a, b, key, cprofile)
+	local cprofile = gbl.Config.Read(a, "selected_profile", "default", "settings")
+	gbl.Config.Write(a, b, key, cprofile)
 end

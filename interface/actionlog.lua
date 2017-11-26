@@ -121,6 +121,6 @@ function gbl.ActionLog:Update()
 end
 
 -- wipe data when we enter combat
-gbl.Listener:Add("gbl_AL","PLAYER_REGEN_DISABLED", function()
+gbl.Listener.Add("gbl_AL","PLAYER_REGEN_DISABLED", function()
 	wipe(Data)
 end)

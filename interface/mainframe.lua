@@ -50,7 +50,7 @@ end
 
 function gbl.Interface.UpdateCRs()
 	local spec = GetSpecializationInfo(GetSpecialization())
-	local last = gbl.Config:Read("SELECTED", spec)
+	local last = gbl.Config.Read("SELECTED", spec)
 	for _,v in pairs(DropMenu[2].menuList) do
 		v.checked = last == v.name
 	end
@@ -99,10 +99,10 @@ function gbl.Interface.Add(_, name, func)
 end
 
 ----------------------------EVENTS
-gbl.Listener:Add("gbl_CR_interface", "PLAYER_LOGIN", function()
+gbl.Listener.Add("gbl_CR_interface", "PLAYER_LOGIN", function()
 	gbl.Interface.ResetCRs()
 end)
-gbl.Listener:Add("gbl_CR_interface", "PLAYER_SPECIALIZATION_CHANGED", function(unitID)
+gbl.Listener.Add("gbl_CR_interface", "PLAYER_SPECIALIZATION_CHANGED", function(unitID)
 	if unitID ~= "player" then return end
 	gbl.Interface:ResetCRs()
 end)

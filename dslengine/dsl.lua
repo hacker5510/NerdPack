@@ -1,5 +1,5 @@
 local _, gbl = ...
-local _G = _G
+
 gbl.DSL = {}
 local DSL = gbl.DSL
 local strsplit = strsplit
@@ -39,7 +39,7 @@ local math_OP = {
 
 local DSL_OP = {
 	["!"]  = function(...) return not DSL.Parse(...) end,
-	["@"]  = function(arg,_,target) return gbl.Library:Parse(arg:gsub("%((.+)%)", ""), target, arg:match("%((.+)%)")) end,
+	["@"]  = function(arg,_,target) return gbl.Library.Parse(arg:gsub("%((.+)%)", ""), target, arg:match("%((.+)%)")) end,
 }
 
 local function _AND(strg, spell, target)
@@ -90,7 +90,7 @@ local C = gbl.Cache.Conditions
 
 local function ProcessCondition(strg, spell, target)
 	-- Unit prefix
-	if not gbl.Condition:Exists(strg:gsub("%((.+)%)", "")) then
+	if not gbl.Condition.Exists(strg:gsub("%((.+)%)", "")) then
 		local unitID, rest = strsplit(".", strg, 2)
 		unitID =  gbl.Unit.Filter(unitID)[1]
 		-- condition target
@@ -112,7 +112,7 @@ local function ProcessCondition(strg, spell, target)
 	C[strg] = C[strg] or {}
 	C[strg][target] = C[strg][target] or {}
 	if C[strg][target][Args] == nil then
-		C[strg][target][Args] = gbl.Condition:Get(strg)(target, Args) or false
+		C[strg][target][Args] = gbl.Condition.Get(strg)(target, Args) or false
 	end
 
 	return C[strg][target][Args]

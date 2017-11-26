@@ -28,10 +28,10 @@ local function UpdateButtons()
 	end
 end
 
-gbl.Listener:Add("gbl_Buttons","PLAYER_ENTERING_WORLD", function ()
+gbl.Listener.Add("gbl_Buttons","PLAYER_ENTERING_WORLD", function ()
 	UpdateButtons()
 end)
 
-gbl.Listener:Add("gbl_Buttons","ACTIONBAR_SLOT_CHANGED", function ()
+gbl.Listener.Add("gbl_Buttons","ACTIONBAR_SLOT_CHANGED", function ()
 	UpdateButtons()
 end)

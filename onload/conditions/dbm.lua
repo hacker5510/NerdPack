@@ -15,6 +15,6 @@ function gbl.DBM.BuildTimers()
   end
 end
 
-gbl.Condition:Register("dbm", function(_, event)
+gbl.Condition.Register("dbm", function(_, event)
   return gbl.Cache.DBM_Timers[event:lower()] or fake_timer
 end)

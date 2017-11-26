@@ -1,17 +1,17 @@
 local _, gbl = ...
 gbl.Actions = {}
 
-local _actions = {}
+local Actions = {}
 local noop = function() end
 
-function gbl.Actions.Add(_, name, func)
-  _actions[name] = func
+function gbl.Actions.Add(name, func)
+  Actions[name] = func
 end
 
-function gbl.Actions.Remove(_, name)
-  _actions[name] = nil
+function gbl.Actions.Remove(name)
+  Actions[name] = nil
 end
 
-function gbl.Actions.Eval(_, name)
-  return _actions[name] or noop
+function gbl.Actions.Eval(name)
+  return Actions[name] or noop
 end

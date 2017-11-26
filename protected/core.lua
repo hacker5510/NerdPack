@@ -11,7 +11,7 @@ gbl.Protected.ValidGround = {
 	["cursor"] = true
 }
 
-gbl.Listener:Add(n_name, "ADDON_ACTION_FORBIDDEN", function(...)
+gbl.Listener.Add(n_name, "ADDON_ACTION_FORBIDDEN", function(...)
 	local addon = ...
 	if addon == n_name then
 		StaticPopup1:Hide()

@@ -3,8 +3,8 @@ local _, gbl = ...
 gbl.Commands = {}
 gbl.Commands.cache = {}
 
-function gbl.Commands:Add(a, b, func)
-	self.cache[a][b] = func
+function gbl.Commands.Add(a, b, func)
+	gbl.Commands.cache[a][b] = func
 end
 
 local default_func = function(a, msg)
@@ -14,7 +14,7 @@ local default_func = function(a, msg)
 	end
 end
 
-function gbl.Commands:Register(name, func, ...)
+function gbl.Commands.Register(name, func, ...)
 	SlashCmdList[name] = func or function(msg) default_func(name, msg) end
 	local command
 	for i = 1, select("#", ...) do
@@ -23,6 +23,6 @@ function gbl.Commands:Register(name, func, ...)
 			command = "/" .. command
 		end
 		_G["SLASH_"..name..i] = command
-		self.cache[name] = {}
+		gbl.Commands.cache[name] = {}
 	end
 end

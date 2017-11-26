@@ -1,6 +1,6 @@
 local n_name, gbl = ...
 
-gbl.Listener:Add(n_name.."_misc", "LFG_PROPOSAL_SHOW", function()
+gbl.Listener.Add(n_name.."_misc", "LFG_PROPOSAL_SHOW", function()
   if gbl.Interface.Fetch(n_name.."_Settings", "LFG_acp", false) then
     C_Timer.After(math.random(3, 8), AcceptProposal)
   end

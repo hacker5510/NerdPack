@@ -1,5 +1,5 @@
 local _, gbl = ...
-local _G = _G
+
 gbl.Helpers = {}
 --local UIErrorsFrame = UIErrorsFrame
 local C_Timer = C_Timer
@@ -58,7 +58,7 @@ function gbl.Helpers:Check(spell, target)
 	return true
 end
 
-gbl.Listener:Add("gbl_Helpers", "UI_ERROR_MESSAGE", function(_, msg)
+gbl.Listener.Add("gbl_Helpers", "UI_ERROR_MESSAGE", function(_, msg)
 	local unit, spell = gbl.Helpers.LastTarget, gbl.Helpers.LastCast
 	if not unit or not spell then return end
 	local GUID = UnitGUID(unit)

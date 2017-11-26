@@ -57,9 +57,9 @@ local function testUnitBlackList(_type, unit)
 	for i=1, #tbl do
 		local _count = tbl[i].count
 		if _count then
-			if gbl.Condition:Get(_type..".count.any")(unit, tbl[i].name) >= _count then return true end
+			if gbl.Condition.Get(_type..".count.any")(unit, tbl[i].name) >= _count then return true end
 		else
-			if gbl.Condition:Get(_type..".any")(unit, tbl[i]) then return true end
+			if gbl.Condition.Get(_type..".any")(unit, tbl[i]) then return true end
 		end
 	end
 end
@@ -121,9 +121,9 @@ local function ParseStart()
 end
 
 gbl.Core.WhenInGame(function()
-	toggle = gbl.Condition:Get("toggle")
+	toggle = gbl.Condition.Get("toggle")
 	queue_var = (tonumber(GetCVar("SpellQueueWindow")) / 1000)
-	spellCooldown = gbl.Condition:Get("spell.cooldown")
+	spellCooldown = gbl.Condition.Get("spell.cooldown")
 	C_Timer.NewTicker(0.1, ParseStart)
-	gbl.Debug:Add("CR_TICKER", ParseStart, true)
+	gbl.Debug.Add("CR_TICKER", ParseStart, true)
 end, -99)

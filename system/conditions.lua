@@ -8,14 +8,14 @@ gbl.Condition = {
 local conditions = gbl.Condition.conditions
 local noop = function() end
 
-function gbl.Condition.Get(_, Strg)
+function gbl.Condition.Get(Strg)
 	if conditions[Strg] then
 		return conditions[Strg]
 	end
 	return noop
 end
 
-function gbl.Condition.Exists(_, Strg)
+function gbl.Condition.Exists(Strg)
 	return conditions[Strg] ~= nil
 end
 
@@ -23,11 +23,11 @@ local function _add(name, condition, overwrite)
 	name = name:lower()
 	if not conditions[name] or overwrite then
 		conditions[name] = condition
-		--gbl.Debug:Add(name, condition, true)
+		--gbl.Debug.Add(name, condition, true)
 	end
 end
 
-function gbl.Condition.Register(_, name, condition, overwrite)
+function gbl.Condition.Register(name, condition, overwrite)
 	if type(name) == "table" then
 		for i=1, #name do
 			_add(name[i], condition, overwrite)

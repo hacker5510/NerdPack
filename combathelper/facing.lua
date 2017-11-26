@@ -28,12 +28,12 @@ function gbl.CombatHelper.Load_Face()
 	local function Start()
 		if UnitAffectingCombat("player")
 		and UnitExists("target")
-		and gbl.Condition:Get("toggle")(nil, "mastertoggle")
-		and gbl.Condition:Get("toggle")(nil, "AutoFace")
+		and gbl.Condition.Get("toggle")(nil, "mastertoggle")
+		and gbl.Condition.Get("toggle")(nil, "AutoFace")
 		and not UnitChannelInfo("player")
 		and not UnitCastingInfo("player")
-		and not gbl.Condition:Get("Infront")("target")
-		and not gbl.Condition:Get("moving")("player")
+		and not gbl.Condition.Get("Infront")("target")
+		and not gbl.Condition.Get("moving")("player")
 		and not gbl.CombatHelper:ManualMoving() then
 			gbl.CombatHelper:Face()
 		end
@@ -41,7 +41,7 @@ function gbl.CombatHelper.Load_Face()
 
 	-- Ticker
 	C_Timer.NewTicker(0.1, Start)
-	gbl.Debug:Add("FACING", Start, true)
+	gbl.Debug.Add("FACING", Start, true)
 
 	return true
 end

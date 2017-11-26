@@ -1,5 +1,5 @@
 local _, gbl = ...
-local _G = _G
+
 
 local honor_talents = {}
 local rows = 6
@@ -19,17 +19,17 @@ local function UpdateHonorTalents()
   end
 end
 
-gbl.Listener:Add("gbl_Honor_Talents", "PLAYER_LOGIN", function()
+gbl.Listener.Add("gbl_Honor_Talents", "PLAYER_LOGIN", function()
   UpdateHonorTalents()
-	gbl.Listener:Add("gbl_Honor_Talents", "ACTIVE_TALENT_GROUP_CHANGED", function()
+	gbl.Listener.Add("gbl_Honor_Talents", "ACTIVE_TALENT_GROUP_CHANGED", function()
     UpdateHonorTalents()
   end)
 end)
 
-gbl.Condition:Register("honortalent", function(_, args)
+gbl.Condition.Register("honortalent", function(_, args)
   return select(10, GetPvpTalentInfoByID(honor_talents[args], GetActiveSpecGroup()))
 end)
 
-gbl.Condition:Register("pvp", function(target)
+gbl.Condition.Register("pvp", function(target)
   return UnitIsPVP(target, "PLAYER")
 end)

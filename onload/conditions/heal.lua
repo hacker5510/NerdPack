@@ -12,22 +12,22 @@ local function healthPercent(unit)
 	return math.floor((UnitHealth(unit)/UnitHealthMax(unit))*100)
 end
 
-gbl.Condition:Register("health", function(target)
+gbl.Condition.Register("health", function(target)
 	return healthPercent(target)
 end)
 
-gbl.Condition:Register("health.actual", function(target)
+gbl.Condition.Register("health.actual", function(target)
 	return UnitHealth(target)
 end)
 
-gbl.Condition:Register("health.max", function(target)
+gbl.Condition.Register("health.max", function(target)
 	return UnitHealthMax(target)
 end)
 
-gbl.Condition:Register("health.predicted", function(target)
+gbl.Condition.Register("health.predicted", function(target)
 	return GetPredictedHealth_Percent(target)
 end)
 
-gbl.Condition:Register("health.predicted.actual", function(target)
+gbl.Condition.Register("health.predicted.actual", function(target)
 	return GetPredictedHealth(target)
 end)

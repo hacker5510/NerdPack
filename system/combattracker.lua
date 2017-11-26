@@ -1,5 +1,5 @@
 local _, gbl = ...
-local _G = _G
+
 
 gbl.CombatTracker = {}
 gbl.CombatTracker.Data = {}
@@ -130,7 +130,7 @@ local EVENTS = {
 }
 
 --[[ Returns the total ammount of time a unit is in-combat for ]]
-function gbl.CombatTracker.CombatTime(_, UNIT)
+function gbl.CombatTracker.CombatTime(UNIT)
 	local GUID = UnitGUID(UNIT)
 	if Data[GUID] and InCombatLockdown() then
 		local combatTime = (GetTime()-Data[GUID].combat_time)
@@ -139,7 +139,7 @@ function gbl.CombatTracker.CombatTime(_, UNIT)
 	return 0
 end
 
-function gbl.CombatTracker:getDMG(UNIT)
+function gbl.CombatTracker.GetDMG(UNIT)
 	local total, Hits, phys, magic = 0, 0, 0, 0
 	local GUID = UnitGUID(UNIT)
 	if Data[GUID] then
@@ -148,7 +148,7 @@ function gbl.CombatTracker:getDMG(UNIT)
 		if (time-Data[GUID].lastHit_taken) > 5 then
 			Data[GUID] = nil
 		else
-			local combatTime = self:CombatTime(UNIT)
+			local combatTime = gbl.CombatTracker:CombatTime(UNIT)
 			total = Data[GUID].dmgTaken / combatTime
 			phys = Data[GUID].dmgTaken_P / combatTime
 			magic = Data[GUID].dmgTaken_M / combatTime
@@ -158,23 +158,23 @@ function gbl.CombatTracker:getDMG(UNIT)
 	return total, Hits, phys, magic
 end
 
-function gbl.CombatTracker:TimeToDie(unit)
+function gbl.CombatTracker.TimeToDie(unit)
 	local ttd = 0
-	local DMG, Hits = self:getDMG(unit)
+	local DMG, Hits = gbl.CombatTracker:getDMG(unit)
 	if DMG >= 1 and Hits > 1 then
 		ttd = UnitHealth(unit) / DMG
 	end
 	return ttd or 8675309
 end
 
-function gbl.CombatTracker.LastCast(_, unit)
+function gbl.CombatTracker.LastCast(unit)
   local GUID = UnitGUID(unit)
   if Data[GUID] then
     return Data[GUID].lastcast
   end
 end
 
-function gbl.CombatTracker.LastUsed(_, spell, unit)
+function gbl.CombatTracker.LastUsed(spell, unit)
 	local GUID = UnitGUID(unit)
   spell = tonumber(spell) or gbl.Core.GetSpellID(spell)
 	return Data[GUID]
@@ -183,7 +183,7 @@ function gbl.CombatTracker.LastUsed(_, spell, unit)
 	or 999
 end
 
-function gbl.CombatTracker.SpellDamage(_, unit, spellID)
+function gbl.CombatTracker.SpellDamage(unit, spellID)
   local GUID = UnitGUID(unit)
   return Data[GUID]
 	and Data[GUID][spellID]
@@ -191,7 +191,7 @@ function gbl.CombatTracker.SpellDamage(_, unit, spellID)
 	or 0
 end
 
-gbl.Listener:Add("gbl_CombatTracker", "COMBAT_LOG_EVENT_UNFILTERED", function(...)
+gbl.Listener.Add("gbl_CombatTracker", "COMBAT_LOG_EVENT_UNFILTERED", function(...)
 	local _, EVENT, _, SourceGUID, _,_,_, DestGUID = ...
 	-- Add the unit to our data if we dont have it
 	addToData(SourceGUID)
@@ -203,10 +203,10 @@ gbl.Listener:Add("gbl_CombatTracker", "COMBAT_LOG_EVENT_UNFILTERED", function(..
 	if EVENTS[EVENT] then EVENTS[EVENT](...) end
 end)
 
-gbl.Listener:Add("gbl_CombatTracker", "PLAYER_REGEN_ENABLED", function()
+gbl.Listener.Add("gbl_CombatTracker", "PLAYER_REGEN_ENABLED", function()
 	wipe(Data)
 end)
 
-gbl.Listener:Add("gbl_CombatTracker", "PLAYER_REGEN_DISABLED", function()
+gbl.Listener.Add("gbl_CombatTracker", "PLAYER_REGEN_DISABLED", function()
 	wipe(Data)
 end)

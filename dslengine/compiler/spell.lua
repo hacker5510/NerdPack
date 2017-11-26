@@ -95,7 +95,7 @@ end
 -- has no real sanity checks... its up to the dev
 s_tokens["@"] = function(eval)
   eval.token = "Library"
-  eval.exe = function(...) return gbl.Library:Parse(...) end
+  eval.exe = gbl.Library.Parse
 end
 
 -- usual string spell

@@ -38,7 +38,7 @@ end
 
 --wrapper for CR Add
 PE.rotation.register_custom = function(id, name, incombat, outcombat, callback)
-	gbl.CR:Add(id, {
+	gbl.CR.Add(id, {
 		name = name,
 		ic = incombat,
 		ooc = outcombat,

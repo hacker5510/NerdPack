@@ -25,7 +25,7 @@ function gbl.CombatHelper.Load_Move()
 	function gbl.CombatHelper.Move()
 		local specIndex = GetSpecializationInfo(GetSpecialization())
 		local tRange = gbl.ClassTable:GetRange(specIndex)
-		local Range = gbl.Condition:Get("range")("player", "target")
+		local Range = gbl.Condition.Get("range")("player", "target")
 		local unitSpeed = GetUnitSpeed("player")
 		-- Stop Moving
 		if Range > tRange and unitSpeed ~= 0 then
@@ -41,9 +41,9 @@ function gbl.CombatHelper.Load_Move()
 	local function Start()
 		if UnitAffectingCombat("player")
 		and UnitExists("target")
-		and gbl.Condition:Get("toggle")(nil, "mastertoggle")
-		and gbl.Condition:Get("toggle")(nil, "AutoMove")
-		and not gbl.Condition:Get("casting")("player")
+		and gbl.Condition.Get("toggle")(nil, "mastertoggle")
+		and gbl.Condition.Get("toggle")(nil, "AutoMove")
+		and not gbl.Condition.Get("casting")("player")
 		and not gbl.CombatHelper:ManualMoving() then
 			gbl.CombatHelper:Move()
 		end
@@ -51,7 +51,7 @@ function gbl.CombatHelper.Load_Move()
 
 	-- Ticker
 	C_Timer.NewTicker(0.5, Start)
-	gbl.Debug:Add("FACING", Start, true)
+	gbl.Debug.Add("FACING", Start, true)
 
 	return true
 end

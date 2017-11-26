@@ -1,6 +1,6 @@
 local _, gbl = ...
 
-gbl.Condition:Register("glyph", function(_,spell)
+gbl.Condition.Register("glyph", function(_,spell)
   local spellId = tonumber(spell)
   local glyphName, glyphId
   for i = 1, 6 do

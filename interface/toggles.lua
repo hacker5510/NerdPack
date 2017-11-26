@@ -15,8 +15,8 @@ local title_size = 20
 
 -- Load Saved sizes
 gbl.Core.WhenInGame(function()
-	gbl.ButtonsSize = gbl.Config:Read(n_name.."_Settings", "bsize", 40)
-	gbl.ButtonsPadding = gbl.Config:Read(n_name.."_Settings", "bpad", 2)
+	gbl.ButtonsSize = gbl.Config.Read(n_name.."_Settings", "bsize", 40)
+	gbl.ButtonsPadding = gbl.Config.Read(n_name.."_Settings", "bpad", 2)
 	gbl.Interface:RefreshToggles()
 end)
 
@@ -38,7 +38,7 @@ end
 local function OnClick(self, func, button)
 	if button == "LeftButton" then
 		self.actv = not self.actv
-		gbl.Config:Write("TOGGLE_STATES", self.key, self.actv)
+		gbl.Config.Write("TOGGLE_STATES", self.key, self.actv)
 	end
 	if func then
 		func(self, button)
@@ -66,7 +66,7 @@ local function CreateToggle(eval)
 	temp:SetFrameLevel(1)
 	temp:SetNormalFontObject("GameFontNormal")
 	temp.texture = SetTexture(temp, eval.icon)
-	temp.actv = gbl.Config:Read("TOGGLE_STATES", eval.key, false)
+	temp.actv = gbl.Config.Read("TOGGLE_STATES", eval.key, false)
 	temp.nohide = eval.nohide
 	temp.Checked_texture = SetTexture(temp)
 	temp:SetCheckedTexture(temp.Checked_texture)
@@ -107,7 +107,7 @@ function gbl.Interface.RefreshToggles()
 		if Toggles[i]:IsShown() then
 
 			-- This is to handle rows
-			local n1 = gbl.Config:Read(n_name.."_Settings", "brow", 10)
+			local n1 = gbl.Config.Read(n_name.."_Settings", "brow", 10)
 			if tcount >= n1 then
 				maxed = tcount
 				tcount = 0
@@ -159,5 +159,5 @@ function gbl.Interface.toggleToggle(_, key, state)
 	if not tmp then return end
 	tmp.actv = state or not tmp.actv
 	tmp:SetChecked(tmp.actv)
-	gbl.Config:Write("TOGGLE_STATES", tmp.key, tmp.actv)
+	gbl.Config.Write("TOGGLE_STATES", tmp.key, tmp.actv)
 end

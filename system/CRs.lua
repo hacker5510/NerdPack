@@ -8,7 +8,7 @@ local noop = function() end
 local GetSpecialization = GetSpecialization
 local GetSpecializationInfo = GetSpecializationInfo
 
-function gbl.CR.AddGUI(_, ev)
+function gbl.CR.AddGUI(ev)
 	local gui_st = ev.gui_st or {}
 	local temp = {
 		title = gui_st.title or ev.name,
@@ -55,7 +55,7 @@ local function refs(ev, SpecID)
 	ev.blacklist.debuff = ev.blacklist.debuff or {}
 end
 
-function gbl.CR.Add(_, SpecID, ev)
+function gbl.CR.Add(SpecID, ev)
 	local classIndex = select(3, UnitClass("player"))
 	-- This only allows crs we can use to be registered
 	if not gbl.ClassTable:SpecIsFromClass(classIndex, SpecID )
@@ -69,7 +69,7 @@ function gbl.CR.Add(_, SpecID, ev)
 	ev.ic.func = gbl.Compiler.Compile(ev.ic)
 	ev.ooc.func = gbl.Compiler.Compile(ev.ooc)
 	--Create user GUI
-	if ev.gui then gbl.CR:AddGUI(ev) end
+	if ev.gui then gbl.CR.AddGUI(ev) end
 	-- Class Cr (gets added to all specs whitin that class)
 	if classIndex == SpecID then
 		SpecID = gbl.ClassTable:GetClassSpecs(classIndex)
@@ -85,7 +85,7 @@ end
 
 function gbl.CR:Set(Spec, Name)
 	Spec = Spec or GetSpecializationInfo(GetSpecialization())
-	Name = Name or gbl.Config:Read("SELECTED", Spec)
+	Name = Name or gbl.Config.Read("SELECTED", Spec)
 	--break if no sec or name
 	if not Spec or not Name then return end
 	--break if cr dosent exist
@@ -96,7 +96,7 @@ function gbl.CR:Set(Spec, Name)
 		self.CurrentCR.unload()
 	end
 	self.CurrentCR = CRs[Spec][Name]
-	gbl.Config:Write("SELECTED", Spec, Name)
+	gbl.Config.Write("SELECTED", Spec, Name)
 	gbl.Interface:ResetToggles()
 	--Execute onload
 	if self.CurrentCR then self.CurrentCR.load() end
@@ -107,10 +107,10 @@ function gbl.CR.GetList(_, Spec)
 end
 
 ----------------------------EVENTS
-gbl.Listener:Add("gbl_CR", "PLAYER_LOGIN", function()
+gbl.Listener.Add("gbl_CR", "PLAYER_LOGIN", function()
 	gbl.CR:Set()
 end)
-gbl.Listener:Add("gbl_CR", "PLAYER_SPECIALIZATION_CHANGED", function(unitID)
+gbl.Listener.Add("gbl_CR", "PLAYER_SPECIALIZATION_CHANGED", function(unitID)
 	if unitID ~= "player" then return end
 	gbl.CR:Set()
 end)

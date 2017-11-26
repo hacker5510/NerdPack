@@ -1,5 +1,5 @@
 local _, gbl = ...
-local _G = _G
+
 local UIParent = UIParent
 local CreateFrame = CreateFrame
 local C_Timer = C_Timer

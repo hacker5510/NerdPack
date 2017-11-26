@@ -1,5 +1,5 @@
 local _, gbl = ...
-local _G = _G
+
 
 local KEYBINDS = {
   -- Shift
@@ -16,12 +16,12 @@ local KEYBINDS = {
   ["ralt"]     = function() return IsRightAltKeyDown() end,
 }
 
-gbl.Condition:Register("keybind", function(_, Arg)
+gbl.Condition.Register("keybind", function(_, Arg)
   Arg = Arg:lower()
   return KEYBINDS[Arg] and KEYBINDS[Arg]() and not GetCurrentKeyBoardFocus()
 end)
 
-gbl.Condition:Register("mouse", function(_, Arg)
+gbl.Condition.Register("mouse", function(_, Arg)
   Arg = tonumber(Arg:lower())
   return IsMouseButtonDown(Arg) and not GetCurrentKeyBoardFocus()
 end)

@@ -11,9 +11,9 @@ SetCVar("scriptProfile", gbl.Debug.Enable and "1" or "0")
 -- Force lua erros on
 SetCVar("scriptErrors", "1")
 
-function gbl.Debug:Add(name, func, subroutines)
+function gbl.Debug.Add(name, func, subroutines)
 	if not gbl.Debug.Enable then return end
-	table.insert(self.Profiles, {
+	table.insert(gbl.Debug.Profiles, {
 		name = name,
 		func = func,
 		subroutines = subroutines,

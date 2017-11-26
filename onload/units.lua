@@ -1,5 +1,5 @@
 local _, gbl = ...
-local _G = _G
+
 
 -- Valid wow units
 -- Full list can be found here:
