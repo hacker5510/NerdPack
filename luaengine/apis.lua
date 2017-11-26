@@ -57,9 +57,9 @@ local function testUnitBlackList(_type, unit)
 	for i=1, #tbl do
 		local _count = tbl[i].count
 		if _count then
-			if gbl.DSL:Get(_type..'.count.any')(unit, tbl[i].name) >= _count then return true end
+			if gbl.Condition:Get(_type..'.count.any')(unit, tbl[i].name) >= _count then return true end
 		else
-			if gbl.DSL:Get(_type..'.any')(unit, tbl[i]) then return true end
+			if gbl.Condition:Get(_type..'.any')(unit, tbl[i]) then return true end
 		end
 	end
 end

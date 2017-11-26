@@ -53,7 +53,7 @@ local function getTargetPrio(Obj)
 	local id = tonumber(select(6, strsplit('-', UnitGUID(Obj))) or 0)
 	local prio = 1
 	-- Elite
-	if gbl.DSL:Get('elite')(Obj) then
+	if gbl.Condition:Get('elite')(Obj) then
 		prio = prio + 30
 	end
 	-- If its forced
@@ -73,8 +73,8 @@ function gbl.CombatHelper.Target()
 			if UnitExists(Obj.key)
 			and Obj.distance <= 40 then
 				if (UnitAffectingCombat(Obj.key)
-				or gbl.DSL:Get('isdummy')(Obj.key))
-				and gbl.DSL:Get('infront')(Obj.key) then
+				or gbl.Condition:Get('isdummy')(Obj.key))
+				and gbl.Condition:Get('infront')(Obj.key) then
 					setPrio[#setPrio+1] = {
 						key = Obj.key,
 						bonus = getTargetPrio(Obj.key),
@@ -93,8 +93,8 @@ end
 -- Ticker
 C_Timer.NewTicker(0.1, (function()
 	if UnitAffectingCombat('player')
-	and gbl.DSL:Get('toggle')(nil, 'mastertoggle')
-	and gbl.DSL:Get('toggle')(nil, 'AutoTarget') then
+	and gbl.Condition:Get('toggle')(nil, 'mastertoggle')
+	and gbl.Condition:Get('toggle')(nil, 'AutoTarget') then
 			gbl.CombatHelper:Target()
 	end
 end), nil)

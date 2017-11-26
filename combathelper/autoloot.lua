@@ -58,8 +58,8 @@ function gbl.CombatHelper.Load_Loot()
 
 	-- Ticker
 	C_Timer.NewTicker(0.1, (function()
-		if gbl.DSL:Get('toggle')(nil, 'mastertoggle')
-		and gbl.DSL:Get('toggle')(nil, 'AutoLoot')
+		if gbl.Condition:Get('toggle')(nil, 'mastertoggle')
+		and gbl.Condition:Get('toggle')(nil, 'AutoLoot')
 		and not UnitChannelInfo('player')
 		and not UnitCastingInfo('player')
 	  and not IsMounted("player")
