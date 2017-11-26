@@ -82,5 +82,12 @@ gbl.Locale.enUS = {
     snare        = {"bestial wrath", "bladestorm", "death\"s advance", "desecrated ground","dispersion", "hand of freedom", "master\"s call", "windwalk totem"},
     spell        = {"anti-magic shell", "cloak of shadows", "diffuse magic", "dispersion","massspell reflection", "ring of peace", "spell reflection", "touch of karma"},
     stun         = {"bestial wrath", "bladestorm", "desecrated ground", "icebound fortitude","grounding totem", "nimble brew"}
+  },
+  Debugger = {
+    tittle = "Debugger",
+  },
+  Protected = {
+    find = "Find Unlocker",
+    found = "Found",
   }
 }

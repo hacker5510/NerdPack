@@ -1,4 +1,5 @@
 local n_name, gbl = ...
+local L = function(val) return gbl.Locale:TA("Debugger", val) end
 
 gbl.Debug = {}
 gbl.Debug.Enable = true
@@ -25,7 +26,7 @@ end
 if gbl.Debug.Enable then
 
 gbl.Core:WhenInGame(function()
-	gbl.Interface:Add(n_name.." Debugger", function() texplore(gbl) end)
+	gbl.Interface:Add(L("tittle"), function() texplore(gbl) end)
 end)
 
 local function GetAvg(a, b)
