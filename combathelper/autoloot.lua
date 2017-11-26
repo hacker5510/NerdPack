@@ -56,8 +56,7 @@ function gbl.CombatHelper.Load_Loot()
 	    end
 	end
 
-	-- Ticker
-	C_Timer.NewTicker(0.1, (function()
+	local function Start()
 		if gbl.Condition:Get('toggle')(nil, 'mastertoggle')
 		and gbl.Condition:Get('toggle')(nil, 'AutoLoot')
 		and not UnitChannelInfo('player')
@@ -74,7 +73,11 @@ function gbl.CombatHelper.Load_Loot()
 				end
 			end
 		end
-	end), nil)
+	end
+
+	-- Ticker
+	C_Timer.NewTicker(0.1, Start)
+	gbl.Debug:Add("AUTO_LOOT", Start, true)
 
 	return true
 end

@@ -90,11 +90,14 @@ function gbl.CombatHelper.Target()
 	end
 end
 
--- Ticker
-C_Timer.NewTicker(0.1, (function()
+local function Start()
 	if UnitAffectingCombat('player')
 	and gbl.Condition:Get('toggle')(nil, 'mastertoggle')
 	and gbl.Condition:Get('toggle')(nil, 'AutoTarget') then
 			gbl.CombatHelper:Target()
 	end
-end), nil)
+end
+
+-- Ticker
+C_Timer.NewTicker(0.1, Start)
+gbl.Debug:Add("FACING", Start, true)

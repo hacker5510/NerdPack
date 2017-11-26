@@ -38,8 +38,7 @@ function gbl.CombatHelper.Load_Move()
 		end
 	end
 
-	-- Ticker
-	C_Timer.NewTicker(0.5, (function()
+	local function Start()
 		if UnitAffectingCombat('player')
 		and UnitExists('target')
 		and gbl.Condition:Get('toggle')(nil, 'mastertoggle')
@@ -48,7 +47,11 @@ function gbl.CombatHelper.Load_Move()
 		and not gbl.CombatHelper:ManualMoving() then
 			gbl.CombatHelper:Move()
 		end
-	end), nil)
+	end
+
+	-- Ticker
+	C_Timer.NewTicker(0.5, Start)
+	gbl.Debug:Add("FACING", Start, true)
 
 	return true
 end
