@@ -2,7 +2,7 @@ local _, gbl = ...
 gbl.Protected.FireHack = {}
 local FireHack = gbl.Protected.FireHack
 FireHack.Name = "FireHack"
-FireHack.Test = function() return _G.FireHacK end
+FireHack.Test = function() return _G.FireHack end
 
 FireHack.Load = function()
 	ObjectCreator = GetObjectDescriptorAccessor("CGUnitData::createdBy", Type.GUID)
