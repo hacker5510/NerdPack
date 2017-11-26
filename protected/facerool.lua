@@ -1,10 +1,10 @@
 local _, NeP = ...
 local _G = _G
-local CreateFrame = _G.CreateFrame
+local CreateFrame = CreateFrame
 NeP.Faceroll = {}
 
 -- This to put an icon on top of the spell we want
-local activeFrame = CreateFrame('Frame', 'activeCastFrame', _G.UIParent)
+local activeFrame = CreateFrame('Frame', 'activeCastFrame', UIParent)
 activeFrame:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background",
 	edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
 	tile = true, tileSize = 16, edgeSize = 16,
@@ -42,8 +42,8 @@ function NeP.Faceroll.Set(_, spell, target)
 	activeFrame:SetPoint("CENTER", spellButton, "CENTER")
 	display:SetPoint("TOP", spellButton, 0, display.text:GetStringHeight()+20)
 	spell = '|cff'..NeP.Color.."Spell:|r "..spell
-	local isTargeting = '|cff'..NeP.Color..tostring(_G.UnitIsUnit("target", target or 'player'))
-	target = '|cff'..NeP.Color.."\nTarget:|r"..(_G.UnitName(target or 'player') or '')
+	local isTargeting = '|cff'..NeP.Color..tostring(UnitIsUnit("target", target or 'player'))
+	target = '|cff'..NeP.Color.."\nTarget:|r"..(UnitName(target or 'player') or '')
 	display.text:SetText(spell..target.."("..isTargeting..")")
 	activeFrame:Show()
 end
