@@ -1,4 +1,4 @@
-local _, gbl = ...
+local n_name, gbl = ...
 local _G = _G
 gbl.Core = {}
 
@@ -6,7 +6,7 @@ local last_print = ""
 function gbl.Core.Print(_, ...)
 	if last_print ~= ... then
 		last_print = ...
-		print('[|cff'..gbl.Color..'gbl|r]', ...)
+		print('[|cff'..gbl.Color..n_name..'|r]', ...)
 	end
 end
 
