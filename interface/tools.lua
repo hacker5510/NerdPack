@@ -45,7 +45,7 @@ local function new_prof(table, parent)
 	parent:Hide()
 	parent:Release()
 	gbl.Interface.usedGUIs[table.key] = nil
-	gbl.Interface:BuildGUI(table)
+	gbl.Interface.BuildGUI(table)
 	pFrame:Hide()
 	pFrame.Input:SetText(new_prof_Name)
 end
@@ -62,7 +62,7 @@ local function del_prof(table, parent)
 			parent:Release()
 			gbl.Interface.usedGUIs[table.key] = nil
 			gbl.Config:Reset(table.key, nil, table.selected_profile)
-			gbl.Interface:BuildGUI(table)
+			gbl.Interface.BuildGUI(table)
 			break
 		end
 	end
@@ -187,7 +187,7 @@ local function UI_WhenInGame(table, parent)
 	parent:ApplySettings()
 end
 
-function gbl.Interface.BuildGUI(_, table)
+function gbl.Interface.BuildGUI(table)
 	local self = gbl.Interface
 	--Tests (if created, show it)
 	local gui_test = self:TestCreated(table)
@@ -234,12 +234,12 @@ function gbl.Interface.BuildGUI(_, table)
 	return self.usedGUIs[table.key]
 end
 
-function gbl.Interface.Fetch(_, a, b, default)
+function gbl.Interface.Fetch(a, b, default)
 	local cprofile = gbl.Config:Read(a, "selected_profile", "default", "settings")
 	return gbl.Config:Read(a, b, default, cprofile)
 end
 
-function gbl.Interface.Write(_, a, b, key)
+function gbl.Interface.Write(a, b, key)
 	local cprofile = gbl.Config:Read(a, "selected_profile", "default", "settings")
 	gbl.Config:Write(a, b, key, cprofile)
 end

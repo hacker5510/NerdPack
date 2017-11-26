@@ -16,7 +16,7 @@ local bt = {
 local combo_eval = {key = "list", list = bt, default = "Enemy"}
 local gui_eval = {key = "gblOMgui", width = 500, height = 250, header = true, title = "ObjectManager GUI"}
 
-local OM_GUI = gbl.Interface:BuildGUI(gui_eval)
+local OM_GUI = gbl.Interface.BuildGUI(gui_eval)
 gbl.Interface:Add(L:TA("OM", "Option"), function() OM_GUI.parent:Show() end)
 local dropdown = gbl.Interface:Combo(combo_eval, OM_GUI.parent, {key="OM_GUI", offset = 0})
 dropdown:SetPoint("TOPRIGHT", OM_GUI.parent.header, "TOPRIGHT", 0, 0)

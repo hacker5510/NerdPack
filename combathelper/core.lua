@@ -14,6 +14,6 @@ local config = {
 	}
 }
 
-local GUI = gbl.Interface:BuildGUI(config)
+local GUI = gbl.Interface.BuildGUI(config)
 gbl.Interface:Add("Combat Helper", function() GUI.parent:Show() end)
 GUI.parent:Hide()

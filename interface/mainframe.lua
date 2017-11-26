@@ -17,7 +17,7 @@ local function CR_Ver_gbl(cr_gbl_ver)
 	return gbl_ver:find("^"..tostring(cr_gbl_ver))
 end
 
-gbl.Interface.MainFrame = gbl.Interface:BuildGUI({
+gbl.Interface.MainFrame = gbl.Interface.BuildGUI({
 	key = "gblMFrame",
 	width = 100,
 	height = 60,

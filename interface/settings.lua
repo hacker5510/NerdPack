@@ -4,9 +4,9 @@ local K = n_name.."_Settings"
 local gbl_ver = tostring(gbl.Version.major.."."..gbl.Version.minor.."-"..gbl.Version.branch)
 
 function gbl.Interface:Update()
-  gbl.ButtonsSize = gbl.Interface:Fetch(K, "bsize", 40)
-  gbl.ButtonsPadding = gbl.Interface:Fetch(K, "bpad", 2)
-  --gbl.OM.max_distance = gbl.Interface:Fetch(K, "OM_Dis", 100)
+  gbl.ButtonsSize = gbl.Interface.Fetch(K, "bsize", 40)
+  gbl.ButtonsPadding = gbl.Interface.Fetch(K, "bpad", 2)
+  --gbl.OM.max_distance = gbl.Interface.Fetch(K, "OM_Dis", 100)
   self:RefreshToggles()
 end
 
@@ -37,7 +37,7 @@ title = n_name,
 	}
 }
 
-gbl.STs = gbl.Interface:BuildGUI(config)
+gbl.STs = gbl.Interface.BuildGUI(config)
 gbl.Interface:Add(n_name.." "..L("option"), function() gbl.STs.parent:Show() end)
 gbl.STs.parent:Hide()
 

@@ -68,11 +68,11 @@ function gbl.Interface.Checkbox(_,element, parent, table)
 	tmp:SetParent(parent.content)
 	tmp:SetPoint("TOPLEFT", parent.content, "TOPLEFT", 5, table.offset)
 	tmp:SetEventListener("OnValueChanged", function(_, _, checked)
-		gbl.Interface:Write(table.key, key, checked)
+		gbl.Interface.Write(table.key, key, checked)
 	end)
 	-- Only when loaded
 	gbl.Core.WhenInGame(function()
-		tmp:SetChecked(gbl.Interface:Fetch(table.key, key, default or false))
+		tmp:SetChecked(gbl.Interface.Fetch(table.key, key, default or false))
 	end)
 	element.h = 20
 	return tmp
@@ -87,7 +87,7 @@ function gbl.Interface.Spinner(_,element, parent, table)
 	tmp:SetPoint("TOPRIGHT", parent.content, "TOPRIGHT", -5, table.offset)
 	-- Only when loaded
 	gbl.Core.WhenInGame(function()
-		tmp:SetNumber(gbl.Interface:Fetch(table.key, key, default))
+		tmp:SetNumber(gbl.Interface.Fetch(table.key, key, default))
 	end)
 	--Settings
 	tmp.settings.width = element.width or tmp.settings.width
@@ -101,7 +101,7 @@ function gbl.Interface.Spinner(_,element, parent, table)
 	element.y = tmp.settings.width
 	tmp:SetEventListener("OnValueChanged", function(_, _, userInput, number)
 		if not userInput then return end
-		gbl.Interface:Write(table.key, key, number)
+		gbl.Interface.Write(table.key, key, number)
 	end)
 	return tmp
 end
@@ -139,11 +139,11 @@ function gbl.Interface.Combo(_,element, parent, table)
 	end
 	tmp:SetList(list, orderdKeys)
 	tmp:SetEventListener("OnValueChanged", function(_, _, value)
-		gbl.Interface:Write(table.key, element.key, value)
+		gbl.Interface.Write(table.key, element.key, value)
 	end)
 	-- Only when loaded
 	gbl.Core.WhenInGame(function()
-		tmp:SetValue(gbl.Interface:Fetch(table.key, element.key, element.default))
+		tmp:SetValue(gbl.Interface.Fetch(table.key, element.key, element.default))
 	end)
 	--Settings
 	tmp.settings.width = element.width or tmp.settings.width
@@ -173,10 +173,10 @@ function gbl.Interface.Input(_, element, parent, table)
 	if element.width then tmp:SetWidth(element.width) end
 	-- Only when loaded
 	gbl.Core.WhenInGame(function()
-		tmp:SetText(gbl.Interface:Fetch(table.key, element.key, element.default or ""))
+		tmp:SetText(gbl.Interface.Fetch(table.key, element.key, element.default or ""))
 	end, 9)
 	tmp:SetEventListener("OnEditFocusLost", function(this)
-		gbl.Interface:Write(table.key, element.key, this:GetText())
+		gbl.Interface.Write(table.key, element.key, this:GetText())
 	end)
 	return tmp
 end

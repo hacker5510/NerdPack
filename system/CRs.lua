@@ -20,7 +20,7 @@ function gbl.CR.AddGUI(_, ev)
 		profiles = true
 	}
 	ev.gui = true
-	gbl.Interface:BuildGUI(temp).parent:Hide()
+	gbl.Interface.BuildGUI(temp).parent:Hide()
 end
 
 local function add(ev)

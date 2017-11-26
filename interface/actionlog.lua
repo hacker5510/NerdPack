@@ -11,7 +11,7 @@ local abs_height = log_height * log_items + log_height
 local delta = 0
 
 
-gbl.ActionLog.Frame = gbl.Interface:BuildGUI({
+gbl.ActionLog.Frame = gbl.Interface.BuildGUI({
 	key = "gbl_ALFrame",
 	width = 460,
 	title = L:TA("AL", "Option"),

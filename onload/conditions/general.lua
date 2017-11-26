@@ -121,5 +121,5 @@ end)
 gbl.Condition:Register("ui", function(_, args)
   local key, UI_key = strsplit(",", args, 2)
   UI_key = UI_key or gbl.CR.CurrentCR.name
-  return gbl.Interface:Fetch(UI_key, key)
+  return gbl.Interface.Fetch(UI_key, key)
 end)
