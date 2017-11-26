@@ -1,6 +1,6 @@
 --[[local Keys = {}
 
-local bt = CreateFrame("CheckButton", 'gbl_KeyListener', UIParent)
+local bt = CreateFrame("CheckButton", "gbl_KeyListener", UIParent)
 bt:EnableKeyboard(true)
 bt:EnableMouse(true)
 bt:EnableMouseWheel(true)

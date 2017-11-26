@@ -6,17 +6,17 @@ local last_print = ""
 function gbl.Core.Print(_, ...)
 	if last_print ~= ... then
 		last_print = ...
-		print('[|cff'..gbl.Color..n_name..'|r]', ...)
+		print("[|cff"..gbl.Color..n_name.."|r]", ...)
 	end
 end
 
 local d_color = {
-	hex = 'FFFFFF',
+	hex = "FFFFFF",
 	rgb = {1,1,1}
 }
 
 function gbl.Core.ClassColor(_, unit, type)
-	type = type and type:lower() or 'hex'
+	type = type and type:lower() or "hex"
 	if UnitExists(unit) then
 		local classid  = select(3, UnitClass(unit))
 		if classid then
@@ -35,7 +35,7 @@ function gbl.Core.GetSpellID(_, spell)
 	local _type = type(spell)
 	if not spell then
 		return
-	elseif _type == 'string' and spell:find('^%d') then
+	elseif _type == "string" and spell:find("^%d") then
 		return tonumber(spell)
 	end
 	local index, stype = gbl.Core:GetSpellBookIndex(spell)
@@ -44,7 +44,7 @@ function gbl.Core.GetSpellID(_, spell)
 end
 
 function gbl.Core.GetSpellName(_, spell)
-	if not spell or type(spell) == 'string' then return spell end
+	if not spell or type(spell) == "string" then return spell end
 	local spellID = tonumber(spell)
 	if spellID then
 		return GetSpellInfo(spellID)
@@ -53,13 +53,13 @@ function gbl.Core.GetSpellName(_, spell)
 end
 
 function gbl.Core.GetItemID(_, item)
-	if not item or type(item) == 'number' then return item end
-	local itemID = string.match(select(2, GetItemInfo(item)) or '', 'Hitem:(%d+):')
+	if not item or type(item) == "number" then return item end
+	local itemID = string.match(select(2, GetItemInfo(item)) or "", "Hitem:(%d+):")
 	return tonumber(itemID) or item
 end
 
 function gbl.Core.UnitID(_, unit)
-	return tonumber(unit and select(6, strsplit('-', UnitGUID(unit))) or 0)
+	return tonumber(unit and select(6, strsplit("-", UnitGUID(unit))) or 0)
 end
 
 function gbl.Core.GetSpellBookIndex(_, spell)
@@ -129,7 +129,7 @@ end
 gbl.Listener:Add("gbl_Core_load", "PLAYER_LOGIN", function()
 	C_Timer.After(5, function()
 		table.sort(Run_Cache, function(a,b) return a.prio > b.prio end)
-		gbl.Color = gbl.Core:ClassColor('player', 'hex')
+		gbl.Color = gbl.Core:ClassColor("player", "hex")
 		for i=1, #Run_Cache do
 			Run_Cache[i].func()
 		end

@@ -2,7 +2,7 @@ local _, gbl = ...
 local DiesalGUI = LibStub("DiesalGUI-1.0")
 local new_prof_Name = "New Profile Name"
 
-gbl.Interface.pFrame = DiesalGUI:Create('Window')
+gbl.Interface.pFrame = DiesalGUI:Create("Window")
 local pFrame = gbl.Interface.pFrame
 pFrame:SetTitle("Create Profile")
 pFrame.settings.width = 200
@@ -13,14 +13,14 @@ pFrame.settings.maxWidth = pFrame.settings.width
 pFrame.settings.maxHeight = pFrame.settings.height
 pFrame:ApplySettings()
 
-pFrame.Input = DiesalGUI:Create('Input')
+pFrame.Input = DiesalGUI:Create("Input")
 pFrame:AddChild(pFrame.Input)
 pFrame.Input:SetParent(pFrame.content)
 pFrame.Input:SetPoint("TOPLEFT", pFrame.content, "TOPLEFT", 5, -5)
 pFrame.Input:SetPoint("BOTTOMRIGHT", pFrame.content, "TOPRIGHT", -5, -25)
 pFrame.Input:SetText(new_prof_Name)
 
-pFrame.Button = DiesalGUI:Create('Button')
+pFrame.Button = DiesalGUI:Create("Button")
 pFrame:AddChild(pFrame.Button)
 pFrame.Button:SetParent(pFrame.content)
 pFrame.Button:SetPoint("TOPLEFT", pFrame.content, "TOPLEFT", 5, -30)

@@ -15,8 +15,8 @@ local title_size = 20
 
 -- Load Saved sizes
 gbl.Core:WhenInGame(function()
-	gbl.ButtonsSize = gbl.Config:Read(n_name..'_Settings', 'bsize', 40)
-	gbl.ButtonsPadding = gbl.Config:Read(n_name..'_Settings', 'bpad', 2)
+	gbl.ButtonsSize = gbl.Config:Read(n_name.."_Settings", "bsize", 40)
+	gbl.ButtonsPadding = gbl.Config:Read(n_name.."_Settings", "bpad", 2)
 	gbl.Interface:RefreshToggles()
 end)
 
@@ -28,7 +28,7 @@ local function SetTexture(parent, icon)
 		temp:SetTexture(icon)
 		temp:SetTexCoord(.08, .92, .08, .92)
 	else
-		local r,g,b = unpack(gbl.Core:ClassColor('player', 'rgb'))
+		local r,g,b = unpack(gbl.Core:ClassColor("player", "rgb"))
 		temp:SetColorTexture(r,g,b,.7)
 	end
 	temp:SetAllPoints(parent)
@@ -36,9 +36,9 @@ local function SetTexture(parent, icon)
 end
 
 local function OnClick(self, func, button)
-	if button == 'LeftButton' then
+	if button == "LeftButton" then
 		self.actv = not self.actv
-		gbl.Config:Write('TOGGLE_STATES', self.key, self.actv)
+		gbl.Config:Write("TOGGLE_STATES", self.key, self.actv)
 	end
 	if func then
 		func(self, button)
@@ -47,11 +47,11 @@ local function OnClick(self, func, button)
 end
 
 local function OnEnter(self, name, text)
-	local OnOff = self.actv and L:TA('Any', 'ON') or L:TA('Any', 'OFF')
+	local OnOff = self.actv and L:TA("Any", "ON") or L:TA("Any", "OFF")
 	GameTooltip:SetOwner(self, "ANCHOR_TOP")
 	GameTooltip:AddDoubleLine(name, OnOff)
 	if text then
-		GameTooltip:AddLine('|cffFFFFFF'..text)
+		GameTooltip:AddLine("|cffFFFFFF"..text)
 	end
 	GameTooltip:Show()
 end
@@ -66,7 +66,7 @@ local function CreateToggle(eval)
 	temp:SetFrameLevel(1)
 	temp:SetNormalFontObject("GameFontNormal")
 	temp.texture = SetTexture(temp, eval.icon)
-	temp.actv = gbl.Config:Read('TOGGLE_STATES', eval.key, false)
+	temp.actv = gbl.Config:Read("TOGGLE_STATES", eval.key, false)
 	temp.nohide = eval.nohide
 	temp.Checked_texture = SetTexture(temp)
 	temp:SetCheckedTexture(temp.Checked_texture)
@@ -107,7 +107,7 @@ function gbl.Interface.RefreshToggles()
 		if Toggles[i]:IsShown() then
 
 			-- This is to handle rows
-			local n1 = gbl.Config:Read(n_name..'_Settings', 'brow', 10)
+			local n1 = gbl.Config:Read(n_name.."_Settings", "brow", 10)
 			if tcount >= n1 then
 				maxed = tcount
 				tcount = 0
@@ -159,5 +159,5 @@ function gbl.Interface.toggleToggle(_, key, state)
 	if not tmp then return end
 	tmp.actv = state or not tmp.actv
 	tmp:SetChecked(tmp.actv)
-	gbl.Config:Write('TOGGLE_STATES', tmp.key, tmp.actv)
+	gbl.Config:Write("TOGGLE_STATES", tmp.key, tmp.actv)
 end

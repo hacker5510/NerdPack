@@ -4,7 +4,7 @@ gbl.AddsID.table = {}
 local T = gbl.AddsID.table
 
 function gbl.AddsID:Add(ID)
-  if type(ID) == 'table' then
+  if type(ID) == "table" then
 		for i=1, #ID do
 			self:Add(ID[i])
 		end
@@ -61,7 +61,7 @@ gbl.AddsID:Add({
 	93838	,	-- Grasping Hand (HFC)
 	93839	,	-- Dragging Hand (HFC)
 	91368	,	-- Crushing Hand (HFC)
-	94455	,	-- Blademaster Jubei'thos (HFC)
+	94455	,	-- Blademaster Jubei"thos (HFC)
 	90387	,	-- Shadowy Construct (HFC)
 	90508	,	-- Gorebound Construct (HFC)
 	90568	,	-- Gorebound Essence (HFC)

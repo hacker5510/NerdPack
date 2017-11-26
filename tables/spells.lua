@@ -11,7 +11,7 @@ local function _add(...)
 end
 
 function gbl.Spells.Add(_, ...)
-	if type(...) == 'table' then
+	if type(...) == "table" then
 		for name, id in pairs(...) do
 			_add(name, id)
 		end
@@ -22,7 +22,7 @@ end
 
 function gbl.Spells.Convert(_, spell)
 	if not spell then return end
-	if type(spell) == 'number' or spell:find('%d') then
+	if type(spell) == "number" or spell:find("%d") then
 		spell = GetSpellInfo(spell) or spell
 	else
 		if SpellsTable[spell:lower()] then

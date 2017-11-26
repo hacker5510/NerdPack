@@ -6,7 +6,7 @@ gbl.LuaEngine.Queue = {}
 
 -- returns target if it exists or player
 function gbl.LuaEngine.NoopUnit()
-  return UnitExists('target') and 'target' or 'player'
+  return UnitExists("target") and "target" or "player"
 end
 
 function gbl.LuaEngine.BuildUnits()

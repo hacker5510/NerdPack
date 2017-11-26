@@ -17,34 +17,34 @@ local function regularSpell(eval)
 end
 
 local invItems = {
-  ['head']    = 'HeadSlot',
-  ['helm']    = 'HeadSlot',
-  ['neck']    = 'NeckSlot',
-  ['shoulder']  = 'ShoulderSlot',
-  ['shirt']    = 'ShirtSlot',
-  ['chest']    = 'ChestSlot',
-  ['belt']    = 'WaistSlot',
-  ['waist']    = 'WaistSlot',
-  ['legs']    = 'LegsSlot',
-  ['pants']    = 'LegsSlot',
-  ['feet']    = 'FeetSlot',
-  ['boots']    = 'FeetSlot',
-  ['wrist']    = 'WristSlot',
-  ['bracers']    = 'WristSlot',
-  ['gloves']    = 'HandsSlot',
-  ['hands']    = 'HandsSlot',
-  ['finger1']    = 'Finger0Slot',
-  ['finger2']    = 'Finger1Slot',
-  ['trinket1']  = 'Trinket0Slot',
-  ['trinket2']  = 'Trinket1Slot',
-  ['back']    = 'BackSlot',
-  ['cloak']    = 'BackSlot',
-  ['mainhand']  = 'MainHandSlot',
-  ['offhand']    = 'SecondaryHandSlot',
-  ['weapon']    = 'MainHandSlot',
-  ['weapon1']    = 'MainHandSlot',
-  ['weapon2']    = 'SecondaryHandSlot',
-  ['ranged']    = 'RangedSlot'
+  ["head"]    = "HeadSlot",
+  ["helm"]    = "HeadSlot",
+  ["neck"]    = "NeckSlot",
+  ["shoulder"]  = "ShoulderSlot",
+  ["shirt"]    = "ShirtSlot",
+  ["chest"]    = "ChestSlot",
+  ["belt"]    = "WaistSlot",
+  ["waist"]    = "WaistSlot",
+  ["legs"]    = "LegsSlot",
+  ["pants"]    = "LegsSlot",
+  ["feet"]    = "FeetSlot",
+  ["boots"]    = "FeetSlot",
+  ["wrist"]    = "WristSlot",
+  ["bracers"]    = "WristSlot",
+  ["gloves"]    = "HandsSlot",
+  ["hands"]    = "HandsSlot",
+  ["finger1"]    = "Finger0Slot",
+  ["finger2"]    = "Finger1Slot",
+  ["trinket1"]  = "Trinket0Slot",
+  ["trinket2"]  = "Trinket1Slot",
+  ["back"]    = "BackSlot",
+  ["cloak"]    = "BackSlot",
+  ["mainhand"]  = "MainHandSlot",
+  ["offhand"]    = "SecondaryHandSlot",
+  ["weapon"]    = "MainHandSlot",
+  ["weapon1"]    = "MainHandSlot",
+  ["weapon2"]    = "SecondaryHandSlot",
+  ["ranged"]    = "RangedSlot"
 }
 
 local function InvItems(item, eval)
@@ -104,8 +104,8 @@ s_types["string"] = function(spell)
   local eval = {}
   eval.spell = spell
   --Arguments
-	eval.args = eval.spell:match('%((.+)%)')
-  eval.spell = eval.spell:gsub('%((.+)%)','')
+	eval.args = eval.spell:match("%((.+)%)")
+  eval.spell = eval.spell:gsub("%((.+)%)","")
   -- find tokens
   local nextToken = eval.spell:sub(1,1)
   while(s_tokens[nextToken]) do

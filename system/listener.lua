@@ -4,8 +4,8 @@ local CreateFrame = CreateFrame
 gbl.Listener = {}
 local listeners = {}
 
-local frame = CreateFrame('Frame', 'gbl_Events')
-frame:SetScript('OnEvent', function(_, event, ...)
+local frame = CreateFrame("Frame", "gbl_Events")
+frame:SetScript("OnEvent", function(_, event, ...)
 	if not listeners[event] then return end
 	for k in pairs(listeners[event]) do
 		listeners[event][k](...)

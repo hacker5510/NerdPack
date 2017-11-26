@@ -17,7 +17,7 @@ local function UpdateButtons()
 			local button = _G[group .. i]
 			if button then
 				local actionType, id = GetActionInfo(ActionButton_CalculateAction(button, "LeftButton"))
-				if actionType == 'spell' then
+				if actionType == "spell" then
 					local spell = GetSpellInfo(id)
 					if spell then
 						gbl.Buttons[spell] = button
@@ -28,10 +28,10 @@ local function UpdateButtons()
 	end
 end
 
-gbl.Listener:Add('gbl_Buttons','PLAYER_ENTERING_WORLD', function ()
+gbl.Listener:Add("gbl_Buttons","PLAYER_ENTERING_WORLD", function ()
 	UpdateButtons()
 end)
 
-gbl.Listener:Add('gbl_Buttons','ACTIONBAR_SLOT_CHANGED', function ()
+gbl.Listener:Add("gbl_Buttons","ACTIONBAR_SLOT_CHANGED", function ()
 	UpdateButtons()
 end)

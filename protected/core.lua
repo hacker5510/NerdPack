@@ -19,8 +19,8 @@ end)
 
 function gbl.Protected.omVal(Obj)
 	return UnitInPhase(Obj)
-	and gbl.Protected.Distance('player', Obj) < 100
-	and gbl.Protected.LineOfSight('player', Obj)
+	and gbl.Protected.Distance("player", Obj) < 100
+	and gbl.Protected.LineOfSight("player", Obj)
 end
 
 local Count = 0
@@ -48,7 +48,7 @@ function gbl.Protected:LoadCallbacks()
 end
 
 function gbl.Protected:SetUnlocker(Unlocker)
-	gbl.Core:Print('|cffff0000Found:|r ' .. Unlocker.Name)
+	gbl.Core:Print("|cffff0000Found:|r " .. Unlocker.Name)
 	for name, func in pairs(Unlocker) do
 			self[name] = func
 	end

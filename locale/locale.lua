@@ -9,13 +9,13 @@ function gbl.Locale:TA(gui, index)
       return gbl.Locale[locale][gui][index]
     end
   end
-  return gbl.Locale.enUS[gui][index] or 'INVALID STRING'
+  return gbl.Locale.enUS[gui][index] or "INVALID STRING"
 end
 
 --[[
 		"frFR": French (France)
 		"deDE": German (Germany)
-		"enGB : English (Great Brittan) if returned, can substitute 'enUS' for consistancy
+		"enGB : English (Great Brittan) if returned, can substitute "enUS" for consistancy
 		"enUS": English (America)
 		"itIT": Italian (Italy)
 		"koKR": Korean (Korea) RTL - right-to-left

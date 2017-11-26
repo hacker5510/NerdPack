@@ -1,10 +1,10 @@
 local _, gbl = ...
 
 gbl.Interface:AddToggle({
-		key = 'AutoTarget',
-		name = 'Auto Target',
-		text = 'Automatically target the nearest enemy when target dies or does not exist',
-		icon = 'Interface\\Icons\\ability_hunter_snipershot',
+		key = "AutoTarget",
+		name = "Auto Target",
+		text = "Automatically target the nearest enemy when target dies or does not exist",
+		icon = "Interface\\Icons\\ability_hunter_snipershot",
 		nohide = true
 })
 
@@ -40,7 +40,7 @@ local gbl_forceTarget = {
 	[93838] = 100,	-- Grasping Hand (HFC)
 	[93839] = 100,	-- Dragging Hand (HFC)
 	[91368] = 100,	-- Crushing Hand (HFC)
-	[94455] = 100,	-- Blademaster Jubei'thos (HFC)
+	[94455] = 100,	-- Blademaster Jubei"thos (HFC)
 	[90387] = 100,	-- Shadowy Construct (HFC)
 	[90508] = 100,	-- Gorebound Construct (HFC)
 	[90568] = 100,	-- Gorebound Essence (HFC)
@@ -50,10 +50,10 @@ local gbl_forceTarget = {
 }
 
 local function getTargetPrio(Obj)
-	local id = tonumber(select(6, strsplit('-', UnitGUID(Obj))) or 0)
+	local id = tonumber(select(6, strsplit("-", UnitGUID(Obj))) or 0)
 	local prio = 1
 	-- Elite
-	if gbl.Condition:Get('elite')(Obj) then
+	if gbl.Condition:Get("elite")(Obj) then
 		prio = prio + 30
 	end
 	-- If its forced
@@ -65,16 +65,16 @@ end
 
 function gbl.CombatHelper.Target()
 	-- If dont have a target, target is friendly or dead
-  if not UnitExists('target')
-	or UnitReaction('player', 'target') > 4
-	or UnitIsDeadOrGhost('target') then
+  if not UnitExists("target")
+	or UnitReaction("player", "target") > 4
+	or UnitIsDeadOrGhost("target") then
 		local setPrio = {}
-		for _, Obj in pairs(gbl.OM:Get('Enemy')) do
+		for _, Obj in pairs(gbl.OM:Get("Enemy")) do
 			if UnitExists(Obj.key)
 			and Obj.distance <= 40 then
 				if (UnitAffectingCombat(Obj.key)
-				or gbl.Condition:Get('isdummy')(Obj.key))
-				and gbl.Condition:Get('infront')(Obj.key) then
+				or gbl.Condition:Get("isdummy")(Obj.key))
+				and gbl.Condition:Get("infront")(Obj.key) then
 					setPrio[#setPrio+1] = {
 						key = Obj.key,
 						bonus = getTargetPrio(Obj.key),
@@ -91,9 +91,9 @@ function gbl.CombatHelper.Target()
 end
 
 local function Start()
-	if UnitAffectingCombat('player')
-	and gbl.Condition:Get('toggle')(nil, 'mastertoggle')
-	and gbl.Condition:Get('toggle')(nil, 'AutoTarget') then
+	if UnitAffectingCombat("player")
+	and gbl.Condition:Get("toggle")(nil, "mastertoggle")
+	and gbl.Condition:Get("toggle")(nil, "AutoTarget") then
 			gbl.CombatHelper:Target()
 	end
 end

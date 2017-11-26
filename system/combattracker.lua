@@ -9,13 +9,13 @@ local wipe = wipe
 
 -- Thse are Mixed Damage types (magic and pysichal)
 local Doubles = {
-	[3]   = 'Holy + Physical',
-	[5]   = 'Fire + Physical',
-	[9]   = 'Nature + Physical',
-	[17]  = 'Frost + Physical',
-	[33]  = 'Shadow + Physical',
-	[65]  = 'Arcane + Physical',
-	[127] = 'Arcane + Shadow + Frost + Nature + Fire + Holy + Physical',
+	[3]   = "Holy + Physical",
+	[5]   = "Fire + Physical",
+	[9]   = "Nature + Physical",
+	[17]  = "Frost + Physical",
+	[33]  = "Shadow + Physical",
+	[65]  = "Arcane + Physical",
+	[127] = "Arcane + Shadow + Frost + Nature + Fire + Holy + Physical",
 }
 
 local function addToData(GUID)
@@ -50,7 +50,7 @@ end
 local logDamage = function(...)
 	local _,_,_, SourceGUID, _,_,_, DestGUID, _,_,_, spellID, _, school, Amount = ...
 	-- Chat Output for Debugging
---	if SourceGUID == UnitGUID('player') then
+--	if SourceGUID == UnitGUID("player") then
 --		print(spellID)
 --	end
 	-- Mixed
@@ -108,25 +108,25 @@ end
 local addAction = function(...)
 	local _,_,_, sourceGUID, _,_,_,_, destName, _,_,_, spellName = ...
 	if not spellName then return end
-	if sourceGUID == UnitGUID('player') then
+	if sourceGUID == UnitGUID("player") then
 		local icon = select(3, GetSpellInfo(spellName))
-		gbl.ActionLog:Add('Spell Cast Succeed', spellName, icon, destName)
+		gbl.ActionLog:Add("Spell Cast Succeed", spellName, icon, destName)
 	end
 	Data[sourceGUID].lastcast = spellName
 end
 
---[[ These are the events we're looking for and its respective action ]]
+--[[ These are the events we"re looking for and its respective action ]]
 local EVENTS = {
-	['SPELL_DAMAGE'] = logDamage,
-	['DAMAGE_SHIELD'] = logDamage,
-	['SPELL_PERIODIC_DAMAGE']	= logDamage,
-	['SPELL_BUILDING_DAMAGE']	= logDamage,
-	['RANGE_DAMAGE'] = logDamage,
-	['SWING_DAMAGE'] = logSwing,
-	['SPELL_HEAL'] = logHealing,
-	['SPELL_PERIODIC_HEAL'] = logHealing,
-	['UNIT_DIED'] = function(...) Data[select(8, ...)] = nil end,
-	['SPELL_CAST_SUCCESS'] = addAction
+	["SPELL_DAMAGE"] = logDamage,
+	["DAMAGE_SHIELD"] = logDamage,
+	["SPELL_PERIODIC_DAMAGE"]	= logDamage,
+	["SPELL_BUILDING_DAMAGE"]	= logDamage,
+	["RANGE_DAMAGE"] = logDamage,
+	["SWING_DAMAGE"] = logSwing,
+	["SPELL_HEAL"] = logHealing,
+	["SPELL_PERIODIC_HEAL"] = logHealing,
+	["UNIT_DIED"] = function(...) Data[select(8, ...)] = nil end,
+	["SPELL_CAST_SUCCESS"] = addAction
 }
 
 --[[ Returns the total ammount of time a unit is in-combat for ]]
@@ -191,7 +191,7 @@ function gbl.CombatTracker.SpellDamage(_, unit, spellID)
 	or 0
 end
 
-gbl.Listener:Add('gbl_CombatTracker', 'COMBAT_LOG_EVENT_UNFILTERED', function(...)
+gbl.Listener:Add("gbl_CombatTracker", "COMBAT_LOG_EVENT_UNFILTERED", function(...)
 	local _, EVENT, _, SourceGUID, _,_,_, DestGUID = ...
 	-- Add the unit to our data if we dont have it
 	addToData(SourceGUID)
@@ -203,10 +203,10 @@ gbl.Listener:Add('gbl_CombatTracker', 'COMBAT_LOG_EVENT_UNFILTERED', function(..
 	if EVENTS[EVENT] then EVENTS[EVENT](...) end
 end)
 
-gbl.Listener:Add('gbl_CombatTracker', 'PLAYER_REGEN_ENABLED', function()
+gbl.Listener:Add("gbl_CombatTracker", "PLAYER_REGEN_ENABLED", function()
 	wipe(Data)
 end)
 
-gbl.Listener:Add('gbl_CombatTracker', 'PLAYER_REGEN_DISABLED', function()
+gbl.Listener:Add("gbl_CombatTracker", "PLAYER_REGEN_DISABLED", function()
 	wipe(Data)
 end)

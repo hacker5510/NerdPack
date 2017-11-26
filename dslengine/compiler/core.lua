@@ -16,7 +16,7 @@ local function ForEachUnit(eval)
 		elseif gbl.API:ValidUnit(curUnit)
 		and eval.conditions() then
 			gbl.ActionLog:Add(eval.token, eval.spell or "", eval.icon, curUnit)
-			gbl.Interface:UpdateIcon('mastertoggle', eval.icon)
+			gbl.Interface:UpdateIcon("mastertoggle", eval.icon)
 			eval.exeExtra()
 			return eval.exeFunc(eval.spell, curUnit, eval.spellArgs)
 		end

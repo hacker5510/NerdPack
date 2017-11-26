@@ -3,17 +3,17 @@ local _G = _G
 
 local KEYBINDS = {
   -- Shift
-  ['shift']    = function() return IsShiftKeyDown() end,
-  ['lshift']   = function() return IsLeftShiftKeyDown() end,
-  ['rshift']   = function() return IsRightShiftKeyDown() end,
+  ["shift"]    = function() return IsShiftKeyDown() end,
+  ["lshift"]   = function() return IsLeftShiftKeyDown() end,
+  ["rshift"]   = function() return IsRightShiftKeyDown() end,
   -- Control
-  ['control']  = function() return IsControlKeyDown() end,
-  ['lcontrol'] = function() return IsLeftControlKeyDown() end,
-  ['rcontrol'] = function() return IsRightControlKeyDown() end,
+  ["control"]  = function() return IsControlKeyDown() end,
+  ["lcontrol"] = function() return IsLeftControlKeyDown() end,
+  ["rcontrol"] = function() return IsRightControlKeyDown() end,
   -- Alt
-  ['alt']      = function() return IsAltKeyDown() end,
-  ['lalt']     = function() return IsLeftAltKeyDown() end,
-  ['ralt']     = function() return IsRightAltKeyDown() end,
+  ["alt"]      = function() return IsAltKeyDown() end,
+  ["lalt"]     = function() return IsLeftAltKeyDown() end,
+  ["ralt"]     = function() return IsRightAltKeyDown() end,
 }
 
 gbl.Condition:Register("keybind", function(_, Arg)

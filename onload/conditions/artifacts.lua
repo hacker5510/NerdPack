@@ -20,7 +20,7 @@ function gbl.Artifact.Traits(_, artifactID)
 end
 
 function gbl.Artifact:TraitInfo(spell)
-  local artifactID = gbl.Condition:Get('artifact.active_id')()
+  local artifactID = gbl.Condition:Get("artifact.active_id")()
   if not artifactID then self:Update() end
   local _, traits = self:Traits(artifactID)
   if not traits then return end
@@ -31,30 +31,30 @@ function gbl.Artifact:TraitInfo(spell)
   end
 end
 
-gbl.Condition:Register('artifact.acquired_power', function(artifactID)
+gbl.Condition:Register("artifact.acquired_power", function(artifactID)
   return LAD.GetAcquiredArtifactPower(artifactID)
 end)
 
-gbl.Condition:Register('artifact.active_id', function()
+gbl.Condition:Register("artifact.active_id", function()
   return LAD.GetActiveArtifactID()
 end)
 
-gbl.Condition:Register('artifact.knowledge', function()
+gbl.Condition:Register("artifact.knowledge", function()
   return select(1,LAD.GetArtifactKnowledge())
 end)
 
-gbl.Condition:Register('artifact.power', function(artifactID)
+gbl.Condition:Register("artifact.power", function(artifactID)
   return select(3,LAD.GetArtifactPower(artifactID))
 end)
 
-gbl.Condition:Register('artifact.relics', function(artifactID)
+gbl.Condition:Register("artifact.relics", function(artifactID)
   return LAD.GetArtifactRelics(artifactID)
 end)
 
-gbl.Condition:Register('artifact.num_obtained', function()
+gbl.Condition:Register("artifact.num_obtained", function()
   return LAD.GetNumObtainedArtifacts()
 end)
 
-gbl.Condition:Register('artifact.enabled', function(_, spell)
+gbl.Condition:Register("artifact.enabled", function(_, spell)
     return not not select(10,gbl.Artifact:TraitInfo(spell))
 end)

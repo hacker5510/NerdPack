@@ -3,7 +3,7 @@ local _, gbl = ...
 local c_type = {}
 
 -- Remove whitespaces (_xspc_ needs to be unique so we dont
--- end up replacing something we shouldn't)
+-- end up replacing something we shouldn"t)
 local function CondSpaces(cond)
 	return cond:gsub("%b()", function(s)
 		return s:gsub(" ", "_xspc_")
@@ -14,8 +14,8 @@ end
 local function CondSpellLocale(str)
 	return str:gsub("%((.-)%)", function(s)
 		-- we cant convert numbers due to it messing up other things
-		if tonumber(s) then return '('..s..')' end
-		return '('..gbl.Spells:Convert(s)..')'
+		if tonumber(s) then return "("..s..")" end
+		return "("..gbl.Spells:Convert(s)..")"
 	end)
 end
 

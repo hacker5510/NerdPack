@@ -7,40 +7,40 @@ local element_space = 2
 function gbl.Interface.Noop() end
 
 local Elements = {
-	header = 'Header',
-	text = 'Text',
-	rule = 'Rule',
-	ruler = 'Rule',
-	texture = 'Texture',
-	checkbox = 'Checkbox',
-	spinner = 'Spinner',
-	checkspin = 'Checkspin',
-	combo = 'Combo',
-	dropdown = 'Combo',
-	button = 'Button',
-	input = 'Input',
-	spacer = 'Spacer'
+	header = "Header",
+	text = "Text",
+	rule = "Rule",
+	ruler = "Rule",
+	texture = "Texture",
+	checkbox = "Checkbox",
+	spinner = "Spinner",
+	checkspin = "Checkspin",
+	combo = "Combo",
+	dropdown = "Combo",
+	button = "Button",
+	input = "Input",
+	spacer = "Spacer"
 }
 
-local default_profiles = {{key='default',text='Default'}}
+local default_profiles = {{key="default",text="Default"}}
 local new_prof_Name = "New Profile Name"
 
 local function new_prof(table, parent)
 	local pFrame = gbl.Interface.pFrame
 	local profileName = pFrame.Input:GetText()
-	if profileName == ''
+	if profileName == ""
 	or profileName == new_prof_Name
 	or profileName == "settings" then
-		return pFrame.Button:SetText('Profile cant have that name!')
+		return pFrame.Button:SetText("Profile cant have that name!")
 	end
 	for _,p in ipairs(table.av_profiles) do
 		if p.key == profileName then
-			return pFrame.Button:SetText('Profile with that name exists!')
+			return pFrame.Button:SetText("Profile with that name exists!")
 		end
 	end
 	table.insert(table.av_profiles, {key = profileName, text = profileName})
-	gbl.Config:Write(table.key, 'av_profiles', table.av_profiles, 'settings')
-	gbl.Config:Write(table.key, 'selected_profile', profileName, 'settings')
+	gbl.Config:Write(table.key, "av_profiles", table.av_profiles, "settings")
+	gbl.Config:Write(table.key, "selected_profile", profileName, "settings")
 	pFrame:Hide()
 	parent:Hide()
 	parent:Release()
@@ -53,11 +53,11 @@ end
 local function del_prof(table, parent)
 	for i,p in ipairs(table.av_profiles) do
 		if p.key == table.selected_profile then
-			if table.selected_profile ~= 'default' then
+			if table.selected_profile ~= "default" then
 				table.av_profiles[i] = nil
 			end
-			gbl.Config:Write(table.key, 'av_profiles', table.av_profiles, 'settings')
-			gbl.Config:Write(table.key, 'selected_profile', 'default', 'settings')
+			gbl.Config:Write(table.key, "av_profiles", table.av_profiles, "settings")
+			gbl.Config:Write(table.key, "selected_profile", "default", "settings")
 			parent:Hide()
 			parent:Release()
 			gbl.Interface.usedGUIs[table.key] = nil
@@ -69,33 +69,33 @@ local function del_prof(table, parent)
 end
 
 function gbl.Interface:BuildGUI_New(table, parent)
-	local tmp = DiesalGUI:Create('Button')
+	local tmp = DiesalGUI:Create("Button")
 	parent:AddChild(tmp)
 	tmp:SetParent(parent.footer)
-	tmp:SetPoint('TOPLEFT',21,0)
+	tmp:SetPoint("TOPLEFT",21,0)
 	tmp:SetSettings({width = 21, height = 21}, true)
-	tmp:SetText('N')
+	tmp:SetText("N")
 	tmp:SetStylesheet(self.buttonStyleSheet)
-	tmp:SetEventListener('OnClick', function()
+	tmp:SetEventListener("OnClick", function()
 		local pFrame = gbl.Interface.pFrame
 		pFrame:Show()
-		pFrame.Button:SetEventListener('OnClick', function() new_prof(table, parent) end)
+		pFrame.Button:SetEventListener("OnClick", function() new_prof(table, parent) end)
 	end)
 end
 
 function gbl.Interface:BuildGUI_Del(table, parent)
-	local tmp = DiesalGUI:Create('Button')
+	local tmp = DiesalGUI:Create("Button")
 	parent:AddChild(tmp)
 	tmp:SetParent(parent.footer)
-	tmp:SetPoint('TOPLEFT')
+	tmp:SetPoint("TOPLEFT")
 	tmp:SetSettings({width = 21, height = 21}, true)
-	tmp:SetText('D')
+	tmp:SetText("D")
 	tmp:SetStylesheet(self.buttonStyleSheet)
-	tmp:SetEventListener('OnClick', function() del_prof(table, parent) end)
+	tmp:SetEventListener("OnClick", function() del_prof(table, parent) end)
 end
 
 function gbl.Interface:BuildGUI_Combo(table, parent)
-		local tmp = DiesalGUI:Create('Dropdown')
+		local tmp = DiesalGUI:Create("Dropdown")
 		parent:AddChild(tmp)
 		tmp:SetParent(parent.footer)
 		tmp:SetPoint("TOPRIGHT", parent.footer, "TOPRIGHT", 0, 0)
@@ -112,9 +112,9 @@ function gbl.Interface:BuildGUI_Combo(table, parent)
 			tmp:SetList(list, orderdKeys)
 			tmp:SetValue(table.selected_profile)
 		end)
-		tmp:SetEventListener('OnValueChanged', function(_,_, value)
+		tmp:SetEventListener("OnValueChanged", function(_,_, value)
 			if table.selected_profile == value then return end
-			gbl.Config:Write(table.key, 'selected_profile', value, 'settings')
+			gbl.Config:Write(table.key, "selected_profile", value, "settings")
 			parent:Hide()
 			parent:Release()
 			self.usedGUIs[table.key] = nil
@@ -128,10 +128,10 @@ function gbl.Interface:AddText(element, parent, table, element_type, tmp)
 	and element_type ~= "Header"
 	and element_type ~= "Button" then
 		tmp.text2 = self:Text(element, parent, table)
-		if element_type == 'Spinner' then
+		if element_type == "Spinner" then
 			tmp:SetHeight(element.height or tmp.text2:GetStringHeight())
 		end
-		if element_type == 'Checkspin' then
+		if element_type == "Checkspin" then
 			tmp.spin:SetHeight(element.height or tmp.text2:GetStringHeight())
 		end
 	end
@@ -166,24 +166,24 @@ end
 
 -- This opens a existing GUI instead of creating another
 function gbl.Interface:TestCreated(table)
-	local test = type(table) == 'string' and table or table.key
+	local test = type(table) == "string" and table or table.key
 	return self.usedGUIs[test]
 end
 
 local function UI_WhenInGame(table, parent)
 	--Colors
 	if not table.color then table.color = gbl.Color end
-	if type(table.color) == 'function' then table.color = table.color() end
+	if type(table.color) == "function" then table.color = table.color() end
 	-- load Location
-	local left, top = unpack(gbl.Config:Read(table.key, 'Location', {500, 500}, 'settings'))
+	local left, top = unpack(gbl.Config:Read(table.key, "Location", {500, 500}, "settings"))
 	parent.settings.left = left
 	parent.settings.top = top
 	parent:UpdatePosition()
 	--tittle
 	parent:SetTitle("|cff"..table.color..(table.title or table.key).."|r", table.subtitle)
 	--profiles
-	table.selected_profile = gbl.Config:Read(table.key, 'selected_profile', 'default', 'settings')
-	table.av_profiles = gbl.Config:Read(table.key, 'av_profiles', default_profiles, 'settings')
+	table.selected_profile = gbl.Config:Read(table.key, "selected_profile", "default", "settings")
+	table.av_profiles = gbl.Config:Read(table.key, "av_profiles", default_profiles, "settings")
 	parent:ApplySettings()
 end
 
@@ -197,7 +197,7 @@ function gbl.Interface.BuildGUI(_, table)
 	end
 	if not table.key then return end
 	-- Create a new parent
-	local parent = DiesalGUI:Create('Window')
+	local parent = DiesalGUI:Create("Window")
 	self.usedGUIs[table.key] = {}
 	self.usedGUIs[table.key].parent = parent
 	self.usedGUIs[table.key].elements = {}
@@ -206,10 +206,10 @@ function gbl.Interface.BuildGUI(_, table)
 	parent.frame:SetClampedToScreen(true)
 	--parent:SetStylesheet(self.WindowStyleSheet)
 	--Save Location after dragging
-	parent:SetEventListener('OnDragStop', function(_,_, l, t)
-		gbl.Config:Write(table.key, 'Location', {l, t}, 'settings')
+	parent:SetEventListener("OnDragStop", function(_,_, l, t)
+		gbl.Config:Write(table.key, "Location", {l, t}, "settings")
 	end)
-	-- Only build the body after we'r done loading configs
+	-- Only build the body after we"r done loading configs
 	gbl.Core:WhenInGame(function() UI_WhenInGame(table, parent) end, 9)
 	-- Build Profiles
 	if table.profiles then
@@ -221,7 +221,7 @@ function gbl.Interface.BuildGUI(_, table)
 	--Header
 	parent.settings.header = table.header or false
 	-- Build elements
-	local window = DiesalGUI:Create('ScrollFrame')
+	local window = DiesalGUI:Create("ScrollFrame")
 	parent:AddChild(window)
 	window:SetParent(parent.content)
 	window:SetAllPoints(parent.content)
@@ -235,11 +235,11 @@ function gbl.Interface.BuildGUI(_, table)
 end
 
 function gbl.Interface.Fetch(_, a, b, default)
-	local cprofile = gbl.Config:Read(a, 'selected_profile', 'default', 'settings')
+	local cprofile = gbl.Config:Read(a, "selected_profile", "default", "settings")
 	return gbl.Config:Read(a, b, default, cprofile)
 end
 
 function gbl.Interface.Write(_, a, b, key)
-	local cprofile = gbl.Config:Read(a, 'selected_profile', 'default', 'settings')
+	local cprofile = gbl.Config:Read(a, "selected_profile", "default", "settings")
 	gbl.Config:Write(a, b, key, cprofile)
 end

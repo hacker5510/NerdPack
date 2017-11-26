@@ -47,8 +47,8 @@ end
 
 function gbl.Helpers:Check(spell, target)
 	-- Both MUST be strings
-	if type(spell) ~= 'string'
-	or type(target) ~= 'string' then
+	if type(spell) ~= "string"
+	or type(target) ~= "string" then
 		return true
 	end
 	local GUID = UnitGUID(target)

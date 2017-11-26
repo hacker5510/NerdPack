@@ -5,25 +5,25 @@ PE.toggle = {}
 PE.rotation = {}
 
 local function Condition(cond, name)
-	local str = '{'
+	local str = "{"
 	for k=1, #cond do
 		local tmp = cond[k]
 		local xtype = type(tmp)
 		--string
 		if xtype == "string" then
-			if tmp:lower() == 'or' then
-				str = str .. '||' .. tmp
+			if tmp:lower() == "or" then
+				str = str .. "||" .. tmp
 			elseif k ~= 1 then
-				str = str .. '&' .. tmp
+				str = str .. "&" .. tmp
 			else
 				str = str .. tmp
 			end
 		-- Others
 		else
-			str = str .. '&' .. cond_types[xtype](tmp)
+			str = str .. "&" .. cond_types[xtype](tmp)
 		end
 	end
-	return cond_types['string'](str..'}', name)
+	return cond_types["string"](str.."}", name)
 end
 
 --wrapper for toggles

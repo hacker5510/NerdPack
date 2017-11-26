@@ -6,44 +6,44 @@ local strsplit = strsplit
 
 local function FilterNum(str)
 	local type_X = type(str)
-	if type_X == 'string' then
+	if type_X == "string" then
 		return tonumber(str) or 0
-	elseif type_X == 'boolean' then
+	elseif type_X == "boolean" then
 		return str and 1 or 0
-	elseif type_X == 'number' then
+	elseif type_X == "number" then
 		return str
 	end
 	return 0
 end
 
 local comperatores_OP = {
-	['>='] = function(arg1, arg2) return arg1 >= arg2 end,
-	['<='] = function(arg1, arg2) return arg1 <= arg2 end,
-	['=='] = function(arg1, arg2) return arg1 == arg2 end,
-	['~='] = function(arg1, arg2) return arg1 ~= arg2 end,
-	['>']  = function(arg1, arg2) return arg1 > arg2 end,
-	['<']  = function(arg1, arg2) return arg1 < arg2 end,
-	['::']  = function(arg1, arg2) local a,b = strsplit(',', arg2); return arg1 > a and arg1 < b end
+	[">="] = function(arg1, arg2) return arg1 >= arg2 end,
+	["<="] = function(arg1, arg2) return arg1 <= arg2 end,
+	["=="] = function(arg1, arg2) return arg1 == arg2 end,
+	["~="] = function(arg1, arg2) return arg1 ~= arg2 end,
+	[">"]  = function(arg1, arg2) return arg1 > arg2 end,
+	["<"]  = function(arg1, arg2) return arg1 < arg2 end,
+	["::"]  = function(arg1, arg2) local a,b = strsplit(",", arg2); return arg1 > a and arg1 < b end
 }
 
 -- alias (LEGACY)
-comperatores_OP['!='] = comperatores_OP['~=']
-comperatores_OP['='] 	= comperatores_OP['==']
+comperatores_OP["!="] = comperatores_OP["~="]
+comperatores_OP["="] 	= comperatores_OP["=="]
 
 local math_OP = {
-	['+']  = function(arg1, arg2) return arg1 + arg2 end,
-	['-']  = function(arg1, arg2) return arg1 - arg2 end,
-	['/']  = function(arg1, arg2) return arg1 / arg2 end,
-	['*']  = function(arg1, arg2) return arg1 * arg2 end,
+	["+"]  = function(arg1, arg2) return arg1 + arg2 end,
+	["-"]  = function(arg1, arg2) return arg1 - arg2 end,
+	["/"]  = function(arg1, arg2) return arg1 / arg2 end,
+	["*"]  = function(arg1, arg2) return arg1 * arg2 end,
 }
 
 local DSL_OP = {
-	['!']  = function(...) return not DSL.Parse(...) end,
-	['@']  = function(arg,_,target) return gbl.Library:Parse(arg:gsub('%((.+)%)', ''), target, arg:match('%((.+)%)')) end,
+	["!"]  = function(...) return not DSL.Parse(...) end,
+	["@"]  = function(arg,_,target) return gbl.Library:Parse(arg:gsub("%((.+)%)", ""), target, arg:match("%((.+)%)")) end,
 }
 
 local function _AND(strg, spell, target)
-	local Arg1, Arg2 = strg:match('(.*)&(.*)')
+	local Arg1, Arg2 = strg:match("(.*)&(.*)")
 	Arg1 = DSL.Parse(Arg1, spell, target)
 	-- Dont process anything in front sence we already failed
 	if not Arg1 then return Arg1 end
@@ -52,7 +52,7 @@ local function _AND(strg, spell, target)
 end
 
 local function _OR(strg, spell, target)
-	local Arg1, Arg2 = strg:match('(.*)||(.*)')
+	local Arg1, Arg2 = strg:match("(.*)||(.*)")
 	Arg1 = DSL.Parse(Arg1, spell)
 	-- Dont process anything in front sence we already hit
 	if Arg1 then return Arg1 end
@@ -61,7 +61,7 @@ local function _OR(strg, spell, target)
 end
 
 local function FindNest(strg)
-	local Start, End = strg:find('({.*})')
+	local Start, End = strg:find("({.*})")
 	local count1, count2 = 0, 0
 	for i=Start, End do
 		local temp = strg:sub(i, i)
@@ -91,7 +91,7 @@ local C = gbl.Cache.Conditions
 local function ProcessCondition(strg, spell, target)
 	-- Unit prefix
 	if not gbl.Condition:Exists(strg:gsub("%((.+)%)", "")) then
-		local unitID, rest = strsplit('.', strg, 2)
+		local unitID, rest = strsplit(".", strg, 2)
 		unitID =  gbl.Unit:Filter(unitID)[1]
 		-- condition target
 		if unitID
@@ -107,7 +107,7 @@ local function ProcessCondition(strg, spell, target)
 	-- Condition arguments
 	local Args = strg:match("%((.+)%)") or spell
 	strg = strg:gsub("%((.+)%)", "")
-	target = target or 'player'
+	target = target or "player"
 
 	C[strg] = C[strg] or {}
 	C[strg][target] = C[strg][target] or {}
@@ -119,12 +119,12 @@ local function ProcessCondition(strg, spell, target)
 end
 
 local function Comperatores(strg, spell, target)
-	local OP = ''
+	local OP = ""
 	--Need to scan for != seperately otherwise we get false positives by spells with "!" in them
-	if strg:find('!=') then
-		OP = '!='
+	if strg:find("!=") then
+		OP = "!="
 	else
-		for Token in strg:gmatch('[><=~!]') do OP = OP..Token end
+		for Token in strg:gmatch("[><=~!]") do OP = OP..Token end
 	end
 	--escape early if invalid token
 	local func = comperatores_OP[OP]
@@ -150,18 +150,18 @@ local function StringMath(strg, spell, target)
 end
 
 local function ExeFunc(strg)
-	local Args = strg:match('%((.+)%)')
-	strg = strg:gsub('%((.+)%)', '')
+	local Args = strg:match("%((.+)%)")
+	strg = strg:gsub("%((.+)%)", "")
 	return gbl.Condition.cust_funcs[strg](Args)
 end
 
 function gbl.DSL.Parse(strg, spell, target)
 	local pX = strg:sub(1, 1)
-	if strg:find('{(.-)}') then
+	if strg:find("{(.-)}") then
 		return Nest(strg, spell, target)
-	elseif strg:find('||') then
+	elseif strg:find("||") then
 		return _OR(strg, spell, target)
-	elseif strg:find('&') then
+	elseif strg:find("&") then
 		return _AND(strg, spell, target)
 	elseif DSL_OP[pX] then
 		strg = strg:sub(2);
@@ -170,11 +170,11 @@ function gbl.DSL.Parse(strg, spell, target)
 		strg = strg:sub(6);
 		return ExeFunc(strg)
 	-- != needs to be seperate otherwise we end up with false positives
-	elseif strg:find('[><=~]') or strg:find('!=') then
+	elseif strg:find("[><=~]") or strg:find("!=") then
 		return Comperatores(strg, spell, target)
 	elseif strg:find("[/%*%+%-]") then
 		return StringMath(strg, spell, target)
-	elseif strg:find('^%a') then
+	elseif strg:find("^%a") then
 		return ProcessCondition(strg, spell, target)
 	end
 	return strg

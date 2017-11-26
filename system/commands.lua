@@ -17,12 +17,12 @@ end
 function gbl.Commands:Register(name, func, ...)
 	SlashCmdList[name] = func or function(msg) default_func(name, msg) end
 	local command
-	for i = 1, select('#', ...) do
+	for i = 1, select("#", ...) do
 		command = select(i, ...)
-		if command:sub(1, 1) ~= '/' then
-			command = '/' .. command
+		if command:sub(1, 1) ~= "/" then
+			command = "/" .. command
 		end
-		_G['SLASH_'..name..i] = command
+		_G["SLASH_"..name..i] = command
 		self.cache[name] = {}
 	end
 end

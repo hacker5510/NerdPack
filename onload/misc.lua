@@ -1,7 +1,7 @@
 local n_name, gbl = ...
 
-gbl.Listener:Add(n_name..'_misc', 'LFG_PROPOSAL_SHOW', function()
-  if gbl.Interface:Fetch(n_name..'_Settings', 'LFG_acp', false) then
+gbl.Listener:Add(n_name.."_misc", "LFG_PROPOSAL_SHOW", function()
+  if gbl.Interface:Fetch(n_name.."_Settings", "LFG_acp", false) then
     C_Timer.After(math.random(3, 8), AcceptProposal)
   end
 end)
@@ -35,7 +35,7 @@ C_Timer.NewTicker(0.1, function()
   if PlayerTalentFrame
   and PlayerTalentFrame:IsVisible()
   and not IsResting()
-  and gbl.Interface:Fetch(n_name..'_Settings', 'talents_exp', false) then
+  and gbl.Interface:Fetch(n_name.."_Settings", "talents_exp", false) then
     for row=1, 7 do
       ScanNewTalent(row)
     end

@@ -56,7 +56,7 @@ local function refs(ev, SpecID)
 end
 
 function gbl.CR.Add(_, SpecID, ev)
-	local classIndex = select(3, UnitClass('player'))
+	local classIndex = select(3, UnitClass("player"))
 	-- This only allows crs we can use to be registered
 	if not gbl.ClassTable:SpecIsFromClass(classIndex, SpecID )
 	and classIndex ~= SpecID then
@@ -85,7 +85,7 @@ end
 
 function gbl.CR:Set(Spec, Name)
 	Spec = Spec or GetSpecializationInfo(GetSpecialization())
-	Name = Name or gbl.Config:Read('SELECTED', Spec)
+	Name = Name or gbl.Config:Read("SELECTED", Spec)
 	--break if no sec or name
 	if not Spec or not Name then return end
 	--break if cr dosent exist
@@ -96,7 +96,7 @@ function gbl.CR:Set(Spec, Name)
 		self.CurrentCR.unload()
 	end
 	self.CurrentCR = CRs[Spec][Name]
-	gbl.Config:Write('SELECTED', Spec, Name)
+	gbl.Config:Write("SELECTED", Spec, Name)
 	gbl.Interface:ResetToggles()
 	--Execute onload
 	if self.CurrentCR then self.CurrentCR.load() end
@@ -111,6 +111,6 @@ gbl.Listener:Add("gbl_CR", "PLAYER_LOGIN", function()
 	gbl.CR:Set()
 end)
 gbl.Listener:Add("gbl_CR", "PLAYER_SPECIALIZATION_CHANGED", function(unitID)
-	if unitID ~= 'player' then return end
+	if unitID ~= "player" then return end
 	gbl.CR:Set()
 end)

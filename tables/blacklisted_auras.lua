@@ -18,7 +18,7 @@ function gbl.Debuffs:Eval(unit)
 end
 
 function gbl.Debuffs:Add(ID)
-	if type(ID) == 'table' then
+	if type(ID) == "table" then
 		for i=1, #ID do
 			self:Add(ID[i])
 		end
@@ -69,8 +69,8 @@ gbl.Debuffs:Add({
 	155265,     -- Cotainment (Primal Elementalists - BRF)
 	155266,     -- Cotainment (Primal Elementalists - BRF)
 	155267,     -- Cotainment (Primal Elementalists - BRF)
-	157289,     -- Arcane Protection (Imperator Mar'Gok)
-	174057,     -- Arcane Protection (Imperator Mar'Gok)
+	157289,     -- Arcane Protection (Imperator Mar"Gok)
+	174057,     -- Arcane Protection (Imperator Mar"Gok)
 	182055,     -- Full Charge (Iron Reaver)
 	184053,     -- Fel Barrier (Socrethar)
 })

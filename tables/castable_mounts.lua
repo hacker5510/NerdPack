@@ -12,7 +12,7 @@ function gbl.ByPassMounts:Eval(ID)
 end
 
 function gbl.ByPassMounts:Add(ID)
-	if type(ID) == 'table' then
+	if type(ID) == "table" then
 		for i=1, #ID do
 			self:Add(ID[i])
 		end

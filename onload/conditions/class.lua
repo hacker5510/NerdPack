@@ -1,42 +1,42 @@
 local _, gbl = ...
 local _G = _G
 
-gbl.Condition:Register('energy', function(target)
+gbl.Condition:Register("energy", function(target)
   return UnitPower(target, UnitPowerType(target))
 end)
 
 -- Returns the amount of energy you have left till max
 -- (e.g. you have a max of 100 energy and 80 energy now, so it will return 20)
-gbl.Condition:Register('energydiff', function(target)
+gbl.Condition:Register("energydiff", function(target)
   local max = UnitPowerMax(target, UnitPowerType(target))
   local curr = UnitPower(target, UnitPowerType(target))
   return (max - curr)
 end)
 
-gbl.Condition:Register('mana', function(target)
+gbl.Condition:Register("mana", function(target)
   if UnitExists(target) then
     return math.floor((UnitMana(target) / UnitManaMax(target)) * 100)
   end
   return 0
 end)
 
-gbl.Condition:Register('insanity', function(target)
+gbl.Condition:Register("insanity", function(target)
   return UnitPower(target, SPELL_POWER_INSANITY)
 end)
 
-gbl.Condition:Register('petrange', function(target)
-  return target and gbl.Protected.Distance('pet', target) or 0
+gbl.Condition:Register("petrange", function(target)
+  return target and gbl.Protected.Distance("pet", target) or 0
 end)
 
-gbl.Condition:Register('focus', function(target)
+gbl.Condition:Register("focus", function(target)
   return UnitPower(target, SPELL_POWER_FOCUS)
 end)
 
-gbl.Condition:Register('runicpower', function(target)
+gbl.Condition:Register("runicpower", function(target)
   return UnitPower(target, SPELL_POWER_RUNIC_POWER)
 end)
 
-gbl.Condition:Register('runes', function()
+gbl.Condition:Register("runes", function()
   local count = 0
   local next = 0
   for i = 1, 6 do
@@ -51,7 +51,7 @@ gbl.Condition:Register('runes', function()
   return count
 end)
 
-gbl.Condition:Register('runes.cd', function(_, n_runes)
+gbl.Condition:Register("runes.cd", function(_, n_runes)
   n_runes = tonumber(n_runes) or 1
   local tmp={}
   for i = 1, 6 do
@@ -62,11 +62,11 @@ gbl.Condition:Register('runes.cd', function(_, n_runes)
   return tmp[n_runes]
 end)
 
-gbl.Condition:Register('maelstrom', function(target)
+gbl.Condition:Register("maelstrom", function(target)
   return UnitPower(target, SPELL_POWER_MAELSTROM)
 end)
 
-gbl.Condition:Register('totem', function(_, totem)
+gbl.Condition:Register("totem", function(_, totem)
   for index = 1, 4 do
     local totemName = select(2, GetTotemInfo(index))
     if totemName == gbl.Core:GetSpellName(totem) then
@@ -76,7 +76,7 @@ gbl.Condition:Register('totem', function(_, totem)
   return false
 end)
 
-gbl.Condition:Register('totem.duration', function(_, totem)
+gbl.Condition:Register("totem.duration", function(_, totem)
   for index = 1, 4 do
     local _, totemName, startTime, duration = GetTotemInfo(index)
     if totemName == gbl.Core:GetSpellName(totem) then
@@ -86,7 +86,7 @@ gbl.Condition:Register('totem.duration', function(_, totem)
   return 0
 end)
 
-gbl.Condition:Register('totem.time', function(_, totem)
+gbl.Condition:Register("totem.time", function(_, totem)
   for index = 1, 4 do
     local _, totemName, _, duration = GetTotemInfo(index)
     if totemName == gbl.Core:GetSpellName(totem) then
@@ -96,30 +96,30 @@ gbl.Condition:Register('totem.time', function(_, totem)
   return 0
 end)
 
-gbl.Condition:Register('soulshards', function(target)
+gbl.Condition:Register("soulshards", function(target)
   return UnitPower(target, SPELL_POWER_SOUL_SHARDS)
 end)
 
-gbl.Condition:Register('chi', function(target)
+gbl.Condition:Register("chi", function(target)
   return UnitPower(target, SPELL_POWER_CHI)
 end)
 
 -- Returns the number of chi you have left till max (e.g. you have a max of 5 chi and 3 chi now, so it will return 2)
-gbl.Condition:Register('chidiff', function(target)
+gbl.Condition:Register("chidiff", function(target)
   local max = UnitPowerMax(target, SPELL_POWER_CHI)
   local curr = UnitPower(target, SPELL_POWER_CHI)
   return (max - curr)
 end)
 
-gbl.Condition:Register('form', function()
+gbl.Condition:Register("form", function()
   return GetShapeshiftForm()
 end)
 
-gbl.Condition:Register('lunarpower', function(target)
+gbl.Condition:Register("lunarpower", function(target)
   return UnitPower(target, SPELL_POWER_LUNAR_POWER)
 end)
 
-gbl.Condition:Register('mushrooms', function()
+gbl.Condition:Register("mushrooms", function()
   local count = 0
   for slot = 1, 3 do
     if GetTotemInfo(slot) then
@@ -128,39 +128,39 @@ gbl.Condition:Register('mushrooms', function()
   return count
 end)
 
-gbl.Condition:Register('holypower', function(target)
+gbl.Condition:Register("holypower", function(target)
   return UnitPower(target, SPELL_POWER_HOLY_POWER)
 end)
 
-gbl.Condition:Register('rage', function(target)
+gbl.Condition:Register("rage", function(target)
   return UnitPower(target, SPELL_POWER_RAGE)
 end)
 
-gbl.Condition:Register('stance', function()
+gbl.Condition:Register("stance", function()
   return GetShapeshiftForm()
 end)
 
-gbl.Condition:Register('fury', function(target)
+gbl.Condition:Register("fury", function(target)
   return UnitPower(target, SPELL_POWER_FURY)
 end)
 
 -- Returns the number of fury you have left till max (e.g. you have a max of 100 fury and 80 fury now,
 -- so it will return 20)
-gbl.Condition:Register('fury.diff', function(target)
+gbl.Condition:Register("fury.diff", function(target)
   local max = UnitPowerMax(target, SPELL_POWER_FURY)
   local curr = UnitPower(target, SPELL_POWER_FURY)
   return (max - curr)
 end)
 
-gbl.Condition:Register('pain', function(target)
+gbl.Condition:Register("pain", function(target)
   return UnitPower(target, SPELL_POWER_PAIN)
 end)
 
-gbl.Condition:Register('arcanecharges', function(target)
+gbl.Condition:Register("arcanecharges", function(target)
   return UnitPower(target, SPELL_POWER_ARCANE_CHARGES)
 end)
 
-gbl.Condition:Register('combopoints', function(target)
+gbl.Condition:Register("combopoints", function(target)
   return UnitPower(target, SPELL_POWER_COMBO_POINTS)
 end)
 
@@ -181,7 +181,7 @@ local minions = {
   Voidwalker = 25
 }
 
-gbl.Listener:Add('lock_P', 'COMBAT_LOG_EVENT_UNFILTERED', function(_, event, _,_, sName, _,_, dGUID, dName, _,_, sid)
+gbl.Listener:Add("lock_P", "COMBAT_LOG_EVENT_UNFILTERED", function(_, event, _,_, sName, _,_, dGUID, dName, _,_, sid)
   if not sName == UnitName("player")
   or not minions[dName] then return end
 
@@ -208,13 +208,13 @@ gbl.Listener:Add('lock_P', 'COMBAT_LOG_EVENT_UNFILTERED', function(_, event, _,_
 
 end)
 
-gbl.Condition:Register('warlock.minions', function()
+gbl.Condition:Register("warlock.minions", function()
   return minions.count
 end)
 
-gbl.Condition:Register('warlock.empower', function()
+gbl.Condition:Register("warlock.empower", function()
   return minions.empower_count
 end)
-gbl.Condition:Register('warlock.empower.missing', function()
+gbl.Condition:Register("warlock.empower.missing", function()
   return minions.count - minions.empower_count
 end)

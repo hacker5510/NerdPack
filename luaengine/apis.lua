@@ -28,10 +28,10 @@ function gbl.API.Macro(macro, target)
 	return true
 end
 
---Return if we're mounted or not
+--Return if we"re mounted or not
 function gbl.API.IsMounted()
 	for i = 1, 40 do
-		local mountID = select(11, UnitBuff('player', i))
+		local mountID = select(11, UnitBuff("player", i))
 		if mountID and gbl.ByPassMounts:Eval(mountID) then
 			return true
 		end
@@ -57,9 +57,9 @@ local function testUnitBlackList(_type, unit)
 	for i=1, #tbl do
 		local _count = tbl[i].count
 		if _count then
-			if gbl.Condition:Get(_type..'.count.any')(unit, tbl[i].name) >= _count then return true end
+			if gbl.Condition:Get(_type..".count.any")(unit, tbl[i].name) >= _count then return true end
 		else
-			if gbl.Condition:Get(_type..'.any')(unit, tbl[i]) then return true end
+			if gbl.Condition:Get(_type..".any")(unit, tbl[i]) then return true end
 		end
 	end
 end
@@ -88,7 +88,7 @@ end
 function gbl.API:ValidUnit(unit)
 	return UnitExists(unit)
 	and UnitIsVisible(unit)
-	and gbl.Protected.LineOfSight('player', unit)
+	and gbl.Protected.LineOfSight("player", unit)
 	and not self.UnitBlacklist(unit)
 end
 
@@ -96,7 +96,7 @@ end
 -- Ready, Mana
 function gbl.API.IsSpellReady(spell)
 	if not spell_queued
-	and GetSpellBookItemInfo(spell) ~= 'FUTURESPELL'
+	and GetSpellBookItemInfo(spell) ~= "FUTURESPELL"
   and spellCooldown(nil, spell) <= queue_var then
     return IsUsableSpell(spell)
   end
@@ -112,8 +112,8 @@ local function ParseStart()
 	gbl.Faceroll:Hide()
 	gbl:Wipe_Cache()
 	gbl.DBM.BuildTimers()
-	if toggle(nil, 'mastertoggle')
-	and not UnitIsDeadOrGhost('player')
+	if toggle(nil, "mastertoggle")
+	and not UnitIsDeadOrGhost("player")
 	and gbl.API.IsMounted()
 	and not LootFrame:IsShown() then
 		CR.CurrentCR[InCombatLockdown()].func()
@@ -121,9 +121,9 @@ local function ParseStart()
 end
 
 gbl.Core:WhenInGame(function()
-	toggle = gbl.Condition:Get('toggle')
+	toggle = gbl.Condition:Get("toggle")
 	queue_var = (tonumber(GetCVar("SpellQueueWindow")) / 1000)
-	spellCooldown = gbl.Condition:Get('spell.cooldown')
+	spellCooldown = gbl.Condition:Get("spell.cooldown")
 	C_Timer.NewTicker(0.1, ParseStart)
 	gbl.Debug:Add("CR_TICKER", ParseStart, true)
 end, -99)

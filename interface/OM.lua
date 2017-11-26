@@ -1,33 +1,33 @@
 --[[local _, gbl = ...
-local DiesalGUI = LibStub('DiesalGUI-1.0')
+local DiesalGUI = LibStub("DiesalGUI-1.0")
 local L = gbl.Locale
 
 local statusBars = {}
 local statusBarsUsed = {}
-local dOM = 'Enemy'
+local dOM = "Enemy"
 
 local bt = {
-	{key = 'Enemy', text = 'Enemies'},
-	{key = 'Friendly', text = 'Friendlies'},
-	{key = 'Dead', text = 'Dead Units'},
-	{key = 'Objects', text = 'Objects'},
-	{key = 'Roster', text = 'Roster'},
+	{key = "Enemy", text = "Enemies"},
+	{key = "Friendly", text = "Friendlies"},
+	{key = "Dead", text = "Dead Units"},
+	{key = "Objects", text = "Objects"},
+	{key = "Roster", text = "Roster"},
 }
 local combo_eval = {key = "list", list = bt, default = "Enemy"}
-local gui_eval = {key = 'gblOMgui', width = 500, height = 250, header = true, title = 'ObjectManager GUI'}
+local gui_eval = {key = "gblOMgui", width = 500, height = 250, header = true, title = "ObjectManager GUI"}
 
 local OM_GUI = gbl.Interface:BuildGUI(gui_eval)
-gbl.Interface:Add(L:TA('OM', 'Option'), function() OM_GUI.parent:Show() end)
+gbl.Interface:Add(L:TA("OM", "Option"), function() OM_GUI.parent:Show() end)
 local dropdown = gbl.Interface:Combo(combo_eval, OM_GUI.parent, {key="OM_GUI", offset = 0})
 dropdown:SetPoint("TOPRIGHT", OM_GUI.parent.header, "TOPRIGHT", 0, 0)
 dropdown:SetPoint("BOTTOMLEFT", OM_GUI.parent.header, "BOTTOMLEFT", (gui_eval.width-100), 0)
-dropdown:SetEventListener('OnValueChanged', function(_,_, value) dOM = value end)
+dropdown:SetEventListener("OnValueChanged", function(_,_, value) dOM = value end)
 OM_GUI.parent:Hide()
 
 local function getStatusBar()
 	local statusBar = tremove(statusBars)
 	if not statusBar then
-		statusBar = DiesalGUI:Create('StatusBar')
+		statusBar = DiesalGUI:Create("StatusBar")
 		OM_GUI.window:AddChild(statusBar)
 		statusBar:SetParent(OM_GUI.window.content)
 		OM_GUI.parent:AddChild(statusBar)
@@ -61,10 +61,10 @@ local function RefreshGUI()
 		local Health = math.floor(((UnitHealth(Obj.key) or 1) / (UnitHealthMax(Obj.key) or 1)) * 100)
 		local SB = getStatusBar()
 		local distance = gbl.Core:Round(Obj.distance or 0)
-		SB.frame:SetPoint('TOP', OM_GUI.window.content, 'TOP', 2, offset )
-		SB.frame.Left:SetText('|cff'..gbl.Core:ClassColor(Obj.key, 'hex')..Obj.name)
-		SB.frame.Right:SetText('( |cffff0000ID|r: '..Obj.id..' / |cffff0000Health|r: '..Health..' / |cffff0000Dist|r: '..distance..' )')
-		SB.frame:SetScript('OnMouseDown', function() TargetUnit(Obj.key) end)
+		SB.frame:SetPoint("TOP", OM_GUI.window.content, "TOP", 2, offset )
+		SB.frame.Left:SetText("|cff"..gbl.Core:ClassColor(Obj.key, "hex")..Obj.name)
+		SB.frame.Right:SetText("( |cffff0000ID|r: "..Obj.id.." / |cffff0000Health|r: "..Health.." / |cffff0000Dist|r: "..distance.." )")
+		SB.frame:SetScript("OnMouseDown", function() TargetUnit(Obj.key) end)
 		SB:SetValue(Health)
 		offset = offset -18
 	end

@@ -16,11 +16,11 @@ function gbl.Unit.Add(_, name, func)
 	elseif not func then
 		func = function() return name end
 	end
-	if type(name) == 'table' then
+	if type(name) == "table" then
 		for i=1, #name do
 			_add(name[i], func)
 		end
-	elseif type(name) == 'string' then
+	elseif type(name) == "string" then
 		_add(name, func)
 	else
 		gbl.Core:Print("ERROR! tried to add an invalid fake unit")
@@ -29,9 +29,9 @@ end
 
 -- /dump gbl.Unit:Filter("lowest")
 local function process(unit)
-	local arg = unit:match('%((.+)%)')
+	local arg = unit:match("%((.+)%)")
 	local num = tonumber(unit:match("%d+") or 0)
-	local tunit = unit:gsub('%((.+)%)', ''):gsub("%d+", '')
+	local tunit = unit:gsub("%((.+)%)", ""):gsub("%d+", "")
 	return Units[tunit] and Units[tunit](num, arg) or unit
 end
 
@@ -48,18 +48,18 @@ end
 local function add_tbl(unit, tbl)
 	local unit_type = type(unit)
 	--table
-	if unit_type == 'table' then
+	if unit_type == "table" then
 		for _, v in pairs(unit) do
 			gbl.Unit.Process(v.key or v, tbl)
 		end
 	--function
-	elseif unit_type == 'function' then
+	elseif unit_type == "function" then
 		gbl.Unit.Process(unit(), tbl)
 	--add
-	elseif unit_type == 'string' then
+	elseif unit_type == "string" then
 		unit = process(unit)
 		if not unit then return end
-		if type(unit) ~= 'string' then
+		if type(unit) ~= "string" then
 			gbl.Unit.Process(unit, tbl)
 		elseif not_in_tbl(unit, tbl) then
 			tbl[#tbl+1] = unit

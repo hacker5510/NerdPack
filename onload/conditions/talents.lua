@@ -14,14 +14,14 @@ local function UpdateTalents()
       if not talent_name then return end
       talents[talent_name] = talent_ID
       talents[talent_ID] = talent_ID
-      talents[tostring(i)..','..tostring(k)] = talent_ID
+      talents[tostring(i)..","..tostring(k)] = talent_ID
     end
   end
 end
 
-gbl.Listener:Add('gbl_Talents', 'PLAYER_LOGIN', function()
+gbl.Listener:Add("gbl_Talents", "PLAYER_LOGIN", function()
   UpdateTalents()
-  gbl.Listener:Add('gbl_Talents', 'ACTIVE_TALENT_GROUP_CHANGED', function()
+  gbl.Listener:Add("gbl_Talents", "ACTIVE_TALENT_GROUP_CHANGED", function()
     UpdateTalents()
   end)
 end)

@@ -14,14 +14,14 @@ local function UpdateHonorTalents()
       if not talent_name then return end
       honor_talents[talent_name] = talent_ID
       honor_talents[talent_ID] = talent_ID
-      honor_talents[tostring(i)..','..tostring(k)] = talent_ID
+      honor_talents[tostring(i)..","..tostring(k)] = talent_ID
     end
   end
 end
 
-gbl.Listener:Add('gbl_Honor_Talents', 'PLAYER_LOGIN', function()
+gbl.Listener:Add("gbl_Honor_Talents", "PLAYER_LOGIN", function()
   UpdateHonorTalents()
-	gbl.Listener:Add('gbl_Honor_Talents', 'ACTIVE_TALENT_GROUP_CHANGED', function()
+	gbl.Listener:Add("gbl_Honor_Talents", "ACTIVE_TALENT_GROUP_CHANGED", function()
     UpdateHonorTalents()
   end)
 end)
@@ -31,5 +31,5 @@ gbl.Condition:Register("honortalent", function(_, args)
 end)
 
 gbl.Condition:Register("pvp", function(target)
-  return UnitIsPVP(target, 'PLAYER')
+  return UnitIsPVP(target, "PLAYER")
 end)

@@ -1,7 +1,7 @@
 local _, gbl = ...
 
 local _G = _G
-local icon = 'Interface\\Icons\\trade_archaeology_chestoftinyglassanimals'
+local icon = "Interface\\Icons\\trade_archaeology_chestoftinyglassanimals"
 local GetNumLootItems = GetNumLootItems
 local LootSlotHasItem = LootSlotHasItem
 local LootSlot = LootSlot
@@ -16,9 +16,9 @@ function gbl.CombatHelper.Load_Loot()
 	if not HackEnabled then return end
 
 	gbl.Interface:AddToggle({
-			key = 'AutoLoot',
-			name = 'Auto Loot',
-			text = 'Automatically loot units around you',
+			key = "AutoLoot",
+			name = "Auto Loot",
+			text = "Automatically loot units around you",
 			icon = icon,
 			nohide = true
 	})
@@ -44,7 +44,7 @@ function gbl.CombatHelper.Load_Loot()
 	end
 
 	function gbl.CombatHelper.DoLoot()
-	    for _, Obj in pairs(gbl.OM:Get('Dead')) do
+	    for _, Obj in pairs(gbl.OM:Get("Dead")) do
 	        if Obj.distance < 5 and ObjectIsVisible(Obj.key) then
 	            local hl,cl = CanLootUnit(ObjectGUID(Obj.key))
 	            if hl and cl then
@@ -57,10 +57,10 @@ function gbl.CombatHelper.Load_Loot()
 	end
 
 	local function Start()
-		if gbl.Condition:Get('toggle')(nil, 'mastertoggle')
-		and gbl.Condition:Get('toggle')(nil, 'AutoLoot')
-		and not UnitChannelInfo('player')
-		and not UnitCastingInfo('player')
+		if gbl.Condition:Get("toggle")(nil, "mastertoggle")
+		and gbl.Condition:Get("toggle")(nil, "AutoLoot")
+		and not UnitChannelInfo("player")
+		and not UnitCastingInfo("player")
 	  and not IsMounted("player")
 		and not UnitAffectingCombat("player") then
 			if BagSpace()>0  then

@@ -4,7 +4,7 @@ local Generic = gbl.Protected.Generic
 Generic.Name = "Generic"
 
 Generic.Test = function()
-	pcall(RunMacroText, '/run UnlockedTest = true')
+	pcall(RunMacroText, "/run UnlockedTest = true")
 	local bool = UnlockedTest
 	UnlockedTest = nil
 	return bool

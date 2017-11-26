@@ -3,7 +3,7 @@ local _, gbl = ...
 local t_type = {}
 
 local function Ground(target, eval)
-	if target:find('.ground') then
+	if target:find(".ground") then
 		eval.exeFunc = gbl.Protected["CastGround"]
     return target:sub(0,-8)
 	end

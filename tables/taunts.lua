@@ -4,7 +4,7 @@ gbl.Taunts.table = {}
 local T = gbl.Taunts.table
 
 function gbl.Taunts:Add(id, stacks)
-  if type(id) == 'table' then
+  if type(id) == "table" then
     for i=1, #id do
       local tmp = id[i]
       self:Add(tmp.id, tmp.stacks)
@@ -22,8 +22,8 @@ function gbl.Taunts:ShouldTaunt(unit)
   if IsInRaid() then
     for i=1, #T do
       local debuff = etSpellInfo(T[i].id)
-      if not UnitDebuff('player', debuff)
-      and (select(4, UnitDebuff(unit..'target', debuff)) or 0) > T[i].stacks then
+      if not UnitDebuff("player", debuff)
+      and (select(4, UnitDebuff(unit.."target", debuff)) or 0) > T[i].stacks then
         return true
       end
     end
@@ -43,7 +43,7 @@ gbl.Taunts:Add({
   { id = 144358, stacks = 1 },-- Wounded Pride (Sha of Pride/71734)
   { id = 147029, stacks = 3 },-- Flames of Galakrond (Galakras/72249)
   { id = 144467, stacks = 2 },-- Ignite Armor (Iron Juggernaut/71466)
-  { id = 144215, stacks = 6 },-- Froststorm Strike (Earthbreaker Haromm) (Kor'Kron Dark Shaman/71859)
+  { id = 144215, stacks = 6 },-- Froststorm Strike (Earthbreaker Haromm) (Kor"Kron Dark Shaman/71859)
   { id = 143494, stacks = 3 },-- Sundering Blow (General Nazgrim/71515)
   { id = 142990, stacks = 12 },-- Fatal Strike (Malkorok/71454)
   { id = 143426, stacks = 2 },-- Fearsome Roar (Thok the Bloodthirsty/71529)
