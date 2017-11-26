@@ -64,13 +64,13 @@ end)
 
 gbl.Condition:Register("channeling", function (target, spell)
   local name = checkChanneling(target)
-  spell = gbl.Core:GetSpellName(spell)
+  spell = gbl.Core.GetSpellName(spell)
   return spell and (name == spell)
 end)
 
 gbl.Condition:Register("casting", function(target, spell)
   local name = checkCasting(target)
-  spell = gbl.Core:GetSpellName(spell)
+  spell = gbl.Core.GetSpellName(spell)
   return spell and (name == spell)
 end)
 
@@ -101,7 +101,7 @@ gbl.Condition:Register("isnear", function(target, args)
     local Obj = gbl.Protected.GetObjectWithIndex(i)
     if gbl.Protected.omVal(Obj)
     and UnitCanAttack("player", Obj)
-    and gbl.Core:UnitID(Obj) == targetID then
+    and gbl.Core.UnitID(Obj) == targetID then
       return gbl.Protected.Distance("player", target) <= distance
     end
   end

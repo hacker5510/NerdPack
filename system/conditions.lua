@@ -35,6 +35,6 @@ function gbl.Condition.Register(_, name, condition, overwrite)
 	elseif type(name) == "string" then
 		_add(name, condition, overwrite)
 	else
-		gbl.Core:Print("ERROR! tried to add an invalid condition")
+		gbl.Core.Print("ERROR! tried to add an invalid condition")
 	end
 end

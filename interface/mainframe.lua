@@ -25,7 +25,7 @@ gbl.Interface.MainFrame = gbl.Interface:BuildGUI({
 	subtitle = "v:"..gbl_ver
 }).parent
 gbl.Interface.MainFrame:SetEventListener("OnClose", function()
-	gbl.Core:Print(L:TA("Any", "gbl_Show"))
+	gbl.Core.Print(L:TA("Any", "gbl_Show"))
 end)
 
 local menuFrame = CreateFrame("Frame", "gbl_DropDown", gbl.Interface.MainFrame.frame, "UIDropDownMenuTemplate")
@@ -75,12 +75,12 @@ function gbl.Interface.AddCR(_, ev)
 		func = function()
 			gbl.CR:Set(ev.spec, ev.name)
 				if not CR_Ver_WoW(ev.wow_ver, wow_ver)  then
-					gbl.Core:Print(ev.name, "|rwas not built for WoW:", wow_ver, "\nThis might cause problems!")
+					gbl.Core.Print(ev.name, "|rwas not built for WoW:", wow_ver, "\nThis might cause problems!")
 				end
 				if not CR_Ver_gbl(ev.gbl_ver, gbl_ver) then
-					gbl.Core:Print(ev.name, "|rwas not built for", gbl_ver, "\nThis might cause problems!")
+					gbl.Core.Print(ev.name, "|rwas not built for", gbl_ver, "\nThis might cause problems!")
 				end
-				gbl.Core:Print(L:TA("mainframe", "ChangeCR"), ev.name)
+				gbl.Core.Print(L:TA("mainframe", "ChangeCR"), ev.name)
 				gbl.Interface.UpdateCRs()
 		end
 	})

@@ -69,7 +69,7 @@ end)
 gbl.Condition:Register("totem", function(_, totem)
   for index = 1, 4 do
     local totemName = select(2, GetTotemInfo(index))
-    if totemName == gbl.Core:GetSpellName(totem) then
+    if totemName == gbl.Core.GetSpellName(totem) then
       return true
     end
   end
@@ -79,7 +79,7 @@ end)
 gbl.Condition:Register("totem.duration", function(_, totem)
   for index = 1, 4 do
     local _, totemName, startTime, duration = GetTotemInfo(index)
-    if totemName == gbl.Core:GetSpellName(totem) then
+    if totemName == gbl.Core.GetSpellName(totem) then
       return math.floor(startTime + duration - GetTime())
     end
   end
@@ -89,7 +89,7 @@ end)
 gbl.Condition:Register("totem.time", function(_, totem)
   for index = 1, 4 do
     local _, totemName, _, duration = GetTotemInfo(index)
-    if totemName == gbl.Core:GetSpellName(totem) then
+    if totemName == gbl.Core.GetSpellName(totem) then
       return duration
     end
   end

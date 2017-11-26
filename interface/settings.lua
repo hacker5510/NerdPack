@@ -41,6 +41,6 @@ gbl.STs = gbl.Interface:BuildGUI(config)
 gbl.Interface:Add(n_name.." "..L("option"), function() gbl.STs.parent:Show() end)
 gbl.STs.parent:Hide()
 
-gbl.Core:WhenInGame(function()
+gbl.Core.WhenInGame(function()
   gbl.Interface:Update()
 end)

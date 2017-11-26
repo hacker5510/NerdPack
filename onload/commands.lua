@@ -18,7 +18,7 @@ gbl.Commands:Add(n_name, "interrupts", function(rest)
 	gbl.Interface:toggleToggle("Interrupts", rest == "on")
 end)
 
-gbl.Commands:Add(n_name, "version", function() gbl.Core:Print(gbl.Version) end)
+gbl.Commands:Add(n_name, "version", function() gbl.Core.Print(gbl.Version) end)
 gbl.Commands:Add(n_name, "show", function() gbl.Interface.MainFrame:Show() end)
 gbl.Commands:Add(n_name, "hide", function() gbl.Interface.MainFrame:Hide() end)
 gbl.Commands:Add(n_name, "al", function() gbl.ActionLog.Frame:Show() end)

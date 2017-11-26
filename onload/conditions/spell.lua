@@ -21,7 +21,7 @@ gbl.Condition:Register("spell.usable", function(_, spell)
 end)
 
 gbl.Condition:Register("spell.exists", function(_, spell)
-  return gbl.Core:GetSpellBookIndex(spell) ~= nil
+  return gbl.Core.GetSpellBookIndex(spell) ~= nil
 end)
 
 gbl.Condition:Register("spell.charges", function(_, spell)
@@ -37,7 +37,7 @@ gbl.Condition:Register("spell.count", function(_, spell)
 end)
 
 gbl.Condition:Register("spell.range", function(target, spell)
-  local spellIndex, spellBook = gbl.Core:GetSpellBookIndex(spell)
+  local spellIndex, spellBook = gbl.Core.GetSpellBookIndex(spell)
   if not spellIndex then return false end
   return spellIndex and IsSpellInRange(spellIndex, spellBook, target)
 end)

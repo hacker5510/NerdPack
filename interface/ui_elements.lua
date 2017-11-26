@@ -27,7 +27,7 @@ function gbl.Interface:Header(element, parent, table)
 	element.size = element.size or 13
 	local tmp = self:Text(element, parent, table)
 	-- Only when loaded
-	gbl.Core:WhenInGame(function()
+	gbl.Core.WhenInGame(function()
 		element.color = element.color or table.color
 		tmp:SetText((element.color and "|cff"..element.color or "")..element.text)
 	end, 1)
@@ -71,7 +71,7 @@ function gbl.Interface.Checkbox(_,element, parent, table)
 		gbl.Interface:Write(table.key, key, checked)
 	end)
 	-- Only when loaded
-	gbl.Core:WhenInGame(function()
+	gbl.Core.WhenInGame(function()
 		tmp:SetChecked(gbl.Interface:Fetch(table.key, key, default or false))
 	end)
 	element.h = 20
@@ -86,7 +86,7 @@ function gbl.Interface.Spinner(_,element, parent, table)
 	tmp:SetParent(parent.content)
 	tmp:SetPoint("TOPRIGHT", parent.content, "TOPRIGHT", -5, table.offset)
 	-- Only when loaded
-	gbl.Core:WhenInGame(function()
+	gbl.Core.WhenInGame(function()
 		tmp:SetNumber(gbl.Interface:Fetch(table.key, key, default))
 	end)
 	--Settings
@@ -142,7 +142,7 @@ function gbl.Interface.Combo(_,element, parent, table)
 		gbl.Interface:Write(table.key, element.key, value)
 	end)
 	-- Only when loaded
-	gbl.Core:WhenInGame(function()
+	gbl.Core.WhenInGame(function()
 		tmp:SetValue(gbl.Interface:Fetch(table.key, element.key, element.default))
 	end)
 	--Settings
@@ -172,7 +172,7 @@ function gbl.Interface.Input(_, element, parent, table)
 	tmp:SetPoint("TOPRIGHT", parent.content, "TOPRIGHT", -5, table.offset)
 	if element.width then tmp:SetWidth(element.width) end
 	-- Only when loaded
-	gbl.Core:WhenInGame(function()
+	gbl.Core.WhenInGame(function()
 		tmp:SetText(gbl.Interface:Fetch(table.key, element.key, element.default or ""))
 	end, 9)
 	tmp:SetEventListener("OnEditFocusLost", function(this)
@@ -196,7 +196,7 @@ function gbl.Interface:Header(element, parent, table)
 	element.size = element.size or 13
 	local tmp = self:Text(element, parent, table)
 	-- Only when loaded
-	gbl.Core:WhenInGame(function()
+	gbl.Core.WhenInGame(function()
 		element.color = element.color or table.color
 		tmp:SetText((element.color and "|cff"..element.color or "")..element.text)
 	end, 1)

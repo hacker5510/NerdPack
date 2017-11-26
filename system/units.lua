@@ -23,7 +23,7 @@ function gbl.Unit.Add(name, func)
 	elseif type(name) == "string" then
 		_add(name, func)
 	else
-		gbl.Core:Print("ERROR! tried to add an invalid fake unit")
+		gbl.Core.Print("ERROR! tried to add an invalid fake unit")
 	end
 end
 

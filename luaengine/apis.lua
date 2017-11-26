@@ -67,7 +67,7 @@ end
 -- Returns if a Unit is blacklist by gbl orthe CR
 function gbl.API.UnitBlacklist(unit)
 	return gbl.Debuffs:Eval(unit)
-	or CR.CurrentCR.blacklist.units[gbl.Core:UnitID(unit)]
+	or CR.CurrentCR.blacklist.units[gbl.Core.UnitID(unit)]
 	or testUnitBlackList("buff", unit)
 	or testUnitBlackList("debuff", unit)
 end
@@ -120,7 +120,7 @@ local function ParseStart()
 	end
 end
 
-gbl.Core:WhenInGame(function()
+gbl.Core.WhenInGame(function()
 	toggle = gbl.Condition:Get("toggle")
 	queue_var = (tonumber(GetCVar("SpellQueueWindow")) / 1000)
 	spellCooldown = gbl.Condition:Get("spell.cooldown")

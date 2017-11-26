@@ -25,7 +25,7 @@ end
 
 if gbl.Debug.Enable then
 
-gbl.Core:WhenInGame(function()
+gbl.Core.WhenInGame(function()
 	gbl.Interface:Add(L("tittle"), function() texplore(gbl) end)
 end)
 

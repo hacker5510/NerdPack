@@ -3,7 +3,7 @@ local LibDispellable = LibStub("LibDispellable-1.0")
 local tlp = gbl.Tooltip
 
 gbl.Condition:Register("state.purge", function(target, spell)
-  spell = gbl.Core:GetSpellID(spell)
+  spell = gbl.Core.GetSpellID(spell)
   return LibDispellable:CanDispelWith(target, spell)
 end)
 

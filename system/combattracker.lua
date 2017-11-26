@@ -176,7 +176,7 @@ end
 
 function gbl.CombatTracker.LastUsed(_, spell, unit)
 	local GUID = UnitGUID(unit)
-  spell = tonumber(spell) or gbl.Core:GetSpellID(spell)
+  spell = tonumber(spell) or gbl.Core.GetSpellID(spell)
 	return Data[GUID]
 	and Data[GUID][spell]
 	and Data[GUID][spell].lastUse

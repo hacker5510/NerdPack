@@ -104,7 +104,7 @@ function gbl.Interface:BuildGUI_Combo(table, parent)
 		local orderdKeys = {}
 		local list = {}
 		-- Only when loaded
-		gbl.Core:WhenInGame(function()
+		gbl.Core.WhenInGame(function()
 			for i, value in pairs(table.av_profiles) do
 				orderdKeys[i] = value.key
 				list[value.key] = value.text
@@ -210,7 +210,7 @@ function gbl.Interface.BuildGUI(_, table)
 		gbl.Config:Write(table.key, "Location", {l, t}, "settings")
 	end)
 	-- Only build the body after we"r done loading configs
-	gbl.Core:WhenInGame(function() UI_WhenInGame(table, parent) end, 9)
+	gbl.Core.WhenInGame(function() UI_WhenInGame(table, parent) end, 9)
 	-- Build Profiles
 	if table.profiles then
 		parent.settings.footer = true

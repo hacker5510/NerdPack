@@ -11,7 +11,7 @@ gbl.Condition:Register("glyph", function(_,spell)
           return true
         end
       else
-        glyphName = gbl.Core:GetSpellName(glyphId)
+        glyphName = gbl.Core.GetSpellName(glyphId)
         if glyphName:find(spell) then
           return true
         end

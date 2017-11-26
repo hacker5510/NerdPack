@@ -14,7 +14,7 @@ gbl.min_height = 25
 local title_size = 20
 
 -- Load Saved sizes
-gbl.Core:WhenInGame(function()
+gbl.Core.WhenInGame(function()
 	gbl.ButtonsSize = gbl.Config:Read(n_name.."_Settings", "bsize", 40)
 	gbl.ButtonsPadding = gbl.Config:Read(n_name.."_Settings", "bpad", 2)
 	gbl.Interface:RefreshToggles()
@@ -28,7 +28,7 @@ local function SetTexture(parent, icon)
 		temp:SetTexture(icon)
 		temp:SetTexCoord(.08, .92, .08, .92)
 	else
-		local r,g,b = unpack(gbl.Core:ClassColor("player", "rgb"))
+		local r,g,b = unpack(gbl.Core.ClassColor("player", "rgb"))
 		temp:SetColorTexture(r,g,b,.7)
 	end
 	temp:SetAllPoints(parent)
@@ -89,7 +89,7 @@ function gbl.Interface.UpdateIcon(_, key, icon)
 end
 
 function gbl.Interface.AddToggle(_, eval)
-	gbl.Core:WhenInGame(function()
+	gbl.Core.WhenInGame(function()
 		local test = GetToggle(eval.key)
 		if test then
 			test:Show()

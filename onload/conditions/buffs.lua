@@ -14,7 +14,7 @@ end
 local heroismBuffs = { 32182, 90355, 80353, 2825, 146555 }
 gbl.Condition:Register("hashero", function()
   for i = 1, #heroismBuffs do
-    local SpellName = gbl.Core:GetSpellName(heroismBuffs[i])
+    local SpellName = gbl.Core.GetSpellName(heroismBuffs[i])
     if UnitBuffL("player", SpellName) then return true end
   end
 end)

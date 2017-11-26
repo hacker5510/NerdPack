@@ -49,7 +49,7 @@ function gbl.Protected:LoadCallbacks()
 end
 
 function gbl.Protected:SetUnlocker(Unlocker)
-	gbl.Core:Print("|cffff0000"..L("found")..":|r " .. Unlocker.Name)
+	gbl.Core.Print("|cffff0000"..L("found")..":|r " .. Unlocker.Name)
 	for name, func in pairs(Unlocker) do
 			self[name] = func
 	end
@@ -70,7 +70,7 @@ end
 local function Find() gbl.Protected:FindUnlocker() end
 
 -- Delay until everything is ready
-gbl.Core:WhenInGame(function()
+gbl.Core.WhenInGame(function()
 	gbl.Interface:Add(L("find"), Find)
 	C_Timer.After(1, Find)
 end)

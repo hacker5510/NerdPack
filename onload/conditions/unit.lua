@@ -42,7 +42,7 @@ end)
 
 gbl.Condition:Register("id", function(target, id)
   local expectedID = tonumber(id)
-  return expectedID and gbl.Core:UnitID(target) == expectedID
+  return expectedID and gbl.Core.UnitID(target) == expectedID
 end)
 
 gbl.Condition:Register("threat", function(target)

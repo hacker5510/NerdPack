@@ -10,7 +10,7 @@ local noop = function() end
 local function regularSpell(eval)
   eval.spell = gbl.Spells:Convert(eval.spell)
   eval.icon = select(3,GetSpellInfo(eval.spell))
-  eval.id = gbl.Core:GetSpellID(eval.spell)
+  eval.id = gbl.Core.GetSpellID(eval.spell)
   eval.exeVal = gbl.API.IsSpellReady
   eval.exe = gbl.API.CastSpell
   eval.token = "Spell"
@@ -63,7 +63,7 @@ end
 s_tokens["#"] = function(eval)
   local item = eval.spell
   item = InvItems(item, eval)
-  eval.id = tonumber(item) or gbl.Core:GetItemID(item)
+  eval.id = tonumber(item) or gbl.Core.GetItemID(item)
   local itemName, itemLink, _,_,_,_,_,_,_, texture = GetItemInfo(eval.id)
   eval.spell = itemName or eval.spell
   eval.icon = texture
