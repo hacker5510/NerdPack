@@ -7,20 +7,16 @@ local noop = function() end
 local noopVal = function() return true end
 
 local function ForEachUnit(eval)
-	--if not eval.isTable then
-		--print("SPELL:",eval.spell)
-	--end
 	eval.targets = NeP.Unit:Filter(eval.targets)
 	for i=1, #eval.targets do
 		local curUnit = eval.targets[i]
 		eval.curUnit = curUnit
-		--print("UNIT:", #eval.targets, curUnit)
-		--print("CONDITION:", eval.conditions())
-		if NeP.API:ValidUnit(curUnit)
+		if eval.isTable then
+			return eval.conditions() and eval.exeFunc(eval.spell, curUnit, eval.spellArgs)
+		elseif NeP.API:ValidUnit(curUnit)
 		and eval.conditions() then
-			--if not eval.isTable then
-				--print("BREAK:", eval.spell)
-			--end
+			NeP.ActionLog:Add(eval.token, eval.spell or "", eval.icon, curUnit)
+			NeP.Interface:UpdateIcon('mastertoggle', eval.icon)
 			eval.exeExtra()
 			return eval.exeFunc(eval.spell, curUnit, eval.spellArgs)
 		end

@@ -13,6 +13,7 @@ local function regularSpell(eval)
   eval.id = NeP.Core:GetSpellID(eval.spell)
   eval.exeVal = NeP.API.IsSpellReady
   eval.exe = NeP.API.CastSpell
+  eval.token = "Spell"
 end
 
 local invItems = {
@@ -69,28 +70,31 @@ s_tokens["#"] = function(eval)
   eval.link = itemLink
   eval.exeVal = NeP.API.IsItemReady
   eval.exe = NeP.API.UseItem
+  eval.token = "Item"
 end
 
 s_tokens["%"] = function(eval)
+  eval.token = "Action"
   eval.exe = function() return true end
 end
 
 -- Macro
 -- has no real sanity checks... its up to the dev
 s_tokens["/"] = function(eval)
+  eval.token = "Macro"
   eval.exe = NeP.API.Macro
 end
 
 -- Interrupt
 -- same as spell but Interrupts the current
 s_tokens["!"] = function(eval)
-  regularSpell(eval)
   eval.exeExtra = function() NeP.API:Interrupt(eval.spell) end
 end
 
 -- Library
 -- has no real sanity checks... its up to the dev
 s_tokens["@"] = function(eval)
+  eval.token = "Library"
   eval.exe = function(...) return NeP.Library:Parse(...) end
 end
 
@@ -117,7 +121,9 @@ s_types["string"] = function(spell)
     exeVal = eval.exeVal,
     exeFunc = eval.exe,
     spell = eval.spell,
-    spellArgs = eval.args
+    spellArgs = eval.args,
+    token = eval.token,
+    icon = eval.icon,
   }
 end
 

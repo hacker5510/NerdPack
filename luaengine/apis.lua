@@ -10,8 +10,8 @@ local spell_queued = false
 local toggle;
 
 function NeP.API.CastSpell(spell, target)
-	spell_queued = true
 	NeP.Protected.Cast(spell, target)
+	spell_queued = true
 	_G.C_Timer.After((queue_var+.1), function()
 		spell_queued = false
 	end)
