@@ -130,7 +130,11 @@ end
 -- function type Spell
 -- just return whatever it gives
 s_types["function"] = function(spell)
-  return { exeFunc = spell }
+  return {
+    spell = "FUNCZ",
+    exeFunc = spell,
+    token = "Function"
+  }
 end
 
 -- nest (recursive)
@@ -139,6 +143,7 @@ s_types["table"] = function(...)
   return {
     spell = "TABLEZ",
     exeFunc = NeP.Compiler.Compile(...),
+    token = "Table",
     isTable = true
   }
 end
@@ -147,8 +152,10 @@ end
 -- this is a cr author error... lets fix it!
 s_types["nil"] = function()
   return {
+    spell = "NILZ",
     exeVal = function() return false end,
-    exeFunc = noop
+    exeFunc = noop,
+    token = "Nil",
   }
 end
 
