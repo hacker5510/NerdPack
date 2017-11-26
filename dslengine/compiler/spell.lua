@@ -88,7 +88,7 @@ end
 -- Interrupt
 -- same as spell but Interrupts the current
 s_tokens["!"] = function(eval)
-  eval.exeExtra = function() gbl.API:Interrupt(eval.spell) end
+  eval.exeExtra = gbl.API.Interrupt
 end
 
 -- Library

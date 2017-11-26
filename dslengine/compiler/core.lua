@@ -13,7 +13,7 @@ local function ForEachUnit(eval)
 		eval.curUnit = curUnit
 		if eval.isTable then
 			return eval.conditions() and eval.exeFunc(eval.spell, curUnit, eval.spellArgs)
-		elseif gbl.API:ValidUnit(curUnit)
+		elseif gbl.API.ValidUnit(curUnit)
 		and eval.conditions() then
 			gbl.ActionLog:Add(eval.token, eval.spell or "", eval.icon, curUnit)
 			gbl.Interface:UpdateIcon("mastertoggle", eval.icon)

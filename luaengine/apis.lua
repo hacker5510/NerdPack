@@ -75,8 +75,8 @@ end
 -- Interrupt a Cast/Channel and returns the result
 -- Decides if you should interrput or not
 -- FIXME: should take time into account.
-function gbl.API:Interrupt(spell)
-  local name = self:CastingTime()
+function gbl.API.Interrupt(spell)
+  local name = gbl.API.CastingTime()
 	if name == spell then
 		return false
 	end
@@ -85,11 +85,11 @@ function gbl.API:Interrupt(spell)
 end
 
 -- Returns if the unit is valid for usage
-function gbl.API:ValidUnit(unit)
+function gbl.API.ValidUnit(unit)
 	return UnitExists(unit)
 	and UnitIsVisible(unit)
 	and gbl.Protected.LineOfSight("player", unit)
-	and not self.UnitBlacklist(unit)
+	and not gbl.API.UnitBlacklist(unit)
 end
 
 -- Returns if the spell is ready and if it has mana
