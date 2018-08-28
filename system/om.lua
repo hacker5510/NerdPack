@@ -15,9 +15,14 @@ local OM_c = {
 	Friendly = NeP.OM.Friendly,
 	Dead     = NeP.OM.Dead,
 	Objects  = NeP.OM.Objects,
-	Roster   = NeP.OM.Roster
+	Roster   = NeP.OM.Roster,
+	los_cache = {}
 }
 local clean = {}
+
+local function CacheLos(unit)
+	return los_cache[unit] or los_cache[unit] = NeP.Protected.LineOfSight('player', Obj.key)
+end
 
 local function MergeTable_Insert(table, Obj, GUID)
 	if not table[GUID]
@@ -45,7 +50,7 @@ function clean.Objects()
 		if Obj.distance > NeP.OM.max_distance
 		or not NeP.Protected.ObjectExists(Obj.key)
 		or GUID ~= _G.UnitGUID(Obj.key) then
-			OM_c["Objects"][GUID] = nil
+			OM_c.Objects[GUID] = nil
 		end
 	end
 end
@@ -58,7 +63,7 @@ function clean.Others(ref)
 		or not _G.UnitInPhase(Obj.key)
 		or GUID ~= _G.UnitGUID(Obj.key)
 		or ref ~= "Dead" and _G.UnitIsDeadOrGhost(Obj.key)
-		or not NeP.Protected.LineOfSight('player', Obj.key) then
+		or not CacheLos(Obj.key) then
 			OM_c[ref][GUID] = nil
 		end
 	end
@@ -96,7 +101,7 @@ function NeP.OM.Add(_, Obj, isObject)
 	-- Units
 	elseif _G.UnitExists(Obj)
 	and _G.UnitInPhase(Obj)
-	and NeP.Protected.LineOfSight('player', Obj) then
+	and CacheLos(Obj) then
 		if _G.UnitIsDeadOrGhost(Obj) then
 			NeP.OM:Insert('Dead', Obj)
 		elseif _G.UnitIsFriend('player', Obj) then
@@ -108,6 +113,7 @@ function NeP.OM.Add(_, Obj, isObject)
 end
 
 local function CleanStart()
+	_G.wipe(OM_c.los_cache)
 	if NeP.DSL:Get("toggle")(nil, "mastertoggle") then
 		clean.Objects()
 		clean.Others("Dead")
