@@ -85,7 +85,8 @@ function NeP.Parser:Target(eval)
 	if eval[3].cursor then return true end
 	-- Eval if the unit is valid
 	if not Target_cache[eval.target] then
-		Target_cache[eval.target] = eval.target
+		Target_cache[eval.target] = eval[1].is_table
+		or eval.target
 		and _G.UnitExists(eval.target)
 		and _G.UnitIsVisible(eval.target)
 		and NeP.Protected.LineOfSight('player', eval.target)
