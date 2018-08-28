@@ -21,7 +21,10 @@ local OM_c = {
 local clean = {}
 
 local function CacheLos(unit)
-	return los_cache[unit] or los_cache[unit] = NeP.Protected.LineOfSight('player', Obj.key)
+	if not OM_c.los_cache[unit] then
+		OM_c.los_cache[unit] = NeP.Protected.LineOfSight('player', unit)
+	end
+	return OM_c.los_cache[unit]
 end
 
 local function MergeTable_Insert(table, Obj, GUID)
