@@ -82,11 +82,10 @@ end
 local Target_cache = {}
 function NeP.Parser:Target(eval)
 	-- This is to alow casting at the cursor location where no unit exists
-	if eval[3].cursor then return true end
+	if eval[3].cursor or eval[1].is_table then return true end
 	-- Eval if the unit is valid
 	if not Target_cache[eval.target] then
-		Target_cache[eval.target] = eval[1].is_table
-		or eval.target
+		Target_cache[eval.target] = eval[1].target
 		and _G.UnitExists(eval.target)
 		and _G.UnitIsVisible(eval.target)
 		and NeP.Protected.LineOfSight('player', eval.target)
